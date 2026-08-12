@@ -1,0 +1,1026 @@
+<title>Rooted in Remembrance</title>
+<style>
+:root{
+  --ground:#EDEFEA; --surface:#F7F8F4; --surface-2:#E4E7DE;
+  --ink:#171C15; --ink-soft:#5A6356; --ink-faint:#868E80;
+  --rule:#CFD4C9; --rule-soft:#DEE2D8;
+  --canopy:#2F5D45; --maple:#9E2B2B;
+  --survey:#D9551C; --survey-wash:rgba(217,85,28,.13);
+  --sky-a:#DDE6E4; --sky-b:#EFF1EA;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Charter,Georgia,serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --measure:64ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101410; --surface:#181D17; --surface-2:#212821;
+    --ink:#E7EBE2; --ink-soft:#A2AC9C; --ink-faint:#7A836F;
+    --rule:#2E362D; --rule-soft:#242B23;
+    --canopy:#6FA383; --maple:#D9736A;
+    --survey:#FF8A4C; --survey-wash:rgba(255,138,76,.15);
+    --sky-a:#1B2422; --sky-b:#141A15;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101410; --surface:#181D17; --surface-2:#212821;
+  --ink:#E7EBE2; --ink-soft:#A2AC9C; --ink-faint:#7A836F;
+  --rule:#2E362D; --rule-soft:#242B23;
+  --canopy:#6FA383; --maple:#D9736A;
+  --survey:#FF8A4C; --survey-wash:rgba(255,138,76,.15);
+  --sky-a:#1B2422; --sky-b:#141A15;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+h1,h2,h3,h4{text-wrap:balance;margin:0;font-weight:600;letter-spacing:-.012em}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+em.sci{font-style:italic}
+
+.mast{padding:76px 0 40px;border-bottom:1px solid var(--rule)}
+.mast .kicker{display:flex;gap:14px;align-items:center;margin-bottom:26px}
+.mast .kicker span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.mast .kicker i{flex:1;height:1px;background:var(--rule);display:block}
+.mast h1{font-size:clamp(44px,7.4vw,84px);line-height:.98;letter-spacing:-.03em;max-width:15ch}
+.mast h1 .rem{color:var(--maple)}
+.mast .lede{margin-top:22px;font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:52ch}
+.sitebar{display:flex;flex-wrap:wrap;margin-top:38px;border:1px solid var(--rule);background:var(--surface)}
+.sitebar div{flex:1 1 150px;padding:12px 16px;border-right:1px solid var(--rule-soft)}
+.sitebar div:last-child{border-right:0}
+.sitebar dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:3px}
+.sitebar dd{margin:0;font-family:var(--mono);font-size:13.5px}
+
+section{padding:64px 0;border-bottom:1px solid var(--rule)}
+.shead{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
+.shead h2{font-size:clamp(27px,3.4vw,36px);line-height:1.12}
+.shead .num{font-family:var(--mono);font-size:11px;color:var(--survey);letter-spacing:.1em;padding-top:6px}
+.sdesc{color:var(--ink-soft);margin-top:14px;max-width:var(--measure)}
+
+.finding{margin-top:30px;border:1px solid var(--survey);background:var(--surface)}
+.finding .fh{padding:14px 20px;border-bottom:1px solid var(--rule-soft);background:var(--survey-wash)}
+.finding .fh b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--survey)}
+.finding .fb{padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.finding h4{font-size:17px;margin-bottom:7px}
+.finding p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.finding .was{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:8px;display:block}
+
+.viewer{margin-top:32px;border:1px solid var(--rule);background:var(--surface)}
+.stage{position:relative;user-select:none;touch-action:none;cursor:ew-resize;
+  background:var(--sky-b);overflow:hidden}
+.stage>svg{display:block;width:100%;height:auto}
+.layer{position:absolute;inset:0}
+.layer svg{width:100%;height:100%}
+#afterLayer{clip-path:inset(0 0 0 var(--pos,50%))}
+.tab{position:absolute;top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;padding:5px 10px;background:var(--ink);color:var(--ground);pointer-events:none}
+.tab.l{left:14px}
+.tab.r{right:14px;background:var(--canopy);color:#fff}
+.handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;
+  box-shadow:0 0 0 1px rgba(0,0,0,.35);transform:translateX(-1px);cursor:ew-resize}
+.handle:focus-visible{outline:3px solid var(--survey);outline-offset:3px}
+.grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;
+  border-radius:50%;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.32);display:grid;
+  place-items:center;color:#171C15;font-family:var(--mono);font-size:13px;letter-spacing:-.06em}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));border-top:1px solid var(--rule)}
+.ctl{padding:14px 18px 16px;border-right:1px solid var(--rule-soft)}
+.ctl:last-child{border-right:0}
+.ctl>label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.seg{display:flex;border:1px solid var(--rule);background:var(--ground)}
+.seg button{flex:1;appearance:none;border:0;background:transparent;color:var(--ink-soft);
+  font-family:var(--mono);font-size:11.5px;padding:8px 4px;cursor:pointer;border-right:1px solid var(--rule-soft)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+.seg button:focus-visible{outline:2px solid var(--survey);outline-offset:-2px}
+.checks{display:flex;flex-wrap:wrap;gap:7px}
+.chk{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;
+  border:1px solid var(--rule);padding:6px 9px;cursor:pointer;color:var(--ink-soft);background:var(--ground)}
+.chk input{accent-color:var(--canopy);margin:0}
+.chk:has(input:checked){border-color:var(--canopy);color:var(--ink)}
+.chk:has(input:focus-visible){outline:2px solid var(--survey);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:18px;padding:12px 18px;border-top:1px solid var(--rule-soft);
+  font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.legend b{font-weight:400;color:var(--ink-soft)}
+.swatch{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:middle}
+
+.photo{margin-top:18px;border:1px dashed var(--rule);padding:16px 18px;background:var(--surface)}
+.photo .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:9px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--ground);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--survey);outline-offset:2px}
+.tuners{display:none;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:16px}
+.tuners.on{display:grid}
+.tune label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.tune input[type=range]{width:100%;accent-color:var(--survey)}
+
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;margin-top:32px;
+  background:var(--rule-soft);border:1px solid var(--rule)}
+.zone{background:var(--surface);padding:22px 20px}
+.zone .zh{display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap}
+.zone .yr{font-family:var(--mono);font-size:10px;letter-spacing:.13em;background:var(--survey);
+  color:#fff;padding:3px 7px}
+.zone h3{font-size:20px}
+.zone .zd{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin:10px 0 12px;
+  padding:8px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);
+  display:flex;flex-wrap:wrap;gap:4px 14px}
+.zone p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+
+.schemes{display:grid;grid-template-columns:repeat(auto-fit,minmax(316px,1fr));gap:22px;margin-top:34px}
+.card{border:1px solid var(--rule);background:var(--surface);display:flex;flex-direction:column}
+.card.pick{border-color:var(--canopy);border-width:2px}
+.card header{padding:20px 20px 16px;border-bottom:1px solid var(--rule-soft)}
+.card .tagrow{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap}
+.card .letter{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ground);
+  background:var(--ink);padding:3px 7px}
+.card.pick .letter{background:var(--canopy)}
+.card .rec{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--canopy);border:1px solid var(--canopy);padding:2px 6px}
+.card h3{font-size:23px;line-height:1.2}
+.card .why{margin-top:9px;font-size:15px;color:var(--ink-soft);line-height:1.52}
+.grouphd{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);padding:11px 20px 5px;background:var(--surface-2)}
+.plants{list-style:none;margin:0;padding:0}
+.plants li{padding:13px 20px;border-bottom:1px solid var(--rule-soft);display:grid;
+  grid-template-columns:1fr auto;gap:4px 12px}
+.pname{font-size:15.5px;line-height:1.34}
+.pcommon{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:2px}
+.pdim{font-family:var(--mono);font-size:11.5px;text-align:right;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.pmeta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:2.5px 6px;border:1px solid var(--rule);color:var(--ink-faint)}
+.pill.nat{color:var(--canopy);border-color:var(--canopy)}
+.pill.spec{color:var(--maple);border-color:var(--maple)}
+.pill.warn{color:var(--survey);border-color:var(--survey)}
+.card footer{padding:14px 20px;border-top:1px solid var(--rule-soft);font-family:var(--mono);
+  font-size:11px;color:var(--ink-soft);line-height:1.55;margin-top:auto}
+
+.elev{margin-top:30px;border:1px solid var(--rule);background:var(--surface);padding:6px}
+.elev svg{display:block;width:100%;height:auto}
+
+.rules{list-style:none;margin:30px 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:var(--rule-soft);
+  border:1px solid var(--rule)}
+.rules li{background:var(--surface);padding:18px 20px}
+.rules h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--survey);margin-bottom:8px}
+.rules p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+
+.namebox{margin-top:30px;border:1px solid var(--rule);background:var(--surface);padding:40px 34px;
+  text-align:center}
+.namebox .lock{font-size:clamp(34px,5.6vw,56px);line-height:1.02;letter-spacing:-.03em}
+.namebox .lock .rem{color:var(--maple)}
+.namebox .tag{margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+.alts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:24px;
+  background:var(--rule-soft);border:1px solid var(--rule)}
+.alts div{background:var(--surface);padding:16px 18px}
+.alts h4{font-size:18px;margin-bottom:6px}
+.alts p{font-size:14px;color:var(--ink-soft);line-height:1.5}
+
+.prog{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;margin-top:30px}
+.block h3{font-size:19px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.block ul{margin:0;padding-left:0;list-style:none}
+.block li{padding:9px 0;border-bottom:1px solid var(--rule-soft);font-size:15px;line-height:1.52;
+  color:var(--ink-soft);display:grid;grid-template-columns:auto 1fr;gap:12px}
+.block li:last-child{border-bottom:0}
+.block li b{font-family:var(--mono);font-size:11px;color:var(--ink);white-space:nowrap;padding-top:4px}
+.flag{margin-top:26px;border-left:3px solid var(--survey);padding:14px 0 14px 18px;font-size:15px;
+  color:var(--ink-soft);line-height:1.55;max-width:var(--measure)}
+.flag b{color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;display:block;margin-bottom:6px}
+footer.end{padding:44px 0 72px;color:var(--ink-faint);font-family:var(--mono);font-size:11.5px;line-height:1.75}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="kicker"><span>Patient Appreciation Month</span><i></i><span>Concept Pitch · Rev B</span></div>
+  <h1>Rooted in <span class="rem">Remembrance</span></h1>
+  <p class="lede">An annual planting at the entrance, in honor of the patients whose lives shape the
+    work done inside this building. You marked three places. That isn't one decision — it's a
+    three-year tradition, already sited.</p>
+  <dl class="sitebar">
+    <div><dt>Site</dt><dd>Williamsburg, VA</dd></div>
+    <div><dt>Hardiness</dt><dd>USDA 7b–8a</dd></div>
+    <div><dt>Marked zones</dt><dd>3 · ≈ 82 sq ft</dd></div>
+    <div><dt>Bed type</dt><dd>Raised masonry</dd></div>
+    <div><dt>Light</dt><dd>Mixed sun / shade</dd></div>
+  </dl>
+</header>
+
+<section>
+  <div class="shead"><span class="num">01</span><h2>What the site photos changed</h2></div>
+  <p class="sdesc">Three things in your photos overrule the usual approach to a memorial planting,
+    and all three point the same direction: go smaller, go slower, and put the tree somewhere it can
+    actually live.</p>
+  <div class="finding">
+    <div class="fh"><b>Revised after site review</b></div>
+    <div class="fb">
+      <div><h4>These are raised planters, not beds</h4>
+        <p>Every orange mark sits on top of a masonry wall — the entry planter by the steps, the wedge
+          above the walk, the strip on the wall cap. Soil volume is capped, the sides shed heat, and
+          roots have nowhere to run.</p>
+        <span class="was">Confirm depth before specifying anything woody</span></div>
+      <div><h4>They're small</h4>
+        <p>Scaled against the handrails and wall courses, the three zones come to roughly 22, 30 and
+          30 sq ft. That's a specimen and an underplanting in each — not a garden bed.</p>
+        <span class="was">Field-measure to confirm</span></div>
+      <div><h4>The native tree can't go in them</h4>
+        <p>A dogwood or redbud needs real root volume and will strangle in a planter box. The native
+          memorial tree belongs in the ground-level bed just beyond the wall; the planter carries the
+          specimen maple at eye level.</p>
+        <span class="was">This split drives all three schemes</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="num">02</span><h2>Before &amp; after at the entry planter</h2></div>
+  <p class="sdesc">Drag to wipe between the entry as it stands and the installed planting. Drawn from
+    your third photo at <span class="mono">1 ft = 24 px</span>, with every plant generated from its
+    published mature dimensions — so the year-15 view is a measurement, not an impression. The
+    six-foot figure keeps the drawing honest.</p>
+
+  <div class="viewer">
+    <div class="stage" id="stage">
+      <svg id="sizer" viewBox="0 0 1200 675" aria-hidden="true"></svg>
+      <div class="layer" id="beforeLayer"></div>
+      <div class="layer" id="afterLayer"></div>
+      <span class="tab l">Existing</span>
+      <span class="tab r">Proposed</span>
+      <div class="handle" id="handle" role="slider" tabindex="0" aria-label="Reveal proposed planting"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span class="grip">◀ ▶</span></div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label id="lblScheme">Planting scheme</label>
+        <div class="seg" role="group" aria-labelledby="lblScheme" id="segScheme"></div></div>
+      <div class="ctl"><label id="lblYear">Years after planting</label>
+        <div class="seg" role="group" aria-labelledby="lblYear" id="segYear"></div></div>
+      <div class="ctl"><label>Drawing overlays</label>
+        <div class="checks">
+          <label class="chk"><input type="checkbox" id="cbSurvey" checked> Marked zone</label>
+          <label class="chk"><input type="checkbox" id="cbScale" checked> Scale figure</label>
+          <label class="chk"><input type="checkbox" id="cbBloom" checked> Spring bloom</label>
+        </div></div>
+    </div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--survey)"></i><b>Orange</b> — zone you marked</span>
+      <span><i class="swatch" style="background:var(--maple)"></i><b>Crimson</b> — weeping Japanese maple</span>
+      <span><i class="swatch" style="background:var(--canopy)"></i><b>Green</b> — native tree &amp; understory</span>
+    </div>
+  </div>
+
+  <div class="photo">
+    <div class="row">
+      <button class="btn" id="btnPhoto" type="button">Load your site photo</button>
+      <input type="file" id="filePhoto" accept="image/*" hidden>
+      <button class="btn ghost" id="btnClear" type="button" hidden>Back to elevation</button>
+      <p class="mono" id="photoMsg" style="font-size:11.5px;color:var(--ink-soft);flex:1;min-width:200px;line-height:1.5">
+        Load any of the three marked photos and the planting renders straight over it — set the
+        planter line, position and scale below. Your image never leaves this browser.</p>
+    </div>
+    <div class="tuners" id="tuners">
+      <div class="tune"><label>Planter top <span class="mono" id="vGround"></span></label>
+        <input type="range" id="rGround" min="180" max="660" value="470"></div>
+      <div class="tune"><label>Position <span class="mono" id="vBedX"></span></label>
+        <input type="range" id="rBedX" min="40" max="1160" value="600"></div>
+      <div class="tune"><label>Planter width <span class="mono" id="vBedW"></span></label>
+        <input type="range" id="rBedW" min="80" max="900" value="182"></div>
+      <div class="tune"><label>Scale <span class="mono" id="vPpf"></span></label>
+        <input type="range" id="rPpf" min="4" max="46" value="24"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="num">03</span><h2>The three zones are the three years</h2></div>
+  <p class="sdesc">An annual event needs somewhere to go next. You've already marked it. Rather than
+    filling all three at once, take one per year — the garden accumulates, and year three carries the
+    same weight as year one because there's still something new going in the ground.</p>
+  <div class="zones">
+    <div class="zone">
+      <div class="zh"><span class="yr">YEAR 1</span><h3>The Entry Planter</h3></div>
+      <div class="zd"><span>≈ 22 SQ FT</span><span>RAISED</span><span>PART SHADE</span></div>
+      <p>The rounded planter beside the entry steps, in your third photo. Highest visibility on the
+        campus and the only zone every visitor passes. Small, so it takes one specimen and a skirt of
+        groundcover — which is exactly the right amount of ceremony for a first year.</p>
+    </div>
+    <div class="zone">
+      <div class="zh"><span class="yr">YEAR 2</span><h3>The Wedge</h3></div>
+      <div class="zd"><span>≈ 30 SQ FT</span><span>RAISED</span><span>SHADE</span></div>
+      <p>The triangular bed above the walkway in your first photo. The most contemplative of the three
+        — the seating patio is right there, and the mature maple already behind it gives any new
+        planting an established backdrop. The apex of the triangle wants something that cascades.</p>
+    </div>
+    <div class="zone">
+      <div class="zh"><span class="yr">YEAR 3</span><h3>The Wall Strip</h3></div>
+      <div class="zd"><span>≈ 30 SQ FT</span><span>NARROW</span><span>FULL SUN</span></div>
+      <p>The long narrow planter on the wall cap facing the lot, in your second photo. Too shallow for
+        anything woody, and fully exposed. This one is a drift — low, tough, sun-loving natives that
+        read as a ribbon of colour from the parking lot.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="num">04</span><h2>Three planting schemes</h2></div>
+  <p class="sdesc">Each pairs a weeping Japanese maple, sized to survive a planter box, with a tree
+    native to the Virginia coastal plain planted in the ground bed beyond the wall. The entry gets
+    direct sun until roughly midday and building shade after — which is precisely why a laceleaf maple
+    works here at all. Afternoon shade is the reason its leaves won't scorch in a zone 7b August.</p>
+  <div class="schemes" id="schemes"></div>
+</section>
+
+<section>
+  <div class="shead"><span class="num">05</span><h2>What maturity actually costs you</h2></div>
+  <p class="sdesc">Specimens at full size against the entry canopy, all at one scale. The common
+    failure is planting for the ribbon-cutting photo and discovering in year twelve that the canopy is
+    in the glazing and the maple has been sheared flat to keep the handrail clear.</p>
+  <div class="elev"><svg id="elevSvg" viewBox="0 0 1200 372" role="img"
+    aria-label="Scale elevation comparing mature specimen sizes against the entry canopy"></svg></div>
+  <ul class="rules">
+    <li><h4>Measure the soil, not the opening</h4><p>A planter that reads generous on top may be 18 in.
+      deep over slab. Confirm depth and whether it drains before a single woody plant is specified —
+      everything else here depends on that number.</p></li>
+    <li><h4>Irrigation isn't optional</h4><p>Raised masonry dries from all sides. Drip on a timer, or
+      accept that the specimen dies in its second August. Budget it as part of the installation, not
+      as maintenance.</p></li>
+    <li><h4>Let it spill, on purpose</h4><p>A mature laceleaf is wider than it is tall. In a planter
+      that's a feature, not a fault — site it off-center so the cascade falls over the stone face
+      rather than into the handrail.</p></li>
+    <li><h4>Keep the native tree out of the box</h4><p>Dogwood, serviceberry and fringetree all need
+      real root volume. Ground bed beyond the wall, minimum 8 ft off the glazing so mature limbs never
+      touch it.</p></li>
+    <li><h4>Plan for the deer</h4><p>Pressure is high here. Ferns, sedge, hellebore, amsonia and
+      inkberry are reliably passed over. Anything at planter height is at browsing height — the raised
+      bed helps, but won't protect a young maple.</p></li>
+    <li><h4>Protect the sight lines</h4><p>The entry planter sits at the top of the steps. Nothing that
+      grows into the handrail approach or blocks the view down the stair — this is a walked threshold
+      before it's a garden.</p></li>
+  </ul>
+</section>
+
+<section>
+  <div class="shead"><span class="num">06</span><h2>Naming the event</h2></div>
+  <p class="sdesc">It has to carry gravity without tipping into sentiment, survive being said out loud
+    every year, and work equally well on a bronze plaque and an internal calendar invite.</p>
+  <div class="namebox">
+    <div class="lock">Rooted in <span class="rem">Remembrance</span></div>
+    <p class="tag">An annual planting in honor of the patients who guide our work</p>
+  </div>
+  <div class="alts">
+    <div><h4>The Living Tribute</h4><p>Warmer and more ceremonial. Best if the program leans toward
+      family attendance and spoken remembrance.</p></div>
+    <div><h4>Where Roots Remember</h4><p>The most lyrical option. Strong on signage, slightly soft for
+      a recurring internal calendar hold.</p></div>
+    <div><h4>Three Springs</h4><p>Names the three-year arc directly, which fits this site exactly. It
+      also has a built-in ending — which may or may not be what you want.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="num">07</span><h2>Getting it in the ground</h2></div>
+  <div class="prog">
+    <div class="block"><h3>Planting windows</h3><ul>
+      <li><b>Oct–Nov</b><span>Best window in 7b–8a. Roots establish all winter with no heat stress.
+        Plant here if the event date is flexible.</span></li>
+      <li><b>Mar–early Apr</b><span>Second-best, and the only window that puts dogwood, serviceberry
+        and fringetree in bloom on the day itself.</span></li>
+      <li><b>Jun–Aug</b><span>High risk in a raised planter. If the month is fixed, use container
+        stock, pre-soak at the nursery for three weeks, and run drip through October.</span></li>
+    </ul></div>
+    <div class="block"><h3>Before the shovels</h3><ul>
+      <li><b>−6 wk</b><span>Probe the planters for actual soil depth and drainage, and get landlord or
+        facilities sign-off. This is the gate — everything downstream assumes it.</span></li>
+      <li><b>−5 wk</b><span>Virginia 811 locate for the ground-level tree pit. Soil test the ground
+        bed; the planters get fresh specified mix regardless.</span></li>
+      <li><b>−4 wk</b><span>Tag the actual maple at the nursery. Never accept substitution on the
+        specimen — the whole planting reads off that one plant.</span></li>
+      <li><b>−1 wk</b><span>Contractor pre-excavates and backfills. The ceremonial planting should be
+        a real act, not an hour of labor in front of guests.</span></li>
+    </ul></div>
+    <div class="block"><h3>Day of</h3><ul>
+      <li><b>Setup</b><span>Planter pre-mulched, specimen staged beside an open pit, soil in labeled
+        vessels for guests to place.</span></li>
+      <li><b>Program</b><span>Fifteen minutes. Welcome, reading, the planting itself, then quiet time.
+        Resist the urge to add speakers.</span></li>
+      <li><b>Marker</b><span>Bronze plate set into the stone cap, year and dedication line only. Each
+        year adds a plate in its own zone.</span></li>
+      <li><b>Aftercare</b><span>Assign a named owner for two years of watering. This is where memorial
+        plantings die — not at installation.</span></li>
+    </ul></div>
+  </div>
+  <div class="flag">
+    <b>Compliance — worth settling early</b>
+    Keep the garden and all signage free of product or brand marks so the installation stays clearly
+    non-promotional. Patient names or images need written consent on file, and honoring named
+    individuals is worth routing past legal and medical review before plaque copy is set. If patients
+    or families attend, brief staff that the day involves no product discussion, and have photography
+    releases ready at check-in.
+  </div>
+</section>
+
+<footer class="end wrap" style="padding-left:0;padding-right:0">
+  Rendered elevation, not a photograph — every plant is generated from its published mature height and
+  spread at 1 ft = 24 px.<br>
+  Zone areas and planter dimensions are scaled from your photographs and need a field measure before
+  anything is ordered.
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+function rng(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hx(c){c=c.replace('#','');return[parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)];}
+function mix(a,b,t){var A=hx(a),B=hx(b);return'#'+[0,1,2].map(function(i){
+  return Math.round(A[i]+(B[i]-A[i])*t).toString(16).padStart(2,'0');}).join('');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+/* ---------------- species ---------------- */
+var SP={
+ /* planter specimens: dwarf and small laceleaf maples only */
+ acrd:{latin:"Acer palmatum var. dissectum 'Red Dragon'",common:"Weeping Japanese Maple",native:0,
+   ht:[6,8],spr:[6,8],light:"AM sun / PM shade",grow:"slow",form:"weep",deer:"Rarely browsed",
+   pal:["#5E1B26","#93293A","#C0554A"],trunk:"#4E4038",bloom:null},
+ acor:{latin:"Acer palmatum var. dissectum 'Orangeola'",common:"Weeping Japanese Maple",native:0,
+   ht:[6,7],spr:[8,10],light:"AM sun / PM shade",grow:"slow",form:"weep",deer:"Rarely browsed",
+   pal:["#65231F","#9C3A28","#CB6A3C"],trunk:"#4E4038",bloom:null},
+ acpv:{latin:"Acer palmatum var. dissectum 'Viridis'",common:"Green Weeping Maple",native:0,
+   ht:[6,8],spr:[8,10],light:"AM sun / PM shade",grow:"slow",form:"weep",deer:"Rarely browsed",
+   pal:["#29452C","#3F6A3B","#74A057"],trunk:"#4E4038",bloom:null},
+
+ /* native memorial trees: ground-level bed only */
+ cofl:{latin:"Cornus florida 'Appalachian Spring'",common:"Flowering Dogwood",native:1,ht:[20,25],
+   spr:[20,25],light:"Part sun / dappled",grow:"tree",form:"spread",deer:"Browsed when young",
+   pal:["#2E4A32","#43683F","#6E9256"],trunk:"#4A4034",bloom:"#F4F3EA"},
+ chvi:{latin:"Chionanthus virginicus",common:"White Fringetree",native:1,ht:[12,20],spr:[12,20],
+   light:"Sun to part shade",grow:"tree",form:"round",deer:"Seldom browsed",
+   pal:["#2A4630","#3F6440","#6C8F58"],trunk:"#54483C",bloom:"#F0EFE3"},
+ amca:{latin:"Amelanchier canadensis",common:"Shadblow Serviceberry",native:1,ht:[15,25],spr:[12,18],
+   light:"Sun to part shade",grow:"tree",form:"multi",deer:"Browsed when young",
+   pal:["#2C4832","#446840","#74985C"],trunk:"#5B5348",bloom:"#F2F1E6"},
+
+ /* understory, all rated for split sun/shade */
+ poac:{latin:"Polystichum acrostichoides",common:"Christmas Fern",native:1,ht:[1.5,2],spr:[2,2.5],
+   light:"Part to full shade",grow:"herb",form:"fern",deer:"Deer-resistant",
+   pal:["#234026","#365B32","#5C8347"],trunk:null,bloom:null},
+ cape:{latin:"Carex pensylvanica",common:"Pennsylvania Sedge",native:1,ht:[.7,1],spr:[1,1.5],
+   light:"Part shade",grow:"herb",form:"grass",deer:"Deer-resistant",
+   pal:["#3A5533","#557046","#86A05F"],trunk:null,bloom:null},
+ hell:{latin:"Helleborus × hybridus",common:"Lenten Rose",native:0,ht:[1,1.5],spr:[1.5,2],
+   light:"Part to full shade",grow:"herb",form:"mound",deer:"Deer-proof",
+   pal:["#24402A","#375A33","#5D8148"],trunk:null,bloom:"#C8AFA6"},
+ tico:{latin:"Tiarella cordifolia",common:"Foamflower",native:1,ht:[.6,1],spr:[1,1.5],
+   light:"Part to full shade",grow:"herb",form:"mat",deer:"Seldom browsed",
+   pal:["#2D4A32","#43653E","#6F9257"],trunk:null,bloom:"#EFEEE6"},
+ hevi:{latin:"Heuchera villosa 'Autumn Bride'",common:"Hairy Alumroot",native:1,ht:[1.5,2],spr:[2,2.5],
+   light:"Part shade",grow:"herb",form:"mound",deer:"Seldom browsed",
+   pal:["#3B4E33","#56693F","#879059"],trunk:null,bloom:"#F2F0E4"},
+ amhu:{latin:"Amsonia hubrichtii",common:"Blue Star",native:1,ht:[2.5,3],spr:[3,3.5],
+   light:"Sun to part shade",grow:"herb",form:"mound",deer:"Deer-resistant",
+   pal:["#35563C","#4E7549","#82A468"],trunk:null,bloom:"#B6C6D6"},
+ itlh:{latin:"Itea virginica 'Little Henry'",common:"Dwarf Virginia Sweetspire",native:1,ht:[2,3],
+   spr:[2,3],light:"Sun to full shade",grow:"shrub",form:"mound",deer:"Seldom browsed",
+   pal:["#2E4A2E","#45663C","#729254"],trunk:"#57483C",bloom:"#EDEBDD"}
+};
+
+/* u = position across the planter, -1..+1; r = 0 back / 1 front edge */
+var SCHEMES=[
+ {id:"A",name:"Dogwood & Red Dragon",rec:1,tree:"cofl",
+  why:"The safest fit and the most ceremonial. Red Dragon is the only laceleaf that stays in scale in a 22 sq ft planter for fifteen years, and the dogwood beyond gives the ceremony Virginia's own tree.",
+  foot:"Recommended for year one. Nothing here outgrows its container or needs a rescue transplant in year eight.",
+  plant:[{s:"acrd",u:-.16,r:0},{s:"hell",u:.62,r:0},{s:"cape",u:-.72,r:1},{s:"tico",u:.30,r:1},{s:"cape",u:.86,r:1}]},
+ {id:"B",name:"Fringetree & Orangeola",rec:0,tree:"chvi",
+  why:"The cascade scheme. Orangeola is sited off-center so it pours over the stone face rather than sitting on top of it, and the fringetree beyond carries fragrance across the entry in May.",
+  foot:"Choose this if you want the planting to read from the parking lot. Accept that the maple overhangs the wall by year ten — that is the design, not a failure.",
+  plant:[{s:"acor",u:-.30,r:0},{s:"hevi",u:.58,r:0},{s:"poac",u:-.78,r:1},{s:"hevi",u:.22,r:1},{s:"tico",u:.88,r:1}]},
+ {id:"C",name:"Serviceberry & Viridis",rec:0,tree:"amca",
+  why:"The quiet scheme. A green laceleaf that never competes with the stone, saving its colour for three weeks in October, with a multi-stem serviceberry beyond for four-season structure.",
+  foot:"Best if the entry already has enough visual noise. This one reads as architecture until autumn, then turns gold.",
+  plant:[{s:"acpv",u:-.22,r:0},{s:"itlh",u:.60,r:0},{s:"amhu",u:-.80,r:1},{s:"cape",u:.24,r:1},{s:"hell",u:.88,r:1}]}
+];
+
+var GROW={tree:[.34,.58,.95],slow:[.34,.58,.92],shrub:[.45,.95,1],herb:[.55,1,1]};
+var YEARS=[1,5,15];
+
+/* ---------------- geometry: the entry planter, drawn frontally ---------------- */
+var SCENE={groundY:470,bedX:600,bedW:182,ppf:24,rowDrop:16,rowScale:.95};
+var PLAZA=560, photoURL=null;
+function rowY(r){return SCENE.groundY+(r?SCENE.rowDrop:0);}
+function px(u){return SCENE.bedX+u*(SCENE.bedW/2);}
+function ft2px(f){return f*SCENE.ppf;}
+
+/* ---------------- plant renderers ---------------- */
+function blobs(cx,cy,rx,ry,n,rad,col,rnd,op){
+  var o='',i,a,d,x,y;
+  for(i=0;i<n;i++){
+    a=rnd()*Math.PI*2; d=Math.sqrt(rnd());
+    x=cx+Math.cos(a)*rx*d; y=cy+Math.sin(a)*ry*d;
+    o+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(rad*(.62+rnd()*.55)).toFixed(1)+
+       '" fill="'+col+'"'+(op?' opacity="'+op+'"':'')+'/>';
+  }
+  return o;
+}
+function shadow(x,y,w){
+  return '<ellipse cx="'+x+'" cy="'+(y+3)+'" rx="'+(w*.52).toFixed(1)+'" ry="'+
+         Math.max(2.5,w*.09).toFixed(1)+'" fill="#1D2A1C" opacity=".16"/>';
+}
+function branches(x,y,col,rnd,depth,ang,len){
+  if(depth<=0)return'';
+  var o='',i,n=2+(rnd()<.5?1:0),a,L,x2,y2;
+  for(i=0;i<n;i++){
+    a=ang+(rnd()-.5)*1.25; L=len*(.58+rnd()*.34);
+    x2=x+Math.sin(a)*L; y2=y-Math.cos(a)*L;
+    o+='<path d="M'+x.toFixed(1)+' '+y.toFixed(1)+'Q'+((x+x2)/2+(rnd()-.5)*6).toFixed(1)+' '+
+       ((y+y2)/2).toFixed(1)+' '+x2.toFixed(1)+' '+y2.toFixed(1)+'" stroke="'+col+
+       '" stroke-width="'+Math.max(.8,depth*1.5).toFixed(1)+'" fill="none" stroke-linecap="round"/>';
+    o+=branches(x2,y2,col,rnd,depth-1,a,L);
+  }
+  return o;
+}
+function drawTree(x,base,h,w,sp,rnd,bloom,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var tr=fade?mix(sp.trunk||'#4A4034','#C9D3CB',.34):(sp.trunk||'#4A4034');
+  var multi=sp.form==="multi", flat=sp.form==="spread";
+  var trunkH=h*(flat?.34:multi?.26:.40), o=shadow(x,base,w), i,tx;
+  if(multi){
+    for(i=-1;i<=1;i++){
+      tx=x+i*w*.10;
+      o+='<path d="M'+(tx-2.4)+' '+base+'Q'+(tx+i*5)+' '+(base-trunkH*.6)+' '+(tx+i*w*.13)+' '+
+         (base-trunkH)+'L'+(tx+i*w*.13+2.2)+' '+(base-trunkH)+'Q'+(tx+i*5+3)+' '+
+         (base-trunkH*.6)+' '+(tx+2.4)+' '+base+'Z" fill="'+tr+'"/>';
+      o+=branches(tx+i*w*.13,base-trunkH,tr,rnd,2,i*.35,h*.14);
+    }
+  }else{
+    o+='<path d="M'+(x-w*.030-2.5)+' '+base+'Q'+(x-2)+' '+(base-trunkH*.55)+' '+(x-2.2)+' '+
+       (base-trunkH)+'L'+(x+2.2)+' '+(base-trunkH)+'Q'+(x+2)+' '+(base-trunkH*.55)+' '+
+       (x+w*.030+2.5)+' '+base+'Z" fill="'+tr+'"/>';
+    o+=branches(x,base-trunkH,tr,rnd,3,0,h*(flat?.20:.17));
+  }
+  var cy=base-trunkH-(h-trunkH)*(flat?.40:.46);
+  var rx=w/2, ry=(h-trunkH)*(flat?.46:.56);
+  var n=Math.max(16,Math.round(rx*ry/95)), rad=Math.max(4,Math.min(rx,ry)*.30);
+  o+=blobs(x,cy+ry*.14,rx*.97,ry*.94,n,rad,p[0],rnd);
+  o+=blobs(x-rx*.05,cy,rx*.86,ry*.80,Math.round(n*.85),rad*.92,p[1],rnd);
+  o+=blobs(x-rx*.16,cy-ry*.22,rx*.56,ry*.50,Math.round(n*.45),rad*.78,p[2],rnd);
+  if(bloom&&sp.bloom)o+=blobs(x,cy,rx*.93,ry*.88,Math.round(n*.5),rad*.19,sp.bloom,rnd,.88);
+  return o;
+}
+function drawWeeper(x,base,h,w,sp,rnd,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var tr=fade?mix(sp.trunk,'#C9D3CB',.34):sp.trunk;
+  var trunkH=h*.30, hw=w/2, domeH=h-trunkH, top=base-h;
+  var o=shadow(x,base,w);
+  o+='<path d="M'+(x-3.2)+' '+base+'Q'+(x-1)+' '+(base-trunkH*.6)+' '+(x-2)+' '+(base-trunkH)+
+     'L'+(x+2)+' '+(base-trunkH)+'Q'+(x+1)+' '+(base-trunkH*.6)+' '+(x+3.2)+' '+base+'Z" fill="'+tr+'"/>';
+  var cy=top+domeH*.52;
+  var n=Math.max(20,Math.round(hw*domeH/80)), rad=Math.max(3.5,domeH*.20);
+  o+=blobs(x,cy+domeH*.06,hw*.98,domeH*.50,n,rad,p[0],rnd);
+  o+=blobs(x-hw*.06,cy-domeH*.06,hw*.86,domeH*.42,Math.round(n*.8),rad*.9,p[1],rnd);
+  o+=blobs(x-hw*.18,cy-domeH*.22,hw*.52,domeH*.26,Math.round(n*.4),rad*.72,p[2],rnd);
+  var i,t,sx,sy,drop,N=30;
+  for(i=0;i<=N;i++){
+    t=-1+2*i/N; sx=x+t*hw*.99;
+    sy=top+domeH*.38+Math.pow(Math.abs(t),1.8)*domeH*.34;
+    drop=(base-sy)*(.52+rnd()*.44);
+    o+='<path d="M'+sx.toFixed(1)+' '+sy.toFixed(1)+'Q'+(sx+(rnd()-.5)*9).toFixed(1)+' '+
+       (sy+drop*.62).toFixed(1)+' '+(sx+(rnd()-.5)*7).toFixed(1)+' '+(sy+drop).toFixed(1)+
+       '" stroke="'+(i%3?p[1]:p[2])+'" stroke-width="'+(1.1+rnd()*1.2).toFixed(1)+
+       '" fill="none" stroke-linecap="round" opacity=".9"/>';
+    o+=blobs(sx+(rnd()-.5)*5,sy+drop*.72,3.0,drop*.30,3,rad*.20,rnd()<.5?p[2]:p[1],rnd);
+  }
+  return o;
+}
+function drawMound(x,base,h,w,sp,rnd,bloom,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var hw=w/2,cy=base-h*.52;
+  var n=Math.max(12,Math.round(hw*h/50)), rad=Math.max(3,h*.24);
+  var o=shadow(x,base,w);
+  o+=blobs(x,cy+h*.10,hw*.98,h*.46,n,rad,p[0],rnd);
+  o+=blobs(x-hw*.06,cy,hw*.84,h*.38,Math.round(n*.8),rad*.9,p[1],rnd);
+  o+=blobs(x-hw*.16,cy-h*.16,hw*.5,h*.22,Math.round(n*.4),rad*.7,p[2],rnd);
+  if(bloom&&sp.bloom)o+=blobs(x,cy-h*.14,hw*.80,h*.30,Math.round(n*.38),rad*.24,sp.bloom,rnd,.92);
+  return o;
+}
+function drawFern(x,base,h,w,sp,rnd,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var o=shadow(x,base,w),i,a,tipx,tipy,L;
+  for(i=0;i<11;i++){
+    a=(-.95+i*.19)+(rnd()-.5)*.10; L=h*(.72+rnd()*.36);
+    tipx=x+Math.sin(a)*L*.82; tipy=base-Math.cos(a)*L*.86;
+    o+='<path d="M'+x+' '+base+'Q'+(x+Math.sin(a)*L*.30).toFixed(1)+' '+(base-L*.62).toFixed(1)+
+       ' '+tipx.toFixed(1)+' '+tipy.toFixed(1)+'" stroke="'+(i%3?p[1]:p[0])+
+       '" stroke-width="'+(2.4+rnd()*1.4).toFixed(1)+'" fill="none" stroke-linecap="round"/>';
+    o+='<circle cx="'+tipx.toFixed(1)+'" cy="'+tipy.toFixed(1)+'" r="'+(1.8+rnd()).toFixed(1)+
+       '" fill="'+p[2]+'"/>';
+  }
+  return o;
+}
+function drawGrass(x,base,h,w,sp,rnd,bloom,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var o=shadow(x,base,w),i,a,L,tx,ty;
+  for(i=0;i<16;i++){
+    a=(-1.0+i*.133)+(rnd()-.5)*.16; L=h*(.68+rnd()*.42);
+    tx=x+Math.sin(a)*L*.72; ty=base-Math.cos(a)*L*.9;
+    o+='<path d="M'+x+' '+base+'Q'+(x+Math.sin(a)*L*.22).toFixed(1)+' '+(base-L*.55).toFixed(1)+
+       ' '+tx.toFixed(1)+' '+ty.toFixed(1)+'" stroke="'+(i%3?p[1]:p[0])+
+       '" stroke-width="'+(1.5+rnd()).toFixed(1)+'" fill="none" stroke-linecap="round"/>';
+    if(bloom&&sp.bloom&&i%3===0)
+      o+='<ellipse cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" rx="3" ry="1.6" fill="'+sp.bloom+'"/>';
+  }
+  return o;
+}
+function drawMat(x,base,h,w,sp,rnd,bloom,fade){
+  var p=sp.pal.map(function(c){return fade?mix(c,'#C9D3CB',.34):c;});
+  var o=blobs(x,base-h*.35,w/2,h*.42,Math.max(10,Math.round(w*.5)),Math.max(2.6,h*.42),p[0],rnd);
+  o+=blobs(x,base-h*.45,w/2*.82,h*.34,Math.max(8,Math.round(w*.4)),Math.max(2.2,h*.36),p[1],rnd);
+  if(bloom&&sp.bloom)for(var i=0;i<7;i++)
+    o+='<path d="M'+(x+(rnd()-.5)*w*.8).toFixed(1)+' '+(base-h*.5)+'l0 '+(-h*.8).toFixed(1)+
+       '" stroke="'+sp.bloom+'" stroke-width="2.4" stroke-linecap="round"/>';
+  return o;
+}
+function drawOne(sp,x,base,h,w,rnd,bloom,fade){
+  switch(sp.form){
+    case"weep":  return drawWeeper(x,base,h,w,sp,rnd,fade);
+    case"fern":  return drawFern(x,base,h,w,sp,rnd,fade);
+    case"grass": return drawGrass(x,base,h,w,sp,rnd,bloom,fade);
+    case"mat":   return drawMat(x,base,h,w,sp,rnd,bloom,fade);
+    case"mound": return drawMound(x,base,h,w,sp,rnd,bloom,fade);
+    default:     return drawTree(x,base,h,w,sp,rnd,bloom,fade);
+  }
+}
+/* Understory is specified and planted in drifts, never as single plants,
+   so each entry renders as a clump of three at true individual scale. */
+function drawPlant(spId,x,base,frac,seed,bloom,fade,scale){
+  var sp=SP[spId], rnd=rng(seed);
+  var h=ft2px((sp.ht[0]+sp.ht[1])/2)*frac*scale;
+  var w=ft2px((sp.spr[0]+sp.spr[1])/2)*frac*scale;
+  if(sp.grow!=="herb")return drawOne(sp,x,base,h,w,rnd,bloom,fade);
+  var o='',i,k,dx,dy;
+  for(i=0;i<3;i++){
+    k=[.86,1,.78][i];
+    dx=[-w*.72,w*.06,w*.70][i]+(rnd()-.5)*w*.16;
+    dy=[2,0,3][i];
+    o+=drawOne(sp,x+dx,base+dy,h*k,w*k,rnd,bloom,fade);
+  }
+  return o;
+}
+
+/* ---------------- the entry, drawn from photo 3 ---------------- */
+function stoneCourses(x,y,w,h,seed){
+  var rnd=rng(seed),o='',cy,cx,ch=17,cw;
+  o+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="#C6C3B9"/>';
+  for(cy=y;cy<y+h;cy+=ch){
+    o+='<line x1="'+x+'" y1="'+cy.toFixed(1)+'" x2="'+(x+w)+'" y2="'+cy.toFixed(1)+
+       '" stroke="#AEAA9F" stroke-width="1.2"/>';
+    for(cx=x+(rnd()*40);cx<x+w;cx+=cw){
+      cw=42+rnd()*36;
+      o+='<rect x="'+cx.toFixed(1)+'" y="'+cy.toFixed(1)+'" width="'+Math.min(cw,x+w-cx).toFixed(1)+
+         '" height="'+Math.min(ch,y+h-cy).toFixed(1)+'" fill="'+(rnd()<.4?'#B9B5AA':'#D0CDC3')+
+         '" opacity="'+(.18+rnd()*.3).toFixed(2)+'"/>';
+      o+='<line x1="'+cx.toFixed(1)+'" y1="'+cy.toFixed(1)+'" x2="'+cx.toFixed(1)+'" y2="'+
+         Math.min(y+h,cy+ch).toFixed(1)+'" stroke="#AEAA9F" stroke-width="1.2"/>';
+    }
+  }
+  return o;
+}
+function facade(){
+  var o='',rnd=rng(5),c,r,i;
+  o+='<defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">'+
+     '<stop offset="0" stop-color="#8FA6B4"/><stop offset=".5" stop-color="#63798A"/>'+
+     '<stop offset="1" stop-color="#4E626F"/></linearGradient>'+
+     '<pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'+
+     '<line x1="0" y1="0" x2="0" y2="9" stroke="var(--survey)" stroke-width="2.4" opacity=".3"/></pattern></defs>';
+  /* curtain wall */
+  o+='<rect width="1200" height="'+PLAZA+'" fill="url(#glass)"/>';
+  for(c=0;c<1200;c+=62)for(r=0;r<PLAZA;r+=70){
+    if(rnd()<.30)o+='<rect x="'+c+'" y="'+r+'" width="62" height="70" fill="#A8C0CE" opacity="'+
+      (.10+rnd()*.24).toFixed(2)+'"/>';
+    else if(rnd()<.25)o+='<rect x="'+c+'" y="'+r+'" width="62" height="70" fill="#2E3C46" opacity="'+
+      (.08+rnd()*.18).toFixed(2)+'"/>';
+  }
+  for(c=0;c<=1200;c+=62)o+='<rect x="'+(c-1.5)+'" y="0" width="3" height="'+PLAZA+'" fill="#2A3033"/>';
+  for(r=0;r<=PLAZA;r+=70)o+='<rect x="0" y="'+(r-1.5)+'" width="1200" height="3" fill="#2A3033"/>';
+  /* stone-clad entry canopy and the recessed doors beneath */
+  o+=stoneCourses(20,236,450,62,11);
+  o+='<rect x="20" y="230" width="450" height="8" fill="#DAD7CD"/>'+
+     '<rect x="20" y="298" width="450" height="7" fill="#00000030"/>'+
+     '<rect x="44" y="305" width="402" height="'+(PLAZA-305)+'" fill="#2B3438"/>'+
+     '<rect x="44" y="305" width="402" height="26" fill="#3A464B"/>'+
+     '<rect x="150" y="352" width="180" height="'+(PLAZA-352)+'" fill="#46545C"/>'+
+     '<rect x="150" y="352" width="180" height="'+(PLAZA-352)+'" fill="none" stroke="#7E8C93" stroke-width="4"/>'+
+     '<rect x="238" y="352" width="5" height="'+(PLAZA-352)+'" fill="#7E8C93"/>'+
+     '<path d="M160 '+(PLAZA-6)+'L322 366" stroke="#93A6AE" stroke-width="12" opacity=".28"/>';
+  /* right-hand retaining wall with the ground-level bed behind it */
+  o+=stoneCourses(780,472,420,PLAZA-472,23);
+  o+='<rect x="776" y="462" width="424" height="12" fill="#DAD7CD"/>'+
+     '<rect x="780" y="440" width="420" height="24" fill="#5A4436"/>'+
+     '<rect x="780" y="440" width="420" height="24" fill="#2A1E16" opacity=".22"/>';
+  /* plaza paving */
+  o+='<rect x="0" y="'+PLAZA+'" width="1200" height="'+(675-PLAZA)+'" fill="#B9B6AE"/>'+
+     '<rect x="0" y="'+PLAZA+'" width="1200" height="3" fill="#00000022"/>';
+  for(i=1;i<8;i++)o+='<rect x="'+(i*150)+'" y="'+PLAZA+'" width="2" height="'+(675-PLAZA)+'" fill="#00000010"/>';
+  for(i=1;i<3;i++)o+='<rect x="0" y="'+(PLAZA+i*38)+'" width="1200" height="2" fill="#00000010"/>';
+  /* entry steps down to the plaza */
+  o+='<path d="M44 '+PLAZA+'L446 '+PLAZA+'L470 '+(PLAZA+46)+'L20 '+(PLAZA+46)+'Z" fill="#C3C0B7"/>'+
+     '<path d="M36 '+(PLAZA+16)+'L458 '+(PLAZA+16)+'" stroke="#00000018" stroke-width="2"/>'+
+     '<path d="M28 '+(PLAZA+31)+'L464 '+(PLAZA+31)+'" stroke="#00000018" stroke-width="2"/>';
+  /* handrail */
+  o+='<path d="M410 '+(PLAZA-2)+'L410 484M452 '+(PLAZA+44)+'L452 500" stroke="#2E3438" stroke-width="6"/>'+
+     '<path d="M404 484L458 500" stroke="#2E3438" stroke-width="6" stroke-linecap="round"/>';
+  /* the blue bench under the canopy */
+  o+='<g><rect x="62" y="486" width="126" height="9" rx="2" fill="#2C5FA8"/>'+
+     '<rect x="62" y="498" width="126" height="7" rx="2" fill="#2C5FA8"/>'+
+     '<rect x="62" y="464" width="126" height="8" rx="2" fill="#2C5FA8"/>'+
+     '<rect x="68" y="464" width="5" height="'+(PLAZA-464)+'" fill="#3A4247"/>'+
+     '<rect x="177" y="464" width="5" height="'+(PLAZA-464)+'" fill="#3A4247"/></g>';
+  return o;
+}
+function planterBody(){
+  var hw=SCENE.bedW/2, g=SCENE.groundY, L=SCENE.bedX-hw, W=SCENE.bedW;
+  var base=Math.max(g+34,PLAZA);
+  return stoneCourses(L,g+8,W,base-(g+8),41)+
+    '<rect x="'+(L-8)+'" y="'+(g-4)+'" width="'+(W+16)+'" height="14" rx="4" fill="#DAD7CD"/>'+
+    '<rect x="'+(L-8)+'" y="'+(g+8)+'" width="'+(W+16)+'" height="4" fill="#00000022"/>';
+}
+function planterSoil(){
+  var hw=SCENE.bedW/2, g=SCENE.groundY;
+  return '<ellipse cx="'+SCENE.bedX+'" cy="'+(g+1)+'" rx="'+hw+'" ry="9" fill="#5A4436"/>'+
+         '<ellipse cx="'+SCENE.bedX+'" cy="'+(g+1)+'" rx="'+hw+'" ry="9" fill="#2A1E16" opacity=".25"/>';
+}
+function surveyOverlay(){
+  var hw=SCENE.bedW/2, g=SCENE.groundY, lx=SCENE.bedX, ly=g-16;
+  return '<g><ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="url(#hatch)"/>'+
+   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="var(--survey)" opacity=".14"/>'+
+   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="none" stroke="var(--survey)" '+
+   'stroke-width="3.5" stroke-dasharray="11 7"/>'+
+   '<line x1="'+lx+'" y1="'+ly+'" x2="'+lx+'" y2="'+(ly-58)+'" stroke="var(--survey)" stroke-width="2"/>'+
+   '<circle cx="'+lx+'" cy="'+ly+'" r="4" fill="var(--survey)"/>'+
+   '<rect x="'+(lx-236)+'" y="'+(ly-94)+'" width="236" height="36" fill="var(--survey)"/>'+
+   '<text x="'+(lx-118)+'" y="'+(ly-79)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+   'font-size="11.5" letter-spacing="1.5" fill="#fff">ZONE 1 · ENTRY PLANTER</text>'+
+   '<text x="'+(lx-118)+'" y="'+(ly-65)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+   'font-size="10" letter-spacing="1.1" fill="#ffffffcc">RAISED · ≈ 22 SQ FT · FIELD-VERIFY</text></g>';
+}
+function existingPlanting(){
+  var o='',i,x,rnd=rng(77),hw=SCENE.bedW/2;
+  for(i=0;i<5;i++){
+    x=SCENE.bedX-hw+16+i*((SCENE.bedW-32)/4);
+    o+=blobs(x,SCENE.groundY-6,13,7,14,5,'#5F7A4A',rnd)+
+       blobs(x-2,SCENE.groundY-9,9,5,9,4,'#7A9459',rnd);
+  }
+  return o;
+}
+function groundBedShrubs(){
+  var o='',i,rnd=rng(88);
+  for(i=0;i<6;i++)o+=blobs(812+i*66,438,27,13,22,9,'#3F5A38',rnd)+
+    blobs(808+i*66,433,20,10,15,7,'#54713F',rnd);
+  return o;
+}
+function scaleFigure(){
+  var h=ft2px(6), x=744, b=PLAZA+46;
+  return '<g opacity=".92"><ellipse cx="'+x+'" cy="'+(b+2)+'" rx="13" ry="3.5" fill="#1D2A1C" opacity=".22"/>'+
+    '<circle cx="'+x+'" cy="'+(b-h+9)+'" r="9" fill="#2E3B33"/>'+
+    '<path d="M'+x+' '+(b-h+18)+'q-13 4 -13 22l0 24q0 6 5 6l0 '+(h-70).toFixed(0)+
+    'q0 6 5 6q5 0 5-6l0-26l6 0l0 26q0 6 5 6q5 0 5-6l0-'+(h-70).toFixed(0)+
+    'q5 0 5-6l0-24q0-18 -13-22Z" fill="#2E3B33"/>'+
+    '<text x="'+(x-24)+'" y="'+(b-h/2)+'" text-anchor="end" font-family="ui-monospace,monospace" font-size="13" fill="#2E3B33">6\'-0"</text></g>';
+}
+function scaleBar(){
+  var L=ft2px(5);
+  return '<g transform="translate(52,646)">'+
+    '<rect x="0" y="0" width="'+L+'" height="5" fill="#EDE9E0"/>'+
+    '<rect x="0" y="0" width="'+(L/2)+'" height="5" fill="#20241E"/>'+
+    '<rect x="0" y="0" width="'+L+'" height="5" fill="none" stroke="#20241E" stroke-width="1"/>'+
+    '<text x="'+(L+9)+'" y="6" font-family="ui-monospace,monospace" font-size="11" fill="#20241E">5 FT</text></g>';
+}
+function plaque(){
+  var x=SCENE.bedX+SCENE.bedW/2-18, y=SCENE.groundY+14;
+  return '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="#7A6034"/>'+
+         '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="none" stroke="#5E4A28"/>';
+}
+
+/* ---------------- scene assembly ---------------- */
+function backdrop(){
+  if(photoURL)return '<rect width="1200" height="675" fill="var(--sky-b)"/>'+
+    '<image href="'+photoURL+'" x="0" y="0" width="1200" height="675" preserveAspectRatio="xMidYMid slice"/>';
+  return facade();
+}
+function svgWrap(inner){
+  return '<svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid meet" role="img">'+inner+'</svg>';
+}
+function renderBefore(opt){
+  var o=backdrop();
+  if(!photoURL)o+=groundBedShrubs()+planterBody()+planterSoil()+existingPlanting();
+  if(opt.survey)o+=surveyOverlay();
+  if(opt.scale&&!photoURL)o+=scaleFigure();
+  o+=scaleBar();
+  return svgWrap(o);
+}
+function renderAfter(scheme,yearIdx,opt){
+  var o=backdrop();
+  if(!photoURL){
+    o+=groundBedShrubs();
+    /* the native memorial tree, in the ground bed beyond the wall */
+    o+=drawPlant(scheme.tree,978,440,GROW.tree[yearIdx],307,opt.bloom,true,.52);
+    o+=planterBody();
+  }
+  o+=planterSoil();
+  var list=scheme.plant, seed=1;
+  list.forEach(function(pl){
+    if(pl.r===0)o+=drawPlant(pl.s,px(pl.u),rowY(0),GROW[SP[pl.s].grow][yearIdx],seed*97+11,
+      opt.bloom,false,SCENE.rowScale);
+    seed++;
+  });
+  seed=1;
+  list.forEach(function(pl){
+    if(pl.r===1)o+=drawPlant(pl.s,px(pl.u),rowY(1),GROW[SP[pl.s].grow][yearIdx],seed*97+11,
+      opt.bloom,false,1);
+    seed++;
+  });
+  if(!photoURL)o+=plaque();
+  if(opt.scale&&!photoURL)o+=scaleFigure();
+  o+=scaleBar();
+  return svgWrap(o);
+}
+
+/* ---------------- state + wiring ---------------- */
+var state={scheme:0,year:2,survey:true,scale:true,bloom:true,pos:50};
+var beforeLayer=document.getElementById('beforeLayer'),
+    afterLayer=document.getElementById('afterLayer'),
+    stage=document.getElementById('stage'),
+    handle=document.getElementById('handle');
+
+function draw(){
+  var opt={survey:state.survey,scale:state.scale,bloom:state.bloom};
+  beforeLayer.innerHTML=renderBefore(opt);
+  afterLayer.innerHTML=renderAfter(SCHEMES[state.scheme],state.year,opt);
+}
+function setPos(p){
+  state.pos=Math.max(0,Math.min(100,p));
+  stage.style.setProperty('--pos',state.pos+'%');
+  handle.style.left=state.pos+'%';
+  afterLayer.style.setProperty('--pos',state.pos+'%');
+  handle.setAttribute('aria-valuenow',Math.round(state.pos));
+}
+var segS=document.getElementById('segScheme');
+SCHEMES.forEach(function(s,i){
+  var b=document.createElement('button');
+  b.type='button'; b.textContent=s.id+' · '+s.name.split(' & ')[1];
+  b.setAttribute('aria-pressed',i===state.scheme?'true':'false');
+  b.addEventListener('click',function(){
+    state.scheme=i;
+    [].forEach.call(segS.children,function(c,j){c.setAttribute('aria-pressed',j===i?'true':'false');});
+    draw();
+  });
+  segS.appendChild(b);
+});
+var segY=document.getElementById('segYear');
+YEARS.forEach(function(y,i){
+  var b=document.createElement('button');
+  b.type='button'; b.textContent='Year '+y+(y===15?' · mature':'');
+  b.setAttribute('aria-pressed',i===state.year?'true':'false');
+  b.addEventListener('click',function(){
+    state.year=i;
+    [].forEach.call(segY.children,function(c,j){c.setAttribute('aria-pressed',j===i?'true':'false');});
+    draw();
+  });
+  segY.appendChild(b);
+});
+[['cbSurvey','survey'],['cbScale','scale'],['cbBloom','bloom']].forEach(function(p){
+  document.getElementById(p[0]).addEventListener('change',function(e){
+    state[p[1]]=e.target.checked; draw();
+  });
+});
+function fromEvent(e){
+  var r=stage.getBoundingClientRect();
+  setPos(((e.clientX-r.left)/r.width)*100);
+}
+var dragging=false;
+stage.addEventListener('pointerdown',function(e){
+  dragging=true; stage.setPointerCapture(e.pointerId); fromEvent(e); handle.focus();
+});
+stage.addEventListener('pointermove',function(e){ if(dragging)fromEvent(e); });
+stage.addEventListener('pointerup',function(e){ dragging=false; try{stage.releasePointerCapture(e.pointerId);}catch(x){} });
+stage.addEventListener('pointercancel',function(){dragging=false;});
+handle.addEventListener('keydown',function(e){
+  var d=e.shiftKey?10:3;
+  if(e.key==='ArrowLeft'){setPos(state.pos-d);e.preventDefault();}
+  else if(e.key==='ArrowRight'){setPos(state.pos+d);e.preventDefault();}
+  else if(e.key==='Home'){setPos(0);e.preventDefault();}
+  else if(e.key==='End'){setPos(100);e.preventDefault();}
+});
+var fileEl=document.getElementById('filePhoto'),
+    tuners=document.getElementById('tuners'),
+    msg=document.getElementById('photoMsg'),
+    btnClear=document.getElementById('btnClear');
+document.getElementById('btnPhoto').addEventListener('click',function(){fileEl.click();});
+fileEl.addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0]; if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){
+    photoURL=fr.result;
+    tuners.classList.add('on'); btnClear.hidden=false;
+    msg.textContent='Photo loaded. Set the planter top to the stone cap, then match the scale against something known — the handrail is 34 in. and a step riser is 6 in.';
+    draw();
+  };
+  fr.readAsDataURL(f);
+});
+btnClear.addEventListener('click',function(){
+  photoURL=null; fileEl.value='';
+  tuners.classList.remove('on'); btnClear.hidden=true;
+  msg.textContent='Back to the drawn elevation. Load a photo again any time.';
+  draw();
+});
+[['rGround','groundY','vGround',' px'],['rBedX','bedX','vBedX',' px'],
+ ['rBedW','bedW','vBedW',' px'],['rPpf','ppf','vPpf',' px/ft']].forEach(function(t){
+  var el=document.getElementById(t[0]),out=document.getElementById(t[2]);
+  el.addEventListener('input',function(){ SCENE[t[1]]=+el.value; out.textContent=el.value+t[3]; draw(); });
+  out.textContent=el.value+t[3];
+});
+
+/* ---------------- scheme cards ---------------- */
+function dims(sp){
+  function f(a){return a[0]===a[1]?a[0]:a[0]+'–'+a[1];}
+  return f(sp.ht)+"' H × "+f(sp.spr)+"' W";
+}
+function plantRow(id){
+  var sp=SP[id];
+  return '<li><div class="pname"><em class="sci">'+esc(sp.latin)+'</em>'+
+    '<span class="pcommon">'+esc(sp.common)+'</span></div>'+
+    '<div class="pdim">'+dims(sp)+'</div><div class="pmeta">'+
+    (sp.native?'<span class="pill nat">Native VA</span>':'<span class="pill">Non-native</span>')+
+    (sp.form==='weep'?'<span class="pill spec">Specimen</span>':'')+
+    '<span class="pill">'+esc(sp.light)+'</span>'+
+    '<span class="pill'+(/Browsed/.test(sp.deer)?' warn':'')+'">'+esc(sp.deer)+'</span>'+
+    '</div></li>';
+}
+document.getElementById('schemes').innerHTML=SCHEMES.map(function(s){
+  var seen={},under=[],spec=null;
+  s.plant.forEach(function(p){
+    if(SP[p.s].form==='weep'){spec=p.s;return;}
+    if(seen[p.s])return; seen[p.s]=1; under.push(p.s);
+  });
+  return '<article class="card'+(s.rec?' pick':'')+'">'+
+    '<header><div class="tagrow"><span class="letter">SCHEME '+s.id+'</span>'+
+    (s.rec?'<span class="rec">Recommended</span>':'')+'</div>'+
+    '<h3>'+esc(s.name)+'</h3><p class="why">'+esc(s.why)+'</p></header>'+
+    '<div class="grouphd">In the raised planter</div><ul class="plants">'+plantRow(spec)+'</ul>'+
+    '<div class="grouphd">Memorial tree — ground bed beyond the wall</div>'+
+    '<ul class="plants">'+plantRow(s.tree)+'</ul>'+
+    '<div class="grouphd">Understory &amp; edge</div>'+
+    '<ul class="plants">'+under.map(plantRow).join('')+'</ul>'+
+    '<footer>'+esc(s.foot)+'</footer></article>';
+}).join('');
+
+/* ---------------- mature elevation strip ---------------- */
+(function(){
+  var svg=document.getElementById('elevSvg'), base=300, ppf=8.6, o='';
+  o+='<rect x="0" y="'+(base-30*ppf)+'" width="1200" height="'+(30*ppf)+'" fill="var(--surface-2)" opacity=".5"/>';
+  [10,20].forEach(function(f){
+    o+='<line x1="0" y1="'+(base-f*ppf)+'" x2="1200" y2="'+(base-f*ppf)+
+       '" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4 5"/>'+
+       '<text x="1192" y="'+(base-f*ppf-6)+'" text-anchor="end" font-family="ui-monospace,monospace" '+
+       'font-size="10" fill="var(--ink-faint)">'+f+"' — "+(f===10?'canopy soffit':'second floor')+'</text>';
+  });
+  o+='<line x1="0" y1="'+base+'" x2="1200" y2="'+base+'" stroke="var(--ink)" stroke-width="1.5"/>';
+  var items=[{id:"cofl",x:150},{id:"amca",x:400},{id:"chvi",x:640},{id:"acor",x:860},{id:"acrd",x:1060}];
+  var keep=SCENE.ppf; SCENE.ppf=ppf;
+  items.forEach(function(it,i){
+    var sp=SP[it.id], w=(sp.spr[0]+sp.spr[1])/2;
+    o+=drawPlant(it.id,it.x,base,1,i*211+43,true,false,1);
+    o+='<line x1="'+(it.x-w*ppf/2)+'" y1="'+(base+13)+'" x2="'+(it.x+w*ppf/2)+'" y2="'+(base+13)+
+       '" stroke="var(--survey)" stroke-width="1.6"/>'+
+       '<line x1="'+(it.x-w*ppf/2)+'" y1="'+(base+9)+'" x2="'+(it.x-w*ppf/2)+'" y2="'+(base+17)+
+       '" stroke="var(--survey)" stroke-width="1.6"/>'+
+       '<line x1="'+(it.x+w*ppf/2)+'" y1="'+(base+9)+'" x2="'+(it.x+w*ppf/2)+'" y2="'+(base+17)+
+       '" stroke="var(--survey)" stroke-width="1.6"/>'+
+       '<text x="'+it.x+'" y="'+(base+31)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+       'font-size="10.5" fill="var(--ink)">'+dims(sp)+'</text>'+
+       '<text x="'+it.x+'" y="'+(base+45)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+       'font-size="9.5" letter-spacing=".08em" fill="var(--ink-faint)">'+
+       esc((/'([^']+)'/.test(sp.latin)?RegExp.$1:sp.common).toUpperCase())+'</text>';
+  });
+  SCENE.ppf=keep;
+  o+='<text x="500" y="'+(base+64)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+     'font-size="10" letter-spacing=".1em" fill="var(--ink-faint)">GROUND-BED MEMORIAL TREES</text>'+
+     '<text x="960" y="'+(base+64)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
+     'font-size="10" letter-spacing=".1em" fill="var(--ink-faint)">PLANTER SPECIMENS</text>'+
+     '<line x1="750" y1="'+(base+52)+'" x2="750" y2="'+(base+70)+'" stroke="var(--rule)" stroke-width="1"/>';
+  svg.innerHTML=o;
+})();
+
+setPos(50);
+draw();
+})();
+</script>
