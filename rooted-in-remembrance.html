@@ -1,429 +1,329 @@
 <title>Rooted in Remembrance</title>
 <style>
-:root{
-  --ground:#EDEFEA; --surface:#F7F8F4; --surface-2:#E5E4EC;
-  --ink:#171C15; --ink-soft:#5A6356; --ink-faint:#868E80;
-  --rule:#CFD4C9; --rule-soft:#DEE2D8;
-  --violet:#52306F; --violet-soft:rgba(82,48,111,.10);
-  --gold:#A8791F; --leaf:#3F6440;
-  --sky-a:#DDE6E4; --sky-b:#EFF1EA;
+/* Committed dark identity, taken from the reference UI. Painted explicitly in every
+   theme state so the page never borrows the host ground. */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"]{
+  --bg:#141A30; --shell:#1C2340; --panel:#232B4C; --raised:#2A3357;
+  --ink:#F2F4FB; --ink-soft:#9AA2C4; --ink-faint:#6B739B;
+  --rule:rgba(255,255,255,.09); --rule-2:rgba(255,255,255,.05);
+  --peri:#5B5BD6; --peri-lift:#7A7AF0;
+  --s1:#7FD4EE; --s2:#7A7AF0; --s3:#F2799F; --s4:#F5F1E4; --s5:#8E96D8;
+  --violet:#7A7AF0; --sky-b:#EFF1EA;
+  --sans:"Futura","Avenir Next","Century Gothic","Trebuchet MS",system-ui,-apple-system,sans-serif;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Charter,Georgia,serif;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-  --measure:64ch;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --ground:#101410; --surface:#181D17; --surface-2:#221E2A;
-    --ink:#E7EBE2; --ink-soft:#A2AC9C; --ink-faint:#7A836F;
-    --rule:#2E362D; --rule-soft:#242B23;
-    --violet:#B79AD4; --violet-soft:rgba(183,154,212,.14);
-    --gold:#D9AE55; --leaf:#7FAE79;
-    --sky-a:#1B2422; --sky-b:#141A15;
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#101410; --surface:#181D17; --surface-2:#221E2A;
-  --ink:#E7EBE2; --ink-soft:#A2AC9C; --ink-faint:#7A836F;
-  --rule:#2E362D; --rule-soft:#242B23;
-  --violet:#B79AD4; --violet-soft:rgba(183,154,212,.14);
-  --gold:#D9AE55; --leaf:#7FAE79;
-  --sky-a:#1B2422; --sky-b:#141A15;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);
-  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
-h1,h2,h3,h4{text-wrap:balance;margin:0;font-weight:600;letter-spacing:-.012em}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-weight:300;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  position:relative;overflow-x:hidden}
+/* offset accent block, as in the reference composition */
+body::before{content:"";position:absolute;top:0;left:0;width:min(54vw,900px);height:min(48vw,780px);
+  background:var(--peri);z-index:0;pointer-events:none}
+h1,h2,h3,h4{margin:0;font-weight:400;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-/* ---------- masthead ---------- */
-.mast{padding:76px 0 44px;border-bottom:1px solid var(--rule)}
-.mast .kicker{display:flex;gap:14px;align-items:center;margin-bottom:26px}
-.mast .kicker span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-faint)}
-.mast .kicker i{flex:1;height:1px;background:var(--rule);display:block}
-.mast h1{font-size:clamp(44px,7.4vw,84px);line-height:.98;letter-spacing:-.03em;max-width:15ch}
-.mast h1 .rem{color:var(--violet)}
-.epigraph{margin-top:26px;padding-left:20px;border-left:2px solid var(--violet);max-width:46ch}
-.epigraph q{font-size:21px;line-height:1.45;quotes:none;font-style:italic}
-.epigraph cite{display:block;margin-top:7px;font-family:var(--mono);font-size:11px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-style:normal}
-.mast .lede{margin-top:26px;font-size:19px;line-height:1.55;color:var(--ink-soft);max-width:54ch}
-.sitebar{display:flex;flex-wrap:wrap;margin-top:38px;border:1px solid var(--rule);background:var(--surface)}
-.sitebar div{flex:1 1 140px;padding:12px 16px;border-right:1px solid var(--rule-soft)}
-.sitebar div:last-child{border-right:0}
-.sitebar dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-faint);margin-bottom:3px}
-.sitebar dd{margin:0;font-family:var(--mono);font-size:13.5px}
+.shell{position:relative;z-index:1;max-width:1280px;margin:clamp(40px,7vw,104px) auto 80px;background:var(--shell);
+  border-radius:6px;box-shadow:0 40px 90px rgba(0,0,0,.45);padding:0 clamp(20px,4vw,64px) 8px;
+  width:calc(100% - clamp(24px,11vw,190px))}
 
-section{padding:64px 0;border-bottom:1px solid var(--rule)}
-.shead{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
-.shead h2{font-size:clamp(27px,3.4vw,36px);line-height:1.12}
-.shead .num{font-family:var(--mono);font-size:11px;color:var(--violet);letter-spacing:.1em;padding-top:6px}
-.sdesc{color:var(--ink-soft);margin-top:14px;max-width:var(--measure)}
+/* ---------- nav ---------- */
+.nav{display:flex;align-items:center;gap:clamp(16px,3vw,44px);padding:38px 0 54px;flex-wrap:wrap}
+.wordmark{font-size:27px;letter-spacing:.01em;color:var(--ink);margin-right:auto;font-weight:300}
+.nav a{color:var(--ink-faint);text-decoration:none;font-size:15.5px;letter-spacing:.05em;
+  padding:4px 0;border-bottom:1px solid transparent}
+.nav a:hover,.nav a:focus-visible{color:var(--ink)}
+.nav a[aria-current="true"]{color:var(--ink)}
+.nav a:focus-visible{outline:none;border-bottom-color:var(--peri-lift)}
+.pill{background:var(--peri);color:#fff;border:0;border-radius:100px;padding:12px 30px;
+  font-family:var(--sans);font-size:15.5px;letter-spacing:.04em;cursor:pointer;font-weight:400}
+.pill:hover{background:var(--peri-lift)}
+.pill:focus-visible{outline:2px solid var(--peri-lift);outline-offset:3px}
 
-/* ---------- the order of ceremony ---------- */
-.order{margin-top:36px;border-top:1px solid var(--rule)}
-.mv{display:grid;grid-template-columns:132px 1fr;gap:0 32px;padding:30px 0;
-  border-bottom:1px solid var(--rule-soft)}
-.mv:last-child{border-bottom:0}
-.mvtime{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.mvtime .clock{font-size:19px;color:var(--gold);letter-spacing:-.02em}
-.mvtime .dur{display:block;font-size:11px;color:var(--ink-faint);letter-spacing:.1em;margin-top:4px}
-.mvtime .who{display:block;font-size:10.5px;color:var(--ink-soft);margin-top:12px;line-height:1.5;
-  padding-top:10px;border-top:1px solid var(--rule-soft)}
-.mvbody h3{font-size:25px;line-height:1.18;margin-bottom:6px}
-.mvbody .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--violet);margin-bottom:14px}
-.mvbody .dir{font-size:15px;color:var(--ink-soft);line-height:1.55;max-width:var(--measure)}
-.script{margin-top:18px;background:var(--surface);border:1px solid var(--rule);
-  border-left:3px solid var(--violet);padding:24px 26px;max-width:62ch}
-.script .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--ink-faint);margin-bottom:14px}
-.script p{margin:0 0 15px;line-height:1.68}
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(26px,4vw,64px);
+  align-items:start;padding-bottom:56px;border-bottom:1px solid var(--rule)}
+.hero h1{font-size:clamp(38px,5.4vw,66px);line-height:1.03;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--s3)}
+.hero .lede{margin-top:22px;color:var(--ink-soft);font-size:17px;max-width:46ch}
+.epi{border-left:2px solid var(--s3);padding-left:22px}
+.epi q{quotes:none;font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;
+  color:var(--ink);display:block}
+.epi cite{display:block;margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint);font-style:normal}
+.meta{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:20px;
+  border:1px solid var(--rule)}
+.meta div{padding:14px 18px;border-right:1px solid var(--rule-2)}
+.meta div:last-child{border-right:0}
+.meta dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:5px}
+.meta dd{margin:0;font-family:var(--mono);font-size:14px;color:var(--ink)}
+
+/* ---------- sections ---------- */
+section{padding:70px 0;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.shead{display:flex;align-items:baseline;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.shead h2{font-size:clamp(25px,3.2vw,34px);line-height:1.15}
+.shead .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--peri-lift)}
+.sdesc{color:var(--ink-soft);max-width:66ch;font-size:16px}
+
+/* ---------- the timeline ---------- */
+.rail{position:relative;margin-top:64px;display:grid;grid-template-columns:repeat(5,1fr);
+  gap:clamp(6px,1vw,18px)}
+.axis{position:absolute;left:-40px;right:-40px;top:var(--axis,300px);height:1px;
+  background:linear-gradient(90deg,transparent,var(--rule) 8%,var(--rule) 92%,transparent);z-index:0}
+.step{position:relative;z-index:1;background:none;border:0;padding:22px 10px 26px;cursor:pointer;
+  font-family:inherit;color:inherit;display:flex;flex-direction:column;align-items:center;
+  text-align:center;border-radius:20px;transition:background .25s ease}
+.step:hover{background:rgba(255,255,255,.03)}
+.step[aria-selected="true"]{background:var(--raised);box-shadow:0 18px 44px rgba(0,0,0,.32)}
+.step:focus-visible{outline:2px solid var(--peri-lift);outline-offset:2px}
+.step .lbl{font-size:clamp(15px,1.5vw,20px);letter-spacing:.06em;color:var(--c);
+  white-space:nowrap;font-weight:400}
+.step .sub{font-size:clamp(13px,1.35vw,17px);letter-spacing:.02em;color:var(--c);margin-top:2px;
+  opacity:.92}
+.step .blurb{margin-top:12px;font-size:12.5px;line-height:1.62;color:var(--ink-soft);max-width:24ch}
+.step .tri{margin-top:20px;width:0;height:0;border-left:11px solid transparent;
+  border-right:11px solid transparent;border-bottom:15px solid var(--c)}
+.step .conn{width:5px;flex:1;min-height:56px;background:var(--c);opacity:.55}
+.step .dot{width:34px;height:34px;border-radius:50%;background:var(--c);flex:none;
+  transition:transform .25s ease}
+.step[aria-selected="true"] .dot{transform:scale(1.14);box-shadow:0 0 0 7px rgba(255,255,255,.055)}
+.step .ico{margin-top:26px;color:var(--c);height:70px;display:grid;place-items:center}
+.step .ico svg{width:66px;height:66px;display:block}
+.step[aria-selected="false"] .ico,
+.step[aria-selected="false"] .tri{opacity:.62}
+
+/* ---------- movement detail ---------- */
+.detail{margin-top:44px;background:var(--panel);border-radius:6px;padding:clamp(24px,3.4vw,46px);
+  border-top:3px solid var(--c)}
+.dhead{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:baseline;
+  padding-bottom:20px;margin-bottom:26px;border-bottom:1px solid var(--rule)}
+.dhead h3{font-size:clamp(24px,3vw,34px);margin-right:auto}
+.dhead .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--rule);color:var(--ink-soft);border-radius:100px}
+.dhead .chip.t{color:var(--c);border-color:var(--c)}
+.dbody{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:clamp(24px,3.4vw,52px);align-items:start}
+.dbody>*{min-width:0}
+@media (max-width:1000px){.dbody{grid-template-columns:1fr}}
+.dir{color:var(--ink-soft);font-size:16px}
+.dir strong{color:var(--ink);font-weight:400}
+.script{background:var(--shell);border-left:3px solid var(--c);
+  padding:28px 30px;font-family:var(--serif);font-weight:400}
+.script .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:16px}
+.script p{margin:0 0 15px;line-height:1.72;font-size:17px;color:var(--ink)}
 .script p:last-child{margin-bottom:0}
-.poem{margin-top:18px;background:var(--surface);border:1px solid var(--rule);padding:26px 28px;
-  max-width:56ch}
-.poem .ptitle{font-size:20px;margin-bottom:3px}
-.poem .pby{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.06em;
-  margin-bottom:18px}
-.poem .verse{font-size:17px;line-height:1.72;white-space:pre-wrap;font-style:italic}
-.poem .note{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-soft);
-  font-size:14px;color:var(--ink-soft);line-height:1.55;font-style:normal}
-
-.optlist{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:1px;background:var(--rule-soft);
-  border:1px solid var(--rule);max-width:72ch}
-.optlist li{background:var(--surface);padding:15px 18px;display:grid;
-  grid-template-columns:1fr auto;gap:4px 16px;align-items:start}
-.optlist .on{font-size:16px;line-height:1.35}
-.optlist .os{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:3px}
-.optlist .od{grid-column:1/-1;font-size:14px;color:var(--ink-soft);line-height:1.5;margin-top:6px}
-.tagpill{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
-  padding:3px 7px;border:1px solid var(--rule);color:var(--ink-faint);white-space:nowrap}
-.tagpill.ok{color:var(--leaf);border-color:var(--leaf)}
-.tagpill.warn{color:var(--gold);border-color:var(--gold)}
-.tagpill.pick{color:var(--violet);border-color:var(--violet)}
+.poem{background:var(--shell);padding:30px 32px}
+.poem .pt{font-family:var(--serif);font-size:22px;margin-bottom:4px}
+.poem .pby{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-faint);
+  margin-bottom:22px;text-transform:uppercase}
+.poem .verse{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.74;
+  white-space:pre-wrap;color:var(--ink)}
+.poem .pn{margin-top:22px;padding-top:16px;border-top:1px solid var(--rule);font-size:14.5px;
+  line-height:1.6;color:var(--ink-soft)}
+.poem .pn em{color:var(--ink);font-family:var(--serif)}
+.opts{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:1px;background:var(--rule-2);
+  border:1px solid var(--rule)}
+.dcol>.opts:first-child{margin-top:0}
+.opts li{background:var(--shell);padding:17px 20px;display:grid;grid-template-columns:1fr auto;
+  gap:6px 18px;align-items:start}
+.opts .on{font-size:16.5px;color:var(--ink)}
+.opts .os{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:4px}
+.opts .od{grid-column:1/-1;font-size:14.5px;line-height:1.58;color:var(--ink-soft);margin-top:4px}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 9px;border:1px solid var(--rule);color:var(--ink-faint);white-space:nowrap;border-radius:100px}
+.tag.ok{color:var(--s1);border-color:var(--s1)}
+.tag.warn{color:var(--s3);border-color:var(--s3)}
+.tag.pick{color:var(--s4);border-color:var(--s4)}
 
 /* ---------- viewer ---------- */
-.viewer{margin-top:32px;border:1px solid var(--rule);background:var(--surface)}
+.viewer{margin-top:36px;border:1px solid var(--rule);background:var(--panel);border-radius:6px;
+  overflow:hidden}
 .stage{position:relative;user-select:none;touch-action:none;cursor:ew-resize;
-  background:var(--sky-b);overflow:hidden}
+  background:#0F1424;overflow:hidden}
 .stage>svg{display:block;width:100%;height:auto}
 .layer{position:absolute;inset:0}
 .layer svg{width:100%;height:100%}
 #afterLayer{clip-path:inset(0 0 0 var(--pos,50%))}
-.tab{position:absolute;top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
-  text-transform:uppercase;padding:5px 10px;background:var(--ink);color:var(--ground);pointer-events:none}
-.tab.l{left:14px}
-.tab.r{right:14px;background:var(--violet);color:#fff}
+.vtab{position:absolute;top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;padding:6px 12px;border-radius:100px;pointer-events:none;
+  background:rgba(20,26,48,.86);color:var(--ink);backdrop-filter:blur(4px)}
+.vtab.l{left:16px}
+.vtab.r{right:16px;background:var(--peri);color:#fff}
 .handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;
-  box-shadow:0 0 0 1px rgba(0,0,0,.35);transform:translateX(-1px);cursor:ew-resize}
-.handle:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;
-  border-radius:50%;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.32);display:grid;
-  place-items:center;color:#171C15;font-family:var(--mono);font-size:13px;letter-spacing:-.06em}
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));border-top:1px solid var(--rule)}
-.ctl{padding:14px 18px 16px;border-right:1px solid var(--rule-soft)}
-.ctl:last-child{border-right:0}
-.ctl>label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
-.seg{display:flex;border:1px solid var(--rule);background:var(--ground)}
+  box-shadow:0 0 0 1px rgba(0,0,0,.4);transform:translateX(-1px);cursor:ew-resize}
+.handle:focus-visible{outline:3px solid var(--peri-lift);outline-offset:3px}
+.grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;
+  border-radius:50%;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.4);display:grid;
+  place-items:center;color:#141A30;font-family:var(--mono);font-size:13px}
+.vctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));border-top:1px solid var(--rule)}
+.vc{padding:16px 20px 18px;border-right:1px solid var(--rule-2)}
+.vc:last-child{border-right:0}
+.vc>label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+.seg{display:flex;border:1px solid var(--rule);border-radius:100px;overflow:hidden}
 .seg button{flex:1;appearance:none;border:0;background:transparent;color:var(--ink-soft);
-  font-family:var(--mono);font-size:11.5px;padding:8px 4px;cursor:pointer;border-right:1px solid var(--rule-soft)}
+  font-family:var(--mono);font-size:11px;padding:9px 4px;cursor:pointer;
+  border-right:1px solid var(--rule-2)}
 .seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
-.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
-.checks{display:flex;flex-wrap:wrap;gap:7px}
-.chk{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;
-  border:1px solid var(--rule);padding:6px 9px;cursor:pointer;color:var(--ink-soft);background:var(--ground)}
-.chk input{accent-color:var(--violet);margin:0}
-.chk:has(input:checked){border-color:var(--violet);color:var(--ink)}
-.chk:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:2px}
-.caption{padding:12px 18px;border-top:1px solid var(--rule-soft);font-family:var(--mono);
-  font-size:11.5px;color:var(--ink-soft);line-height:1.55}
-.photo{margin-top:18px;border:1px dashed var(--rule);padding:16px 18px;background:var(--surface)}
-.photo .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
-  padding:9px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--ground);cursor:pointer}
-.btn.ghost{background:transparent;color:var(--ink)}
-.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.tuners{display:none;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:16px}
+.seg button[aria-pressed="true"]{background:var(--peri);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--peri-lift);outline-offset:-2px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.chk{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;
+  border:1px solid var(--rule);padding:7px 11px;border-radius:100px;cursor:pointer;color:var(--ink-soft)}
+.chk input{accent-color:var(--peri);margin:0}
+.chk:has(input:checked){border-color:var(--peri-lift);color:var(--ink)}
+.chk:has(input:focus-visible){outline:2px solid var(--peri-lift);outline-offset:2px}
+.cap{padding:15px 20px;border-top:1px solid var(--rule-2);font-family:var(--mono);font-size:11.5px;
+  line-height:1.6;color:var(--ink-soft)}
+.drop{margin-top:20px;border:1px dashed var(--rule);border-radius:6px;padding:18px 20px}
+.drop .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:11px 18px;border:1px solid var(--peri);background:var(--peri);color:#fff;cursor:pointer;
+  border-radius:100px}
+.btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--rule)}
+.btn:focus-visible{outline:2px solid var(--peri-lift);outline-offset:2px}
+.tuners{display:none;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:18px}
 .tuners.on{display:grid}
-.tune label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
-.tune input[type=range]{width:100%;accent-color:var(--violet)}
+.tune label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.tune input[type=range]{width:100%;accent-color:var(--peri)}
 
-/* ---------- run of show ---------- */
-.tablewrap{margin-top:30px;overflow-x:auto;border:1px solid var(--rule)}
-table{border-collapse:collapse;width:100%;min-width:720px;background:var(--surface)}
-th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--rule-soft);font-size:14.5px;
-  vertical-align:top}
-th{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink-faint);background:var(--surface-2);border-bottom:1px solid var(--rule)}
-td.t{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--gold)}
-td.d{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink-soft)}
+/* ---------- cards / tables / flags ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1px;margin-top:38px;
+  background:var(--rule-2);border:1px solid var(--rule)}
+.cards>div{background:var(--panel);padding:24px 22px}
+.cards .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--peri-lift);margin-bottom:11px}
+.cards h4{font-size:18px;margin-bottom:9px}
+.cards p{font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
+.cards ul{margin:11px 0 0;padding-left:17px}
+.cards li{font-size:13.5px;line-height:1.62;color:var(--ink-soft);margin-bottom:5px}
+.twrap{margin-top:36px;overflow-x:auto;border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:760px;background:var(--panel)}
+th,td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--rule-2);font-size:14.5px;
+  vertical-align:top;color:var(--ink-soft)}
+th{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);background:var(--raised);border-bottom:1px solid var(--rule)}
+td strong{color:var(--ink);font-weight:400}
+td.t{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--s3)}
+td.d{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.pre td{color:var(--ink-faint)}
-tr.key td{background:var(--violet-soft)}
+tr.pre td.t{color:var(--ink-faint)}
+tr.key td{background:rgba(122,122,240,.12);color:var(--ink)}
 tbody tr:last-child td{border-bottom:0}
-
-/* ---------- generic grids ---------- */
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;margin-top:30px;
-  background:var(--rule-soft);border:1px solid var(--rule)}
-.grid3 > div{background:var(--surface);padding:20px}
-.grid3 h4{font-size:17px;margin-bottom:8px}
-.grid3 .k{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--violet);margin-bottom:9px}
-.grid3 p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
-.grid3 ul{margin:8px 0 0;padding-left:18px}
-.grid3 li{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin-bottom:4px}
-
-.flags{list-style:none;margin:30px 0 0;padding:0;display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--rule-soft);
+.flags{list-style:none;margin:38px 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--rule-2);
   border:1px solid var(--rule)}
-.flags li{background:var(--surface);padding:18px 20px}
-.flags h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px}
-.flags p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
-footer.end{padding:44px 0 72px;color:var(--ink-faint);font-family:var(--mono);font-size:11.5px;line-height:1.75}
-@media (max-width:640px){
-  .mv{grid-template-columns:1fr;gap:14px}
-  .mvtime{display:flex;gap:16px;align-items:baseline}
-  .mvtime .dur,.mvtime .who{margin-top:0;border-top:0;padding-top:0}
+.flags li{background:var(--panel);padding:24px 22px}
+.flags h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--s3);margin-bottom:10px}
+.flags p{font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
+.flags em{color:var(--ink);font-style:normal}
+.foot{text-align:center;padding:56px 0 44px;font-size:12.5px;line-height:1.85;color:var(--ink-faint);
+  max-width:96ch;margin:0 auto}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;align-items:start}
+  .rail{grid-template-columns:1fr;gap:14px}
+  .axis{display:none}
+  .step{flex-direction:row;align-items:center;text-align:left;gap:18px;padding:16px;
+    border:1px solid var(--rule)}
+  .step .blurb{display:none}
+  .step .tri{display:none}
+  .step .conn{display:none}
+  .step .ico{margin-top:0;order:-1;height:auto}
+  .step .ico svg{width:38px;height:38px}
+  .step .dot{display:none}
+  .step .lbl,.step .sub{white-space:normal}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<div class="wrap">
+<div class="shell">
 
-<header class="mast">
-  <div class="kicker"><span>Patient Appreciation Month</span><i></i><span>Ceremony Companion</span></div>
-  <h1>Rooted in <span class="rem">Remembrance</span></h1>
-  <div class="epigraph">
+<nav class="nav">
+  <span class="wordmark">Rooted in Remembrance</span>
+  <a href="#ceremony" aria-current="true">Ceremony</a>
+  <a href="#garden">Garden</a>
+  <a href="#logistics">Logistics</a>
+  <a href="#plants">Plants</a>
+  <button class="pill" type="button" id="btnPrint">Print program</button>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>Five movements, <em>one flower</em></h1>
+    <p class="lede">A thirty-seven minute ceremony at the front entrance for Patient Appreciation
+      Month, ending with every person present putting a winter pansy in the ground.</p>
+  </div>
+  <div class="epi">
     <q>There's rosemary, that's for remembrance … and there is pansies, that's for thoughts.</q>
     <cite>Ophelia — Hamlet, Act IV Scene v</cite>
   </div>
-  <p class="lede">A thirty-seven minute ceremony at the front entrance, ending with every person
-    present putting a winter pansy in the ground. The flower is named for the French
-    <em>pensée</em> — a thought. It blooms through January, when almost nothing else here does.</p>
-  <dl class="sitebar">
-    <div><dt>Duration</dt><dd>37 min</dd></div>
-    <div><dt>Participants</dt><dd>50–60</dd></div>
-    <div><dt>Plants</dt><dd>≈ 290</dd></div>
-    <div><dt>Zones</dt><dd>3 · ≈ 82 sq ft</dd></div>
-    <div><dt>Best date</dt><dd>Mid-October</dd></div>
-  </dl>
+    <dl class="meta">
+      <div><dt>Duration</dt><dd>37 min</dd></div>
+      <div><dt>Participants</dt><dd>50–60</dd></div>
+      <div><dt>Plants</dt><dd>≈ 290</dd></div>
+      <div><dt>Zones</dt><dd>3 · 82 sq ft</dd></div>
+      <div><dt>Best date</dt><dd>Mid-October</dd></div>
+    </dl>
 </header>
 
-<section>
-  <div class="shead"><span class="num">01</span><h2>The order of ceremony</h2></div>
-  <p class="sdesc">Five movements. The poem comes before the planting on purpose — so that when
-    people have a pansy in their hands, they already know what it means. Everything is written to be
-    read aloud; times are spoken length, not reading length.</p>
+<section id="ceremony">
+  <div class="shead"><span class="n">01</span><h2>The order of ceremony</h2></div>
+  <p class="sdesc">Select a movement to see its direction, script or reading. The poem comes before
+    the planting on purpose — so that when people have a pansy in their hands, they already know what
+    it means.</p>
 
-  <div class="order">
-
-    <article class="mv">
-      <div class="mvtime"><span class="clock">0:00</span><span class="dur">3 MIN</span>
-        <span class="who">Executive sponsor or patient advocacy lead</span></div>
-      <div class="mvbody">
-        <h3>Welcome</h3>
-        <div class="role">Movement one</div>
-        <p class="dir">Delivered standing at the top of the steps, not behind a lectern. No slides,
-          no product mention. The job of this piece is to explain the flower, because the flower
-          explains the day.</p>
-        <div class="script">
-          <div class="lbl">Draft — approx. 100 seconds</div>
-          <p>Thank you for being here.</p>
-          <p>Every year we set aside time to think about the people our work is meant to serve. Not
-            as data, not as case numbers — as people, with names, who trusted something to us.</p>
-          <p>Today we're going to put that thought into the ground.</p>
-          <p>The flower we're planting is the pansy. Its name comes from the French
-            <em>pensée</em> — a thought. Four hundred years ago Shakespeare had Ophelia hand them
-            out saying "there's pansies, that's for thoughts," and the flower has carried that
-            meaning ever since. It isn't an accident that we chose it.</p>
-          <p>It's also, practically, a flower that blooms in the cold. These will be out through
-            January, when there is nothing else in bloom on this campus. That felt right.
-            Remembrance shouldn't only happen when it's easy.</p>
-          <p>In a few minutes each of you will plant one. They'll be here all winter, they'll be at
-            their best in March, and every time you come through this entrance between now and then
-            you'll walk past something you put there.</p>
-          <p>Before we plant, we're going to listen. First to a poem, then to some music.</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="mv">
-      <div class="mvtime"><span class="clock">0:03</span><span class="dur">3 MIN</span>
-        <span class="who">Employee volunteer — not an executive</span></div>
-      <div class="mvbody">
-        <h3>Poetry reading</h3>
-        <div class="role">Movement two</div>
-        <p class="dir">Read slowly, once, without introduction — the welcome has already set it up.
-          A colleague reading beats a leader reading; it keeps the day from feeling staged.</p>
-        <div class="poem">
-          <div class="ptitle">Remember</div>
-          <div class="pby">Christina Rossetti, 1862 · public domain</div>
-          <div class="verse">Remember me when I am gone away,
-    Gone far away into the silent land;
-    When you can no more hold me by the hand,
-Nor I half turn to go yet turning stay.
-Remember me when no more day by day
-    You tell me of our future that you plann'd:
-    Only remember me; you understand
-It will be late to counsel then or pray.
-Yet if you should forget me for a while
-    And afterwards remember, do not grieve:
-    For if the darkness and corruption leave
-    A vestige of the thoughts that once I had,
-Better by far you should forget and smile
-    Than that you should remember and be sad.</div>
-          <p class="note">Line twelve is why this is the pick: <em>a vestige of the thoughts that
-            once I had.</em> The poem lands on the same word the flower is named for, and it ends by
-            releasing the room rather than holding it in grief — which is the right note before
-            people go and do something with their hands.</p>
-        </div>
-        <ul class="optlist">
-          <li><span class="on">Whitman — <em>Song of Myself</em>, §6<span class="os">"the beautiful uncut hair of graves"</span></span>
-            <span class="tagpill ok">Public domain</span>
-            <span class="od">Warmer and more expansive, less elegiac. Choose this if the tone should
-              lift rather than settle. Slightly long — trim to twelve lines.</span></li>
-          <li><span class="on">Dickinson — <em>The Bustle in a House</em><span class="os">Eight lines, about ninety seconds</span></span>
-            <span class="tagpill ok">Public domain</span>
-            <span class="od">The shortest option and the most severe. Powerful, but it leaves the
-              room heavier than Rossetti does.</span></li>
-          <li><span class="on">Mary Oliver or Wendell Berry<span class="os">Frequently requested for this kind of event</span></span>
-            <span class="tagpill warn">Permission needed</span>
-            <span class="od">Both are still in copyright. Reading aloud at a company event needs
-              written permission from the publisher — allow four to six weeks, and have a
-              public-domain backup approved in case it's declined.</span></li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="mv">
-      <div class="mvtime"><span class="clock">0:06</span><span class="dur">6 MIN</span>
-        <span class="who">Solo cellist — hired, or from staff</span></div>
-      <div class="mvbody">
-        <h3>Music performance</h3>
-        <div class="role">Movement three</div>
-        <p class="dir">One formal piece, seated and still. Then — and this is the part worth
-          insisting on — <strong>the same musician keeps playing quietly underneath the planting.</strong>
-          Forty people digging in silence is uncomfortable; forty people digging to a cello is a
-          ceremony. Book the player for the full block, not just the solo.</p>
-        <ul class="optlist">
-          <li><span class="on">Bach — Cello Suite No. 1 in G, Prélude<span class="os">Solo cello · 2:30</span></span>
-            <span class="tagpill pick">Recommended</span>
-            <span class="od">Universally recognised without being sentimental, and it carries
-              outdoors better than almost anything else. Follow with the Sarabande underneath the
-              planting.</span></li>
-          <li><span class="on">Shenandoah<span class="os">Voice or solo instrument · 3:00</span></span>
-            <span class="tagpill ok">Traditional</span>
-            <span class="od">The local choice — an American river song for a Virginia campus. Sung
-              unaccompanied it will stop the room. Best if you have a genuine singer on staff.</span></li>
-          <li><span class="on">Contemporary song<span class="os">Anything under copyright</span></span>
-            <span class="tagpill warn">Licensing needed</span>
-            <span class="od">Live performance of copyrighted music at a company event needs a
-              performance licence unless the property already carries a blanket one. Public-domain
-              and traditional repertoire sidesteps the question entirely.</span></li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="mv">
-      <div class="mvtime"><span class="clock">0:12</span><span class="dur">18 MIN</span>
-        <span class="who">Facilitator + 3 garden marshals</span></div>
-      <div class="mvbody">
-        <h3>The planting</h3>
-        <div class="role">Movement four — the reason everyone is here</div>
-        <p class="dir">Three minutes of instruction, fifteen of planting and watering. Plants are
-          already set out in position on the soil, so nobody has to make a layout decision — they
-          lift a pot, plant it where it stood, and firm it in. Music continues throughout. Marshals
-          hand out tools, keep the beds moving, and quietly fix anything planted proud.</p>
-        <div class="script">
-          <div class="lbl">Facilitator — what to say before they start</div>
-          <p>There are about two hundred and ninety plants and roughly sixty of us, so take five
-            each. They're already sitting where they need to go — just lift the pot, dig where it
-            was standing, and put it back in.</p>
-          <p>Deep enough that the top of the root ball is level with the soil. Firm it down with
-            your thumbs — pansies like to be tucked in tight. Then water it, which is the last
-            thing we'll do together.</p>
-          <p>The planters are waist height, so there's no kneeling unless you want to. Take your
-            time. We're not in a hurry.</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="mv">
-      <div class="mvtime"><span class="clock">0:33</span><span class="dur">4 MIN</span>
-        <span class="who">A different voice from the welcome</span></div>
-      <div class="mvbody">
-        <h3>Closing statement</h3>
-        <div class="role">Movement five</div>
-        <p class="dir">Given standing beside the planted bed, not back at the steps. Ideally
-          somebody closer to patients than to the org chart — medical affairs, patient services, a
-          nurse educator. Then no dismissal: people should be allowed to drift.</p>
-        <div class="script">
-          <div class="lbl">Draft — approx. 75 seconds</div>
-          <p>That's the last of them in.</p>
-          <p>What you've just done took about fifteen minutes and will last about six months.
-            They look small today. They always do. Give them until March.</p>
-          <p>I want to say one thing about why we do this outside, with our hands, instead of in a
-            conference room with a slide.</p>
-          <p>It's easy to talk about patients. It's harder to do something slow and physical and
-            slightly inconvenient in their memory — and that difficulty is the point. We wanted the
-            day to cost us something small.</p>
-          <p>The garden will be here. It doesn't need anything from you except that you notice it
-            on your way in.</p>
-          <p>If you'd like to stay a few minutes, please do — there's no next thing. And if you'd
-            like to plant again next year, we'll be right here. Same beds, same flower.</p>
-          <p>Thank you for your time, and thank you for your care.</p>
-        </div>
-      </div>
-    </article>
-
-  </div>
+  <div class="rail" id="rail" role="tablist" aria-label="Order of ceremony"></div>
+  <div class="detail" id="detail" role="tabpanel" tabindex="0"></div>
 </section>
 
-<section>
-  <div class="shead"><span class="num">02</span><h2>What it will look like</h2></div>
+<section id="garden">
+  <div class="shead"><span class="n">02</span><h2>What it will look like</h2></div>
   <p class="sdesc">Drag to wipe between the entry planter as it stands and the same planter once
-    it's planted. The season control is the important one — winter pansies go in looking sparse,
-    hold through midwinter, and peak in March. Managing that expectation on the day is most of the
-    job.</p>
+    it's planted. The season control matters most — winter pansies go in looking sparse, hold through
+    midwinter, and peak in March. Managing that expectation on the day is most of the job.</p>
 
   <div class="viewer">
     <div class="stage" id="stage">
       <svg id="sizer" viewBox="0 0 1200 675" aria-hidden="true"></svg>
       <div class="layer" id="beforeLayer"></div>
       <div class="layer" id="afterLayer"></div>
-      <span class="tab l">Before</span>
-      <span class="tab r">Planted</span>
+      <span class="vtab l">Before</span>
+      <span class="vtab r">Planted</span>
       <div class="handle" id="handle" role="slider" tabindex="0" aria-label="Reveal the planted bed"
            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span class="grip">◀ ▶</span></div>
     </div>
-    <div class="controls">
-      <div class="ctl"><label id="lblSeason">Season</label>
+    <div class="vctl">
+      <div class="vc"><label id="lblSeason">Season</label>
         <div class="seg" role="group" aria-labelledby="lblSeason" id="segSeason"></div></div>
-      <div class="ctl"><label id="lblPal">Colour palette</label>
+      <div class="vc"><label id="lblPal">Colour palette</label>
         <div class="seg" role="group" aria-labelledby="lblPal" id="segPal"></div></div>
-      <div class="ctl"><label>Overlays</label>
+      <div class="vc"><label>Overlays</label>
         <div class="checks">
           <label class="chk"><input type="checkbox" id="cbZone" checked> Zone outline</label>
           <label class="chk"><input type="checkbox" id="cbScale" checked> Scale figure</label>
         </div></div>
     </div>
-    <div class="caption" id="cap"></div>
+    <div class="cap" id="cap"></div>
   </div>
 
-  <div class="photo">
+  <div class="drop">
     <div class="row">
       <button class="btn" id="btnPhoto" type="button">Load your site photo</button>
       <input type="file" id="filePhoto" accept="image/*" hidden>
       <button class="btn ghost" id="btnClear" type="button" hidden>Back to elevation</button>
-      <p class="mono" id="photoMsg" style="font-size:11.5px;color:var(--ink-soft);flex:1;min-width:200px;line-height:1.5">
-        Load any of the three marked photos and the pansies render straight over it — set the
-        planter line, position and scale below. Your image never leaves this browser.</p>
+      <p class="mono" id="photoMsg" style="font-size:11.5px;color:var(--ink-soft);flex:1;min-width:220px;line-height:1.55">
+        Load any of the three marked photos and the pansies render straight over it. Your image never
+        leaves this browser.</p>
     </div>
     <div class="tuners" id="tuners">
       <div class="tune"><label>Planter top <span class="mono" id="vGround"></span></label>
@@ -438,88 +338,54 @@ Better by far you should forget and smile
   </div>
 </section>
 
-<section>
-  <div class="shead"><span class="num">03</span><h2>Making the planting actually work</h2></div>
+<section id="logistics">
+  <div class="shead"><span class="n">03</span><h2>Making the planting actually work</h2></div>
   <p class="sdesc">This is the segment that fails if nobody plans it. Sixty untrained people, fifteen
     minutes, and a bed that has to look deliberate afterwards.</p>
-  <div class="grid3">
-    <div>
-      <div class="k">The day before</div>
-      <h4>Crew preps, nobody digs</h4>
-      <p>Strip the spent summer material, top up with fresh planter mix, water thoroughly, and let
-        it settle overnight. Wet soil on the morning of is heavy, muddy and cold on the hands.</p>
-      <ul>
-        <li>Fresh mix to within 2 in. of the cap</li>
-        <li>Slow-release feed worked in</li>
-        <li>Water the night before, not the morning of</li>
-      </ul>
-    </div>
-    <div>
-      <div class="k">Ninety minutes before</div>
-      <h4>Set every pot in its final spot</h4>
+  <div class="cards">
+    <div><div class="k">The day before</div><h4>Crew preps, nobody digs</h4>
+      <p>Strip the spent summer material, top up with fresh planter mix, water thoroughly, and let it
+        settle overnight. Wet soil on the morning of is heavy, muddy and cold on the hands.</p>
+      <ul><li>Fresh mix to within 2 in. of the cap</li><li>Slow-release feed worked in</li>
+        <li>Water the night before, not the morning of</li></ul></div>
+    <div><div class="k">Ninety minutes before</div><h4>Set every pot in its final spot</h4>
       <p>The single highest-leverage thing on this list. Crew places all 290 pots, still potted, at
         6–7 in. centres in the exact layout. Participants never make a spacing decision, so the bed
         reads as designed instead of as a crowd.</p>
-      <ul>
-        <li>6–7 in. centres, staggered rows</li>
-        <li>Colour drifts pre-sorted by the crew</li>
-        <li>Marshals keep spare plants out of sight</li>
-      </ul>
-    </div>
-    <div>
-      <div class="k">Kit</div>
-      <h4>Enough tools, not too many</h4>
-      <p>One trowel between two people keeps it social and stops the beds from getting crowded.
-        Gloves offered, never required — a lot of people will want to feel the soil.</p>
-      <ul>
-        <li>30 hand trowels, 60 pairs of gloves</li>
-        <li>6 watering cans, filled and staged</li>
-        <li>Hand-wash station and towels at the exit</li>
-        <li>Bin for empty cell packs, out of sightlines</li>
-      </ul>
-    </div>
-    <div>
-      <div class="k">Access</div>
-      <h4>The raised planters are a gift</h4>
+      <ul><li>6–7 in. centres, staggered rows</li><li>Colour drifts pre-sorted by the crew</li>
+        <li>Marshals keep spare plants out of sight</li></ul></div>
+    <div><div class="k">Kit</div><h4>Enough tools, not too many</h4>
+      <p>One trowel between two people keeps it social and stops the beds getting crowded. Gloves
+        offered, never required — a lot of people will want to feel the soil.</p>
+      <ul><li>30 hand trowels, 60 pairs of gloves</li><li>6 watering cans, filled and staged</li>
+        <li>Hand-wash station and towels at the exit</li><li>Bin for empty packs, out of sightlines</li></ul></div>
+    <div><div class="k">Access</div><h4>The raised planters are a gift</h4>
       <p>All three zones sit at roughly waist height, so a wheelchair user or anyone who can't kneel
-        participates on exactly the same terms as everyone else. That is unusual and worth saying
-        out loud in the facilitator's instructions.</p>
-      <ul>
-        <li>Keep a clear 4 ft approach at the entry planter</li>
+        participates on exactly the same terms as everyone else. That is unusual and worth saying out
+        loud in the facilitator's instructions.</p>
+      <ul><li>Keep a clear 4 ft approach at the entry planter</li>
         <li>Reserve the lowest-reach run for anyone seated</li>
-        <li>Two folding stools available, unremarked</li>
-      </ul>
-    </div>
-    <div>
-      <div class="k">Flow</div>
-      <h4>Split the group across three zones</h4>
+        <li>Two folding stools available, unremarked</li></ul></div>
+    <div><div class="k">Flow</div><h4>Split the group across three zones</h4>
       <p>Sixty people at one 22 sq ft planter is a scrum. Marshals walk thirds of the group to the
         wedge and the wall strip as the music starts, so all three zones plant simultaneously.</p>
-      <ul>
-        <li>Zone 1 entry planter — 20 people, 80 plants</li>
+      <ul><li>Zone 1 entry planter — 20 people, 80 plants</li>
         <li>Zone 2 the wedge — 20 people, 105 plants</li>
-        <li>Zone 3 wall strip — 20 people, 105 plants</li>
-      </ul>
-    </div>
-    <div>
-      <div class="k">Weather</div>
-      <h4>It goes ahead in the rain</h4>
-      <p>Light rain is fine and arguably better — the soil is soft and the watering step takes care
-        of itself. Have the call ready for anything worse.</p>
-      <ul>
-        <li>Umbrella stand and 40 spares at the door</li>
+        <li>Zone 3 wall strip — 20 people, 105 plants</li></ul></div>
+    <div><div class="k">Weather</div><h4>It goes ahead in the rain</h4>
+      <p>Light rain is fine and arguably better — the soil is soft and the watering step takes care of
+        itself. Have the call ready for anything worse.</p>
+      <ul><li>Umbrella stand and 40 spares at the door</li>
         <li>Cello does not play in rain — have a recording and a speaker</li>
         <li>Hard-weather call by 7am, notice by 8am</li>
-        <li>Rain date exactly one week later, same time</li>
-      </ul>
-    </div>
+        <li>Rain date exactly one week later, same time</li></ul></div>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="num">04</span><h2>Run of show</h2></div>
+  <div class="shead"><span class="n">04</span><h2>Run of show</h2></div>
   <p class="sdesc">Times are relative to the published start. Everything before zero is crew only.</p>
-  <div class="tablewrap">
+  <div class="twrap">
     <table>
       <thead><tr><th>Time</th><th>Dur</th><th>Segment</th><th>Lead</th><th>Notes</th></tr></thead>
       <tbody>
@@ -527,51 +393,51 @@ Better by far you should forget and smile
         <tr class="pre"><td class="t">−0:30</td><td class="d">15 min</td><td>Sound check</td><td>AV</td><td>One speaker, one handheld mic; cello unamplified but miked for the recording</td></tr>
         <tr class="pre"><td class="t">−0:15</td><td class="d">15 min</td><td>Tools &amp; water staged</td><td>Marshals</td><td>Trowels, gloves, cans at each of the three zones</td></tr>
         <tr class="pre"><td class="t">−0:10</td><td class="d">10 min</td><td>Gathering</td><td>—</td><td>Cellist plays as guests arrive; no announcements</td></tr>
-        <tr><td class="t">0:00</td><td class="d">3 min</td><td>Welcome</td><td>Exec sponsor</td><td>Top of the steps, no lectern</td></tr>
-        <tr><td class="t">0:03</td><td class="d">3 min</td><td>Poetry reading</td><td>Employee volunteer</td><td>Rossetti, "Remember" — read once, no introduction</td></tr>
-        <tr><td class="t">0:06</td><td class="d">6 min</td><td>Music performance</td><td>Cellist</td><td>Bach, Prélude from Suite No. 1</td></tr>
+        <tr><td class="t">0:00</td><td class="d">3 min</td><td><strong>Welcome</strong></td><td>Exec sponsor</td><td>Top of the steps, no lectern</td></tr>
+        <tr><td class="t">0:03</td><td class="d">3 min</td><td><strong>Poetry reading</strong></td><td>Employee volunteer</td><td>Rossetti, "Remember" — read once, no introduction</td></tr>
+        <tr><td class="t">0:06</td><td class="d">6 min</td><td><strong>Music performance</strong></td><td>Cellist</td><td>Bach, Prélude from Suite No. 1</td></tr>
         <tr><td class="t">0:12</td><td class="d">3 min</td><td>Instructions &amp; move to zones</td><td>Facilitator</td><td>Marshals split the group three ways</td></tr>
-        <tr class="key"><td class="t">0:15</td><td class="d">15 min</td><td>Planting</td><td>Everyone</td><td>Cello continues quietly throughout</td></tr>
+        <tr class="key"><td class="t">0:15</td><td class="d">15 min</td><td><strong>Planting</strong></td><td>Everyone</td><td>Cello continues quietly throughout</td></tr>
         <tr><td class="t">0:30</td><td class="d">3 min</td><td>Watering in</td><td>Everyone</td><td>Cans passed along the beds — the closing gesture</td></tr>
-        <tr><td class="t">0:33</td><td class="d">4 min</td><td>Closing statement</td><td>Patient services lead</td><td>Standing at the planted bed</td></tr>
+        <tr><td class="t">0:33</td><td class="d">4 min</td><td><strong>Closing statement</strong></td><td>Patient services lead</td><td>Standing at the planted bed</td></tr>
         <tr><td class="t">0:37</td><td class="d">—</td><td>Informal time</td><td>—</td><td>No dismissal. Music stops on its own.</td></tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<section>
-  <div class="shead"><span class="num">05</span><h2>The plant order</h2></div>
-  <p class="sdesc">Two colours, not a mix. A restrained white-and-violet planting reads as
-    deliberate; a rainbow flat reads as a garden centre — and on a memorial planting that difference
-    is the whole thing. Toggle the palette in the viewer above to see it.</p>
-  <div class="tablewrap">
+<section id="plants">
+  <div class="shead"><span class="n">05</span><h2>The plant order</h2></div>
+  <p class="sdesc">Two colours, not a mix. A restrained white-and-violet planting reads as deliberate;
+    a rainbow flat reads as a garden centre — and on a memorial planting that difference is the whole
+    thing. Toggle the palette in the viewer above to see it.</p>
+  <div class="twrap">
     <table>
       <thead><tr><th>Zone</th><th>Area</th><th>Cultivar</th><th>Size</th><th>Qty</th><th>Why</th></tr></thead>
       <tbody>
-        <tr><td>1 · Entry planter</td><td class="d">22 sq ft</td><td><em>Viola</em> × <em>wittrockiana</em> 'Matrix White'</td><td class="d">4 in. pot</td><td class="d">50</td><td>Highest visibility — 4 in. stock looks full on the day</td></tr>
-        <tr><td>1 · Entry planter</td><td class="d">—</td><td><em>Viola</em> × <em>wittrockiana</em> 'Matrix Purple'</td><td class="d">4 in. pot</td><td class="d">30</td><td>Drifted, not scattered — crew pre-sorts</td></tr>
-        <tr><td>2 · The wedge</td><td class="d">30 sq ft</td><td>'Matrix White' / 'Matrix Purple'</td><td class="d">cell pack</td><td class="d">105</td><td>Two-thirds white, one-third violet</td></tr>
-        <tr><td>3 · Wall strip</td><td class="d">30 sq ft</td><td>'Cool Wave White' <span class="tagpill">trailing</span></td><td class="d">cell pack</td><td class="d">105</td><td>Spills over the wall cap — the only zone that should trail</td></tr>
+        <tr><td><strong>1 · Entry planter</strong></td><td class="d">22 sq ft</td><td>Viola × wittrockiana 'Matrix White'</td><td class="d">4 in. pot</td><td class="d">50</td><td>Highest visibility — 4 in. stock looks full on the day</td></tr>
+        <tr><td><strong>1 · Entry planter</strong></td><td class="d">—</td><td>Viola × wittrockiana 'Matrix Purple'</td><td class="d">4 in. pot</td><td class="d">30</td><td>Drifted, not scattered — crew pre-sorts</td></tr>
+        <tr><td><strong>2 · The wedge</strong></td><td class="d">30 sq ft</td><td>'Matrix White' / 'Matrix Purple'</td><td class="d">cell pack</td><td class="d">105</td><td>Two-thirds white, one-third violet</td></tr>
+        <tr><td><strong>3 · Wall strip</strong></td><td class="d">30 sq ft</td><td>'Cool Wave White' <span class="tag">trailing</span></td><td class="d">cell pack</td><td class="d">105</td><td>Spills over the wall cap — the only zone that should trail</td></tr>
         <tr class="key"><td><strong>Total</strong></td><td class="d">82 sq ft</td><td>—</td><td class="d">—</td><td class="d"><strong>290</strong></td><td>Order 320 to allow 10% for breakage and spares</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="grid3">
+  <div class="cards">
     <div><div class="k">Spacing</div><h4>6–7 inches on centre</h4>
-      <p>Closer than a nursery will tell you. Pansies are annuals here — they never need room to
-        grow into, and a tight planting looks finished on the day rather than in six weeks.</p></div>
+      <p>Closer than a nursery will tell you. Pansies are annuals here — they never need room to grow
+        into, and a tight planting looks finished on the day rather than in six weeks.</p></div>
     <div><div class="k">Timing</div><h4>Mid-October, soil still warm</h4>
       <p>Roots need soil around 60°F to establish before hard frost. Planted mid-October they bloom
         through mild winter spells, hold through January, and peak in late March.</p></div>
     <div><div class="k">Aftercare</div><h4>Deadhead in February</h4>
-      <p>One pass pulling spent flowers in late February roughly doubles the March display. Assign
-        it to a named person now — this is the step that always gets dropped.</p></div>
+      <p>One pass pulling spent flowers in late February roughly doubles the March display. Assign it
+        to a named person now — this is the step that always gets dropped.</p></div>
   </div>
 </section>
 
 <section>
-  <div class="shead"><span class="num">06</span><h2>Four things to settle early</h2></div>
+  <div class="shead"><span class="n">06</span><h2>Four things to settle early</h2></div>
   <ul class="flags">
     <li><h4>Deer will eat these</h4><p>Pansies are among the most heavily browsed bedding plants
       there is, and pressure on this site is high. Budget for repellent applied the morning after
@@ -580,31 +446,218 @@ Better by far you should forget and smile
     <li><h4>The date is load-bearing</h4><p>Winter pansies only work planted in autumn. If Patient
       Appreciation Month falls in spring, these go in and fry by June, and the whole plant choice
       needs revisiting. Confirm the month before ordering anything.</p></li>
-    <li><h4>Pansies are annuals</h4><p>They'll be pulled next autumn. That suits an annual ceremony
-      — the replanting <em>is</em> the ritual, and it repeats cleanly every year. If you also want
+    <li><h4>Pansies are annuals</h4><p>They'll be pulled next autumn. That suits an annual ceremony —
+      the replanting <em>is</em> the ritual, and it repeats cleanly every year. If you also want
       something permanent to point at, the ground bed beyond the wall is still available for a tree
       in a later year.</p></li>
     <li><h4>Keep it non-promotional</h4><p>No product or brand marks on signage or in the garden.
       Patient names or images need written consent on file, and any dedication wording is worth
-      routing past legal and medical review. If patients or families attend, brief staff that the
-      day involves no product discussion, and have photography releases at check-in.</p></li>
+      routing past legal and medical review. If patients or families attend, brief staff that the day
+      involves no product discussion, and have photography releases at check-in.</p></li>
   </ul>
 </section>
 
-<footer class="end wrap" style="padding-left:0;padding-right:0">
-  Rendered elevation, not a photograph — pansies drawn at 6–7 in. centres, 1 ft = 24 px.<br>
-  Zone areas are scaled from your site photographs and need a field measure before ordering.
-</footer>
+<p class="foot">Rendered elevation, not a photograph — pansies drawn at 6–7 in. centres, 1 ft = 24 px.
+  Zone areas are scaled from site photographs and need a field measure before ordering.
+  Poetry in the public domain; music repertoire selected to avoid performance licensing.</p>
+
 </div>
 
 <script>
 (function(){
 "use strict";
 
+/* ================= ceremony data ================= */
+var ICONS={
+ voice:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">'+
+   '<circle cx="13" cy="24" r="4.5"/>'+
+   '<path d="M21 17a10 10 0 0 1 0 14"/><path d="M27 12a17 17 0 0 1 0 24"/>'+
+   '<path d="M33 7a24 24 0 0 1 0 34" stroke-dasharray="2 3"/></svg>',
+ book:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">'+
+   '<path d="M24 15c-3.5-3-10-3.6-15-2.4v22c5-1.2 11.5-.6 15 2.4"/>'+
+   '<path d="M24 15c3.5-3 10-3.6 15-2.4v22c-5-1.2-11.5-.6-15 2.4"/>'+
+   '<path d="M24 15v22"/>'+
+   '<path d="M13 20h6M13 25h6M29 20h6M29 25h6" stroke-dasharray="1.5 2.5" stroke-linecap="round"/></svg>',
+ cello:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">'+
+   '<path d="M24 17c3.4 0 5.6 2.2 5.6 4.6 0 1.7-1.6 2.6-1.6 3.9 0 1.6 3 2.3 4.2 5 1.5 3.4-1.4 8.5-8.2 8.5s-9.7-5.1-8.2-8.5c1.2-2.7 4.2-3.4 4.2-5 0-1.3-1.6-2.2-1.6-3.9C18.4 19.2 20.6 17 24 17Z"/>'+
+   '<path d="M24 17V8"/><circle cx="24" cy="6.4" r="1.8"/>'+
+   '<path d="M21.6 30.5c-.9-.7-.9-2.3 0-3M26.4 30.5c.9-.7.9-2.3 0-3"/>'+
+   '<path d="M22.6 18.5v16M25.4 18.5v16" stroke-dasharray="1.5 2.5" stroke-linecap="round"/></svg>',
+ trowel:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">'+
+   '<path d="M24 7v6"/><rect x="21.4" y="12.6" width="5.2" height="7" rx="2.4"/>'+
+   '<path d="M24 19.6v3.6"/>'+
+   '<path d="M17.4 23.6h13.2l-2.8 12.2c-.6 2.8-2.2 4.4-3.8 4.4s-3.2-1.6-3.8-4.4Z"/>'+
+   '<path d="M13 41h-4M39 41h-4M13 41c2.4 0 3.2-1.4 5-1.4M35 41c-2.4 0-3.2-1.4-5-1.4" stroke-dasharray="1.5 2.5"/></svg>',
+ pansy:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4">'+
+   '<ellipse cx="24" cy="15.4" rx="6.2" ry="5.4"/>'+
+   '<ellipse cx="14.2" cy="21.6" rx="6" ry="5.4" transform="rotate(-28 14.2 21.6)"/>'+
+   '<ellipse cx="33.8" cy="21.6" rx="6" ry="5.4" transform="rotate(28 33.8 21.6)"/>'+
+   '<ellipse cx="17.8" cy="31.4" rx="5.8" ry="5.2" transform="rotate(-16 17.8 31.4)"/>'+
+   '<ellipse cx="30.2" cy="31.4" rx="5.8" ry="5.2" transform="rotate(16 30.2 31.4)"/>'+
+   '<circle cx="24" cy="24.4" r="2.8"/>'+
+   '<path d="M24 36v6M24 40c-2.6 0-4-1.4-4.6-3" stroke-dasharray="1.5 2.5" stroke-linecap="round"/></svg>'
+};
+
+var MOVES=[
+ {n:"01",name:"Welcome",clock:"0:00",dur:"3 min",who:"Executive sponsor or patient advocacy lead",
+  c:"var(--s1)",icon:"voice",
+  blurb:"Frames the day and explains the flower.",
+  dir:'Delivered standing at the top of the steps, not behind a lectern. No slides, no product '+
+      'mention. The job of this piece is to explain the flower, because the flower explains the day.',
+  script:{lbl:"Draft — approx. 100 seconds",ps:[
+    "Thank you for being here.",
+    "Every year we set aside time to think about the people our work is meant to serve. Not as data, not as case numbers — as people, with names, who trusted something to us.",
+    "Today we're going to put that thought into the ground.",
+    "The flower we're planting is the pansy. Its name comes from the French <em>pensée</em> — a thought. Four hundred years ago Shakespeare had Ophelia hand them out saying \u201Cthere's pansies, that's for thoughts,\u201D and the flower has carried that meaning ever since. It isn't an accident that we chose it.",
+    "It's also, practically, a flower that blooms in the cold. These will be out through January, when there is nothing else in bloom on this campus. That felt right. Remembrance shouldn't only happen when it's easy.",
+    "In a few minutes each of you will plant one. They'll be here all winter, they'll be at their best in March, and every time you come through this entrance between now and then you'll walk past something you put there.",
+    "Before we plant, we're going to listen. First to a poem, then to some music."]}},
+
+ {n:"02",name:"Poetry reading",clock:"0:03",dur:"3 min",who:"Employee volunteer — not an executive",
+  c:"var(--s2)",icon:"book",
+  blurb:"Rossetti's \u201CRemember\u201D, read once.",
+  dir:'Read slowly, once, without introduction — the welcome has already set it up. A colleague '+
+      'reading beats a leader reading; it keeps the day from feeling staged.',
+  poem:{t:"Remember",by:"Christina Rossetti, 1862 · public domain",
+   verse:"Remember me when I am gone away,\n    Gone far away into the silent land;\n    When you can no more hold me by the hand,\nNor I half turn to go yet turning stay.\nRemember me when no more day by day\n    You tell me of our future that you plann'd:\n    Only remember me; you understand\nIt will be late to counsel then or pray.\nYet if you should forget me for a while\n    And afterwards remember, do not grieve:\n    For if the darkness and corruption leave\n    A vestige of the thoughts that once I had,\nBetter by far you should forget and smile\n    Than that you should remember and be sad.",
+   note:'Line twelve is why this is the pick: <em>a vestige of the thoughts that once I had.</em> '+
+        'The poem lands on the same word the flower is named for, and it ends by releasing the room '+
+        'rather than holding it in grief — which is the right note before people go and do something '+
+        'with their hands.'},
+  opts:[
+   {n:"Whitman — <em>Song of Myself</em>, §6",s:"\u201Cthe beautiful uncut hair of graves\u201D",tag:"Public domain",cls:"ok",
+    d:"Warmer and more expansive, less elegiac. Choose this if the tone should lift rather than settle. Slightly long — trim to twelve lines."},
+   {n:"Dickinson — <em>The Bustle in a House</em>",s:"Eight lines, about ninety seconds",tag:"Public domain",cls:"ok",
+    d:"The shortest option and the most severe. Powerful, but it leaves the room heavier than Rossetti does."},
+   {n:"Mary Oliver or Wendell Berry",s:"Frequently requested for this kind of event",tag:"Permission needed",cls:"warn",
+    d:"Both are still in copyright. Reading aloud at a company event needs written permission from the publisher — allow four to six weeks, and have a public-domain backup approved in case it's declined."}]},
+
+ {n:"03",name:"Music performance",clock:"0:06",dur:"6 min",who:"Solo cellist — hired, or from staff",
+  c:"var(--s3)",icon:"cello",
+  blurb:"One formal piece, then quiet underscore.",
+  dir:'One formal piece, seated and still. Then — and this is the part worth insisting on — '+
+      '<strong>the same musician keeps playing quietly underneath the planting.</strong> Sixty people '+
+      'digging in silence is uncomfortable; sixty people digging to a cello is a ceremony. Book the '+
+      'player for the full block, not just the solo.',
+  opts:[
+   {n:"Bach — Cello Suite No. 1 in G, Prélude",s:"Solo cello · 2:30",tag:"Recommended",cls:"pick",
+    d:"Universally recognised without being sentimental, and it carries outdoors better than almost anything else. Follow with the Sarabande underneath the planting."},
+   {n:"Shenandoah",s:"Voice or solo instrument · 3:00",tag:"Traditional",cls:"ok",
+    d:"The local choice — an American river song for a Virginia campus. Sung unaccompanied it will stop the room. Best if you have a genuine singer on staff."},
+   {n:"Contemporary song",s:"Anything under copyright",tag:"Licensing needed",cls:"warn",
+    d:"Live performance of copyrighted music at a company event needs a performance licence unless the property already carries a blanket one. Public-domain and traditional repertoire sidesteps the question entirely."}]},
+
+ {n:"04",name:"The planting",clock:"0:12",dur:"18 min",who:"Facilitator and three garden marshals",
+  c:"var(--s4)",icon:"trowel",
+  blurb:"The reason everyone is here.",
+  dir:'Three minutes of instruction, fifteen of planting and watering. Plants are already set out in '+
+      'position on the soil, so nobody has to make a layout decision — they lift a pot, plant it where '+
+      'it stood, and firm it in. Music continues throughout. Marshals hand out tools, keep the beds '+
+      'moving, and quietly fix anything planted proud.',
+  script:{lbl:"Facilitator — what to say before they start",ps:[
+    "There are about two hundred and ninety plants and roughly sixty of us, so take five each. They're already sitting where they need to go — just lift the pot, dig where it was standing, and put it back in.",
+    "Deep enough that the top of the root ball is level with the soil. Firm it down with your thumbs — pansies like to be tucked in tight. Then water it, which is the last thing we'll do together.",
+    "The planters are waist height, so there's no kneeling unless you want to. Take your time. We're not in a hurry."]}},
+
+ {n:"05",name:"Closing statement",clock:"0:33",dur:"4 min",who:"A different voice from the welcome",
+  c:"var(--s5)",icon:"pansy",
+  blurb:"Releases the room. No dismissal.",
+  dir:'Given standing beside the planted bed, not back at the steps. Ideally somebody closer to '+
+      'patients than to the org chart — medical affairs, patient services, a nurse educator. Then no '+
+      'dismissal: people should be allowed to drift.',
+  script:{lbl:"Draft — approx. 75 seconds",ps:[
+    "That's the last of them in.",
+    "What you've just done took about fifteen minutes and will last about six months. They look small today. They always do. Give them until March.",
+    "I want to say one thing about why we do this outside, with our hands, instead of in a conference room with a slide.",
+    "It's easy to talk about patients. It's harder to do something slow and physical and slightly inconvenient in their memory — and that difficulty is the point. We wanted the day to cost us something small.",
+    "The garden will be here. It doesn't need anything from you except that you notice it on your way in.",
+    "If you'd like to stay a few minutes, please do — there's no next thing. And if you'd like to plant again next year, we'll be right here. Same beds, same flower.",
+    "Thank you for your time, and thank you for your care."]}}
+];
+
+/* ================= timeline ================= */
+var rail=document.getElementById('rail'), detail=document.getElementById('detail'), sel=3;
+
+MOVES.forEach(function(m,i){
+  var b=document.createElement('button');
+  b.type='button'; b.className='step'; b.style.setProperty('--c',m.c);
+  b.setAttribute('role','tab'); b.id='tab-'+i;
+  b.setAttribute('aria-selected',i===sel?'true':'false');
+  b.setAttribute('tabindex',i===sel?'0':'-1');
+  b.innerHTML='<span class="lbl">'+m.n+' STEP</span>'+
+    '<span class="sub">'+m.name+'</span>'+
+    '<span class="blurb">'+m.blurb+'</span>'+
+    '<span class="tri"></span><span class="conn"></span><span class="dot"></span>'+
+    '<span class="ico">'+ICONS[m.icon]+'</span>';
+  b.addEventListener('click',function(){ select(i); });
+  b.addEventListener('keydown',function(e){
+    var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+    if(!d)return;
+    e.preventDefault();
+    select((i+d+MOVES.length)%MOVES.length,true);
+  });
+  rail.appendChild(b);
+});
+
+function esc(s){return s;}
+function renderDetail(m){
+  var right='';
+  if(m.script){
+    right+='<div class="script"><div class="lbl">'+m.script.lbl+'</div>'+
+       m.script.ps.map(function(p){return '<p>'+p+'</p>';}).join('')+'</div>';
+  }
+  if(m.poem){
+    right+='<div class="poem"><div class="pt">'+m.poem.t+'</div>'+
+       '<div class="pby">'+m.poem.by+'</div>'+
+       '<div class="verse">'+m.poem.verse+'</div>'+
+       '<p class="pn">'+m.poem.note+'</p></div>';
+  }
+  if(m.opts){
+    right+='<ul class="opts">'+m.opts.map(function(o){
+      return '<li><span class="on">'+o.n+'<span class="os">'+o.s+'</span></span>'+
+        '<span class="tag '+o.cls+'">'+o.tag+'</span>'+
+        '<span class="od">'+o.d+'</span></li>';
+    }).join('')+'</ul>';
+  }
+  var h='<div class="dhead"><h3>'+m.name+'</h3>'+
+    '<span class="chip t">'+m.clock+' · '+m.dur+'</span>'+
+    '<span class="chip">'+m.who+'</span></div>'+
+    '<div class="dbody"><p class="dir">'+m.dir+'</p><div class="dcol">'+right+'</div></div>';
+  detail.innerHTML=h;
+  detail.style.setProperty('--c',m.c);
+  detail.setAttribute('aria-labelledby','tab-'+MOVES.indexOf(m));
+}
+function select(i,focus){
+  sel=i;
+  [].forEach.call(rail.children,function(c,j){
+    c.setAttribute('aria-selected',j===i?'true':'false');
+    c.setAttribute('tabindex',j===i?'0':'-1');
+  });
+  renderDetail(MOVES[i]);
+  if(focus)rail.children[i].focus();
+}
+select(sel);
+
+/* keep the axis line aligned with the centre of the step dots */
+function placeAxis(){
+  var dot=rail.querySelector('.dot');
+  if(!dot||!dot.offsetParent){rail.style.setProperty('--axis','-999px');return;}
+  var r=dot.getBoundingClientRect(), rr=rail.getBoundingClientRect();
+  rail.style.setProperty('--axis',(r.top-rr.top+r.height/2)+'px');
+}
+var axisEl=document.createElement('span');
+axisEl.className='axis'; rail.appendChild(axisEl);
+placeAxis();
+window.addEventListener('resize',placeAxis);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(placeAxis);
+
+document.getElementById('btnPrint').addEventListener('click',function(){window.print();});
+
+/* ================= the mockup viewer ================= */
 function rng(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);
   t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
-/* ---------------- geometry: the entry planter, drawn frontally ---------------- */
+var PERI="#7A7AF0";
 var SCENE={groundY:470,bedX:600,bedW:182,ppf:24};
 var PLAZA=560, photoURL=null;
 function ft2px(f){return f*SCENE.ppf;}
@@ -615,7 +668,6 @@ var SEASONS=[
  {id:"mar",label:"Late March",cap:"Peak. A closed carpet of flower, roughly six months after the ceremony. Deadheading in late February is what gets you here — assign it to a named person."}
 ];
 var GROWTH={oct:{size:.58,fl:1.0},jan:{size:.82,fl:2.2},mar:{size:1.0,fl:4.4}};
-
 var PALETTES=[
  {id:"wv",label:"White + violet",
   cap:"Recommended. Two colours in drifts read as a decision. Roughly two-thirds white to one-third violet.",
@@ -632,10 +684,8 @@ var PETAL={
   y:{p:"#E3B23C",e:"#C08E1E"}, o:{p:"#D9702F",e:"#B0521B"}, b:{p:"#3E5A96",e:"#2A3F6F"}
 };
 
-/* ---------------- pansy renderer ---------------- */
 function pansyFlower(x,y,r,kind){
   var c=PETAL[kind]||PETAL.w, o='',i,a;
-  /* five petals as overlapping circles, then the dark blotch and yellow eye */
   for(i=0;i<5;i++){
     a=-Math.PI/2+i*(Math.PI*2/5);
     o+='<circle cx="'+(x+Math.cos(a)*r*.52).toFixed(2)+'" cy="'+(y+Math.sin(a)*r*.52).toFixed(2)+
@@ -650,19 +700,17 @@ function pansyFlower(x,y,r,kind){
 }
 function pansyPlant(x,base,size,nFlowers,kind,rnd,trail){
   var o='',i,a,d,fx,fy,r;
-  /* foliage mound */
   for(i=0;i<9;i++){
     a=rnd()*Math.PI*2; d=Math.sqrt(rnd());
     o+='<circle cx="'+(x+Math.cos(a)*size*.48*d).toFixed(1)+'" cy="'+
        (base-size*.22+Math.sin(a)*size*.20*d).toFixed(1)+'" r="'+(size*.20*(.7+rnd()*.6)).toFixed(1)+
        '" fill="'+(i%3?"#3E6438":"#2C4A2A")+'"/>';
   }
-  if(trail){ /* Cool Wave habit: a little spill over the front edge */
+  if(trail){
     for(i=0;i<3;i++)
       o+='<circle cx="'+(x+(rnd()-.5)*size*.8).toFixed(1)+'" cy="'+(base+size*(.18+rnd()*.42)).toFixed(1)+
          '" r="'+(size*.15).toFixed(1)+'" fill="#3E6438"/>';
   }
-  /* flowers held just above the foliage */
   r=Math.max(1.6,size*.32);
   for(i=0;i<nFlowers;i++){
     fx=x+(rnd()-.5)*size*.82;
@@ -673,8 +721,8 @@ function pansyPlant(x,base,size,nFlowers,kind,rnd,trail){
 }
 function plantedBed(seasonId,palette,rnd){
   var g=SCENE.groundY, hw=SCENE.bedW/2, G=GROWTH[seasonId];
-  var plantW=ft2px(0.64)*G.size;              /* ~7.5 in. spread at this season */
-  var stepX=Math.max(7,ft2px(0.54));           /* 6-7 in. on centre */
+  var plantW=ft2px(0.64)*G.size;
+  var stepX=Math.max(7,ft2px(0.54));
   var cols=Math.max(3,Math.floor(SCENE.bedW/stepX));
   var rows=[{dy:-10,s:.82},{dy:-3,s:.90},{dy:5,s:.98},{dy:13,s:1.06}];
   var o='',ri,ci,x,base,kind,nf,size;
@@ -686,13 +734,11 @@ function plantedBed(seasonId,palette,rnd){
       size=plantW*rows[ri].s;
       kind=palette.mix(rnd,ci+ri*3);
       nf=Math.max(1,Math.round(G.fl*(.6+rnd()*.9)));
-      o+=pansyPlant(x,base,size,nf,kind,rnd,ri===2&&seasonId==="mar");
+      o+=pansyPlant(x,base,size,nf,kind,rnd,ri===3&&seasonId==="mar");
     }
   }
   return o;
 }
-
-/* ---------------- the entry, drawn from photo 3 ---------------- */
 function stoneCourses(x,y,w,h,seed){
   var rnd=rng(seed),o='',cy,cx,ch=17,cw;
   o+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="#C6C3B9"/>';
@@ -725,7 +771,7 @@ function facade(){
      '<stop offset="0" stop-color="#8FA6B4"/><stop offset=".5" stop-color="#63798A"/>'+
      '<stop offset="1" stop-color="#4E626F"/></linearGradient>'+
      '<pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'+
-     '<line x1="0" y1="0" x2="0" y2="9" stroke="var(--violet)" stroke-width="2.4" opacity=".3"/></pattern></defs>';
+     '<line x1="0" y1="0" x2="0" y2="9" stroke="'+PERI+'" stroke-width="2.4" opacity=".35"/></pattern></defs>';
   o+='<rect width="1200" height="'+PLAZA+'" fill="url(#glass)"/>';
   for(c=0;c<1200;c+=62)for(r=0;r<PLAZA;r+=70){
     if(rnd()<.30)o+='<rect x="'+c+'" y="'+r+'" width="62" height="70" fill="#A8C0CE" opacity="'+
@@ -735,7 +781,6 @@ function facade(){
   }
   for(c=0;c<=1200;c+=62)o+='<rect x="'+(c-1.5)+'" y="0" width="3" height="'+PLAZA+'" fill="#2A3033"/>';
   for(r=0;r<=PLAZA;r+=70)o+='<rect x="0" y="'+(r-1.5)+'" width="1200" height="3" fill="#2A3033"/>';
-  /* stone-clad entry canopy and recessed doors */
   o+=stoneCourses(20,236,450,62,11);
   o+='<rect x="20" y="230" width="450" height="8" fill="#DAD7CD"/>'+
      '<rect x="20" y="298" width="450" height="7" fill="#00000030"/>'+
@@ -745,23 +790,19 @@ function facade(){
      '<rect x="150" y="352" width="180" height="'+(PLAZA-352)+'" fill="none" stroke="#7E8C93" stroke-width="4"/>'+
      '<rect x="238" y="352" width="5" height="'+(PLAZA-352)+'" fill="#7E8C93"/>'+
      '<path d="M160 '+(PLAZA-6)+'L322 366" stroke="#93A6AE" stroke-width="12" opacity=".28"/>';
-  /* right-hand retaining wall and its ground-level bed */
   o+=stoneCourses(780,472,420,PLAZA-472,23);
   o+='<rect x="776" y="462" width="424" height="12" fill="#DAD7CD"/>'+
      '<rect x="780" y="440" width="420" height="24" fill="#5A4436"/>'+
      '<rect x="780" y="440" width="420" height="24" fill="#2A1E16" opacity=".22"/>';
-  /* plaza paving */
   o+='<rect x="0" y="'+PLAZA+'" width="1200" height="'+(675-PLAZA)+'" fill="#B9B6AE"/>'+
      '<rect x="0" y="'+PLAZA+'" width="1200" height="3" fill="#00000022"/>';
   for(i=1;i<8;i++)o+='<rect x="'+(i*150)+'" y="'+PLAZA+'" width="2" height="'+(675-PLAZA)+'" fill="#00000010"/>';
   for(i=1;i<3;i++)o+='<rect x="0" y="'+(PLAZA+i*38)+'" width="1200" height="2" fill="#00000010"/>';
-  /* steps and handrail */
   o+='<path d="M44 '+PLAZA+'L446 '+PLAZA+'L470 '+(PLAZA+46)+'L20 '+(PLAZA+46)+'Z" fill="#C3C0B7"/>'+
      '<path d="M36 '+(PLAZA+16)+'L458 '+(PLAZA+16)+'" stroke="#00000018" stroke-width="2"/>'+
      '<path d="M28 '+(PLAZA+31)+'L464 '+(PLAZA+31)+'" stroke="#00000018" stroke-width="2"/>'+
      '<path d="M410 '+(PLAZA-2)+'L410 484M452 '+(PLAZA+44)+'L452 500" stroke="#2E3438" stroke-width="6"/>'+
      '<path d="M404 484L458 500" stroke="#2E3438" stroke-width="6" stroke-linecap="round"/>';
-  /* the blue bench under the canopy */
   o+='<g><rect x="62" y="486" width="126" height="9" rx="2" fill="#2C5FA8"/>'+
      '<rect x="62" y="498" width="126" height="7" rx="2" fill="#2C5FA8"/>'+
      '<rect x="62" y="464" width="126" height="8" rx="2" fill="#2C5FA8"/>'+
@@ -799,12 +840,12 @@ function existingPlanting(){
 function zoneOverlay(){
   var hw=SCENE.bedW/2, g=SCENE.groundY, lx=SCENE.bedX, ly=g-16;
   return '<g><ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="url(#hatch)"/>'+
-   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="var(--violet)" opacity=".13"/>'+
-   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="none" stroke="var(--violet)" '+
+   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="'+PERI+'" opacity=".16"/>'+
+   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="none" stroke="'+PERI+'" '+
    'stroke-width="3.5" stroke-dasharray="11 7"/>'+
-   '<line x1="'+lx+'" y1="'+ly+'" x2="'+lx+'" y2="'+(ly-58)+'" stroke="var(--violet)" stroke-width="2"/>'+
-   '<circle cx="'+lx+'" cy="'+ly+'" r="4" fill="var(--violet)"/>'+
-   '<rect x="'+(lx-236)+'" y="'+(ly-94)+'" width="236" height="36" fill="var(--violet)"/>'+
+   '<line x1="'+lx+'" y1="'+ly+'" x2="'+lx+'" y2="'+(ly-58)+'" stroke="'+PERI+'" stroke-width="2"/>'+
+   '<circle cx="'+lx+'" cy="'+ly+'" r="4" fill="'+PERI+'"/>'+
+   '<rect x="'+(lx-236)+'" y="'+(ly-94)+'" width="236" height="36" rx="4" fill="'+PERI+'"/>'+
    '<text x="'+(lx-118)+'" y="'+(ly-79)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
    'font-size="11.5" letter-spacing="1.5" fill="#fff">ZONE 1 · ENTRY PLANTER</text>'+
    '<text x="'+(lx-118)+'" y="'+(ly-65)+'" text-anchor="middle" font-family="ui-monospace,monospace" '+
@@ -833,10 +874,8 @@ function plaque(){
   return '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="#7A6034"/>'+
          '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="none" stroke="#5E4A28"/>';
 }
-
-/* ---------------- assembly ---------------- */
 function backdrop(){
-  if(photoURL)return '<rect width="1200" height="675" fill="var(--sky-b)"/>'+
+  if(photoURL)return '<rect width="1200" height="675" fill="#0F1424"/>'+
     '<image href="'+photoURL+'" x="0" y="0" width="1200" height="675" preserveAspectRatio="xMidYMid slice"/>';
   return facade();
 }
@@ -862,34 +901,32 @@ function renderAfter(seasonId,palette,opt){
   return svgWrap(o);
 }
 
-/* ---------------- state + wiring ---------------- */
-var state={season:2,pal:0,zone:true,scale:true,pos:50};
+var vstate={season:2,pal:0,zone:true,scale:true,pos:50};
 var beforeLayer=document.getElementById('beforeLayer'),
     afterLayer=document.getElementById('afterLayer'),
     stage=document.getElementById('stage'),
     handle=document.getElementById('handle'),
     cap=document.getElementById('cap');
-
 function draw(){
-  var opt={zone:state.zone,scale:state.scale};
+  var opt={zone:vstate.zone,scale:vstate.scale};
   beforeLayer.innerHTML=renderBefore(opt);
-  afterLayer.innerHTML=renderAfter(SEASONS[state.season].id,PALETTES[state.pal],opt);
-  cap.textContent=SEASONS[state.season].cap+"  "+PALETTES[state.pal].cap;
+  afterLayer.innerHTML=renderAfter(SEASONS[vstate.season].id,PALETTES[vstate.pal],opt);
+  cap.textContent=SEASONS[vstate.season].cap+"  "+PALETTES[vstate.pal].cap;
 }
 function setPos(p){
-  state.pos=Math.max(0,Math.min(100,p));
-  stage.style.setProperty('--pos',state.pos+'%');
-  handle.style.left=state.pos+'%';
-  afterLayer.style.setProperty('--pos',state.pos+'%');
-  handle.setAttribute('aria-valuenow',Math.round(state.pos));
+  vstate.pos=Math.max(0,Math.min(100,p));
+  stage.style.setProperty('--pos',vstate.pos+'%');
+  handle.style.left=vstate.pos+'%';
+  afterLayer.style.setProperty('--pos',vstate.pos+'%');
+  handle.setAttribute('aria-valuenow',Math.round(vstate.pos));
 }
 function buildSeg(el,items,key){
   items.forEach(function(it,i){
     var b=document.createElement('button');
     b.type='button'; b.textContent=it.label;
-    b.setAttribute('aria-pressed',i===state[key]?'true':'false');
+    b.setAttribute('aria-pressed',i===vstate[key]?'true':'false');
     b.addEventListener('click',function(){
-      state[key]=i;
+      vstate[key]=i;
       [].forEach.call(el.children,function(c,j){c.setAttribute('aria-pressed',j===i?'true':'false');});
       draw();
     });
@@ -900,7 +937,7 @@ buildSeg(document.getElementById('segSeason'),SEASONS,'season');
 buildSeg(document.getElementById('segPal'),PALETTES,'pal');
 [['cbZone','zone'],['cbScale','scale']].forEach(function(p){
   document.getElementById(p[0]).addEventListener('change',function(e){
-    state[p[1]]=e.target.checked; draw();
+    vstate[p[1]]=e.target.checked; draw();
   });
 });
 function fromEvent(e){
@@ -916,8 +953,8 @@ stage.addEventListener('pointerup',function(e){ dragging=false; try{stage.releas
 stage.addEventListener('pointercancel',function(){dragging=false;});
 handle.addEventListener('keydown',function(e){
   var d=e.shiftKey?10:3;
-  if(e.key==='ArrowLeft'){setPos(state.pos-d);e.preventDefault();}
-  else if(e.key==='ArrowRight'){setPos(state.pos+d);e.preventDefault();}
+  if(e.key==='ArrowLeft'){setPos(vstate.pos-d);e.preventDefault();}
+  else if(e.key==='ArrowRight'){setPos(vstate.pos+d);e.preventDefault();}
   else if(e.key==='Home'){setPos(0);e.preventDefault();}
   else if(e.key==='End'){setPos(100);e.preventDefault();}
 });
