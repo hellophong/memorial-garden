@@ -55,12 +55,6 @@ p{margin:0}
 .epi q{quotes:none;font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;display:block}
 .epi cite{display:block;margin-top:10px;font-family:var(--cond);font-size:12px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--ink-faint);font-style:normal}
-.meta{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:38px;
-  border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
-.meta div{padding:16px 18px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
-.meta dt{font-family:var(--cond);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
-  color:var(--ink-faint);margin-bottom:6px}
-.meta dd{margin:0;font-family:var(--cond);font-size:20px;letter-spacing:.02em}
 
 /* ---------- sections ---------- */
 section{padding:clamp(50px,6vw,82px) 0;border-bottom:1px solid var(--rule)}
@@ -174,7 +168,6 @@ tbody tr:last-child td{border-bottom:0}
 
 @media (max-width:900px){
   .herogrid{grid-template-columns:1fr}
-  .meta{grid-template-columns:repeat(2,1fr)}
   .rail{grid-template-columns:1fr;gap:10px;margin-top:34px}
   .axis{display:none}
   .step{flex-direction:row;align-items:center;text-align:left;gap:16px;padding:14px 16px;
@@ -212,13 +205,6 @@ tbody tr:last-child td{border-bottom:0}
       <cite>Ophelia — Hamlet, Act IV Scene v</cite>
     </div>
   </div>
-  <dl class="meta">
-    <div><dt>Duration</dt><dd>60 min</dd></div>
-    <div><dt>Guests</dt><dd>50–60</dd></div>
-    <div><dt>Plants</dt><dd>≈ 290</dd></div>
-    <div><dt>Zones</dt><dd>3 · 82 sq ft</dd></div>
-    <div><dt>Equinox</dt><dd>That evening</dd></div>
-  </dl>
 </header>
 
 <section id="ceremony">
