@@ -18,7 +18,6 @@
   --on-dark:rgba(255,255,255,.28);
   --on-light:rgba(17,17,17,.20);
   --sans:Helvetica,Arial,"Liberation Sans",sans-serif;
-  --lap:72px;   /* how far each band rides up over the one before it */
   --headpad:clamp(26px,3vw,44px);
 }
 *{box-sizing:border-box}
@@ -34,23 +33,22 @@ p{margin:0}
 /* The top radius is what makes the lap read as one card riding over another;
    without it a full-width rectangle over a full-width rectangle has the same
    silhouette as a flush stack, and only the shadow hints at the overlap. */
-.item{position:relative;margin-top:calc(var(--lap) * -1);overflow:hidden;
+.item{position:relative;margin-top:0;overflow:hidden;
   border-radius:clamp(16px,1.8vw,26px) clamp(16px,1.8vw,26px) 0 0;
   box-shadow:0 -16px 34px rgba(17,17,17,.20)}
 .item:first-child{margin-top:0;box-shadow:none}
 .item.open{z-index:6}
-.item.open + .item{margin-top:0}
 
 /* band head — always visible */
 .head{width:100%;appearance:none;border:0;cursor:pointer;font-family:inherit;text-align:left;
-  display:grid;grid-template-columns:auto minmax(0,1.9fr) minmax(0,1fr) auto;
+  display:grid;grid-template-columns:auto minmax(0,2.05fr) minmax(0,.85fr) auto auto;
   align-items:center;gap:clamp(14px,2.6vw,38px);
-  padding:var(--headpad) clamp(18px,3vw,40px) calc(var(--headpad) + var(--lap));
+  padding:var(--headpad) clamp(18px,3vw,40px);
   background:var(--bg);color:var(--fg)}
 .head:focus-visible{outline:3px solid var(--focus);outline-offset:-4px}
 /* the home band carries a full date rather than a clock time, so it needs a
    wider title column and a smaller eyebrow to keep the line intact */
-.head.home{grid-template-columns:auto minmax(0,2.4fr) minmax(0,.72fr) auto}
+.head.home{grid-template-columns:auto minmax(0,2.4fr) minmax(0,.72fr) auto auto}
 .head.home .time{font-size:clamp(13px,1.6vw,20px);letter-spacing:.16em;
   text-transform:uppercase;white-space:nowrap}
 .num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
@@ -61,6 +59,12 @@ p{margin:0}
 .name{font-size:clamp(44px,7.7vw,108px);font-weight:700;letter-spacing:-.042em;line-height:.98;
   margin-top:4px}
 .desc{font-size:16.5px;line-height:1.45;opacity:.86;min-width:0}
+/* One flat mark per movement, stroked in the band's own text colour so it
+   inverts with the band. Decorative -- the name carries the meaning. */
+.ico{display:block;flex:none;width:clamp(46px,5.2vw,72px);height:clamp(46px,5.2vw,72px)}
+.ico svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ico .sld{fill:currentColor;stroke:none}
 .mark{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;
   border:1.5px solid currentColor;font-size:19px;transition:transform .22s ease}
 .item.open .mark{transform:rotate(90deg)}
@@ -115,17 +119,23 @@ p{margin:0}
   color:var(--mute)}
 
 @media (max-width:820px){
-  :root{--lap:44px;--headpad:20px}
-  /* the bottom pad must keep carrying the lap here too, or the band below
-     rides up over the name instead of over the padding beneath it */
-  .head{grid-template-columns:auto minmax(0,1fr) auto;gap:16px;
-    padding:var(--headpad) clamp(16px,4vw,24px) calc(var(--headpad) + var(--lap))}
+  :root{--headpad:20px}
+  .head{grid-template-columns:auto minmax(0,1fr) auto auto;gap:14px;
+    padding:var(--headpad) clamp(16px,4vw,24px)}
   .desc{display:none}
   .homegrid{grid-template-columns:1fr}
   /* the full date is one unbreakable line on desktop; at this width it is
      wider than the viewport, so let it wrap rather than scroll the page */
   .head.home .time{white-space:normal}
-  .head.home{grid-template-columns:auto minmax(0,1fr) auto}
+  .head.home{grid-template-columns:auto minmax(0,1fr) auto auto}
+}
+/* On a phone the head cannot carry the index, the name at full size and the
+   icon at once. The index is the least informative of the three -- it only
+   restates the order the bands are already in -- so it goes first. */
+@media (max-width:560px){
+  .num{display:none}
+  .head,.head.home{grid-template-columns:minmax(0,1fr) auto auto;gap:12px}
+  .ico{width:42px;height:42px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -253,6 +263,48 @@ function skin(el,i){
 }
 
 
+/* 24x24 grid, stroked in currentColor so each mark inverts with its band. */
+var ICONS={
+ /* the emblem: two upper petals, two side, one broad lower lip */
+ pansy:'<circle cx="9.2" cy="7.6" r="3.2"/><circle cx="14.8" cy="7.6" r="3.2"/>'+
+       '<circle cx="6.4" cy="13" r="3.1"/><circle cx="17.6" cy="13" r="3.1"/>'+
+       '<circle cx="12" cy="17.2" r="3.8"/>'+
+       '<circle class="sld" cx="12" cy="11.8" r="1.7"/>',
+ /* people arriving */
+ group:'<circle cx="12" cy="6.6" r="2.5"/>'+
+       '<path d="M7.8 15.4a4.2 4.2 0 0 1 8.4 0"/>'+
+       '<circle cx="5.2" cy="12.4" r="2.2"/>'+
+       '<path d="M1.4 20.4a3.8 3.8 0 0 1 7.6 0"/>'+
+       '<circle cx="18.8" cy="12.4" r="2.2"/>'+
+       '<path d="M15 20.4a3.8 3.8 0 0 1 7.6 0"/>',
+ /* the equinox: light and dark in equal measure */
+ equinox:'<circle cx="12" cy="12" r="8"/><path class="sld" d="M12 4a8 8 0 0 1 0 16z"/>',
+ /* trowel */
+ trowel:'<rect x="10.4" y="2.2" width="3.2" height="5.2" rx="1.6"/>'+
+        '<path d="M12 7.4v3"/>'+
+        '<path d="M7.4 13.6c0-1.9 2.1-3.2 4.6-3.2s4.6 1.3 4.6 3.2'+
+        'c0 2.7-2.6 5.3-4.6 7.1c-2-1.8-4.6-4.4-4.6-7.1z"/>',
+ /* the poem, read once */
+ book:'<path d="M12 7.6C10 6 7.4 5.3 4.5 5.3v12c2.9 0 5.5.7 7.5 2.3"/>'+
+      '<path d="M12 7.6c2-1.6 4.6-2.3 7.5-2.3v12c-2.9 0-5.5.7-7.5 2.3"/>'+
+      '<path d="M12 7.6v12"/>',
+ /* the cello, played into the quiet */
+ note:'<ellipse class="sld" cx="9" cy="17.4" rx="3.3" ry="2.5" '+
+      'transform="rotate(-20 9 17.4)"/><path d="M12.2 17.2V4.6"/>'+
+      '<path d="M12.2 4.6c2.7 1.1 4.6 2.8 4.6 5.4"/>',
+ /* the plaque, staked */
+ plaque:'<rect x="4" y="4" width="16" height="10" rx="1.2"/>'+
+        '<path d="M7.4 8h9.2"/><path d="M7.4 11h6"/>'+
+        '<path d="M12 14v6"/><path d="M7.6 20h8.8"/>',
+ /* what stays in the ground after everyone goes back inside */
+ bloom:'<circle cx="9.7" cy="6.4" r="2.4"/><circle cx="14.3" cy="6.4" r="2.4"/>'+
+       '<circle cx="12" cy="10" r="2.4"/><circle class="sld" cx="12" cy="7.6" r="1"/>'+
+       '<path d="M12 12.2v7.3"/>'+
+       '<path d="M12 16.4c-2.3 0-3.8-1.5-3.8-3.4 2 0 3.8 1.4 3.8 3.4z"/>'+
+       '<path d="M5 19.5h14"/>'
+};
+var ICON_ORDER=['pansy','group','equinox','trowel','book','note','plaque','bloom'];
+
 var stack=document.getElementById('stack'), open=0;
 
 function bodyHTML(m){
@@ -286,6 +338,8 @@ ITEMS.forEach(function(m,i){
     '<span class="tn"><span class="time">'+m.time+'</span>'+
       '<span class="name">'+m.name+'</span></span>'+
     '<span class="desc">'+m.desc+'</span>'+
+    '<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24">'+
+      ICONS[ICON_ORDER[i]]+'</svg></span>'+
     '<span class="mark" aria-hidden="true">&#8250;</span>';
   var body=document.createElement('div');
   body.className='body'; body.id='b-'+i;
@@ -303,6 +357,30 @@ ITEMS.forEach(function(m,i){
   stack.appendChild(item);
 });
 
+/* Each band rides up over a quarter of the header above it. That header also
+   carries an extra bottom pad equal to the lap, so what gets covered is
+   padding rather than the name. Solving L = 0.25 * (H + L) for the natural
+   header height H gives L = H/3 -- a third of the unpadded header is exactly
+   a quarter of the padded one. Measured per band, since the home band's
+   header is much taller than a movement's. */
+function layout(){
+  var items=[].slice.call(stack.children);
+  items.forEach(function(it){
+    it.style.marginTop='0px';
+    it.querySelector('.head').style.paddingBottom='';
+  });
+  var laps=items.map(function(it){
+    return Math.round(it.querySelector('.head').getBoundingClientRect().height/3);
+  });
+  items.forEach(function(it,i){
+    var isOpen=it.classList.contains('open'), nx=items[i+1];
+    if(!isOpen)
+      it.querySelector('.head').style.paddingBottom=
+        'calc(var(--headpad) + '+laps[i]+'px)';
+    if(nx) nx.style.marginTop=(isOpen?0:-laps[i])+'px';
+  });
+}
+
 function setOpen(i){
   open=i;
   [].forEach.call(stack.children,function(el,j){
@@ -310,7 +388,10 @@ function setOpen(i){
     el.classList.toggle('open',on);
     el.querySelector('.head').setAttribute('aria-expanded',on?'true':'false');
   });
+  layout();
 }
 setOpen(0);   /* home band open at full height by default */
+
+var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(layout,120);});
 })();
 </script>
