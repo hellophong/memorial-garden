@@ -21,7 +21,6 @@ body{margin:0;background:var(--paper-2);color:var(--ink);font-family:var(--body)
 h1,h2,h3,h4{margin:0;font-family:var(--cond);font-weight:600;letter-spacing:.005em;
   text-transform:uppercase;text-wrap:balance;line-height:1.05}
 p{margin:0}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .shell{max-width:1280px;margin:0 auto;background:var(--paper);
   box-shadow:0 1px 0 var(--rule),0 30px 80px rgba(19,19,19,.07)}
 .pad{padding:0 clamp(20px,4.4vw,72px)}
@@ -141,59 +140,6 @@ section:last-of-type{border-bottom:0}
 .tag.warn{color:var(--coral);border-color:var(--coral)}
 .tag.pick{color:#fff;background:var(--coral);border-color:var(--coral)}
 
-/* ---------- viewer ---------- */
-.viewer{margin-top:34px;border:1px solid var(--rule);background:var(--paper)}
-.stage{position:relative;user-select:none;touch-action:none;cursor:ew-resize;
-  background:var(--paper-2);overflow:hidden}
-.stage>svg{display:block;width:100%;height:auto}
-.layer{position:absolute;inset:0}
-.layer svg{width:100%;height:100%}
-#afterLayer{clip-path:inset(0 0 0 var(--pos,50%))}
-.vtab{position:absolute;top:16px;font-family:var(--cond);font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;padding:7px 14px;border-radius:100px;pointer-events:none;
-  background:rgba(255,255,255,.9);color:var(--ink)}
-.vtab.l{left:16px}
-.vtab.r{right:16px;background:var(--coral);color:#fff}
-.handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;
-  box-shadow:0 0 0 1px rgba(0,0,0,.35);transform:translateX(-1px);cursor:ew-resize}
-.handle:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
-.grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;
-  border-radius:50%;background:#fff;box-shadow:0 3px 14px rgba(0,0,0,.3);display:grid;
-  place-items:center;color:var(--ink);font-family:var(--mono);font-size:13px}
-.vctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));border-top:1px solid var(--rule)}
-.vc{padding:16px 20px 18px;border-right:1px solid var(--rule-2)}
-.vc:last-child{border-right:0}
-.vc>label{display:block;font-family:var(--cond);font-size:11px;letter-spacing:.17em;
-  text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
-.seg{display:flex;border:1px solid var(--rule);border-radius:100px;overflow:hidden}
-.seg button{flex:1;appearance:none;border:0;background:var(--paper);color:var(--ink-soft);
-  font-family:var(--cond);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-  padding:10px 4px;cursor:pointer;border-right:1px solid var(--rule-2)}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--coral);color:#fff}
-.seg button:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
-.checks{display:flex;flex-wrap:wrap;gap:8px}
-.chk{display:inline-flex;align-items:center;gap:7px;font-family:var(--cond);font-size:12px;
-  letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--rule);padding:8px 12px;
-  border-radius:100px;cursor:pointer;color:var(--ink-soft)}
-.chk input{accent-color:var(--coral);margin:0}
-.chk:has(input:checked){border-color:var(--coral);color:var(--ink)}
-.chk:has(input:focus-visible){outline:2px solid var(--coral);outline-offset:2px}
-.cap{padding:15px 20px;border-top:1px solid var(--rule-2);font-size:13.5px;line-height:1.6;
-  color:var(--ink-soft)}
-.drop{margin-top:20px;border:1px dashed var(--rule);padding:18px 20px;background:var(--paper-3)}
-.drop .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.btn{font-family:var(--cond);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
-  padding:11px 20px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;
-  border-radius:100px}
-.btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--rule)}
-.btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
-.tuners{display:none;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:18px}
-.tuners.on{display:grid}
-.tune label{display:block;font-family:var(--cond);font-size:11px;letter-spacing:.15em;
-  text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
-.tune input[type=range]{width:100%;accent-color:var(--coral)}
-
 /* ---------- cards / tables / flags ---------- */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;margin-top:38px;
   background:var(--rule-2);border:1px solid var(--rule)}
@@ -247,8 +193,8 @@ tbody tr:last-child td{border-bottom:0}
 <nav class="nav">
   <span class="wordmark">Rooted in Gratitude</span>
   <a href="#ceremony" aria-current="true">Ceremony</a>
-  <a href="#garden">Garden</a>
   <a href="#logistics">Logistics</a>
+  <a href="#runofshow">Run of show</a>
   <a href="#plants">Plants</a>
   <button class="pill" type="button" id="btnPrint">Print program</button>
 </nav>
@@ -284,58 +230,8 @@ tbody tr:last-child td{border-bottom:0}
   <div class="detail" id="detail" role="tabpanel" tabindex="0"></div>
 </section>
 
-<section id="garden">
-  <div class="shead"><span class="n">02</span><h2>What it will look like</h2></div>
-  <p class="sdesc">Drag to wipe between the entry planter as it stands and the same planter once
-    it's planted. The season control matters most — winter pansies go in looking sparse, hold
-    through midwinter, and peak in March. Managing that expectation on the day is most of the job.</p>
-  <div class="viewer">
-    <div class="stage" id="stage">
-      <svg id="sizer" viewBox="0 0 1200 675" aria-hidden="true"></svg>
-      <div class="layer" id="beforeLayer"></div>
-      <div class="layer" id="afterLayer"></div>
-      <span class="vtab l">Before</span>
-      <span class="vtab r">Planted</span>
-      <div class="handle" id="handle" role="slider" tabindex="0" aria-label="Reveal the planted bed"
-           aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span class="grip">◀ ▶</span></div>
-    </div>
-    <div class="vctl">
-      <div class="vc"><label id="lblSeason">Season</label>
-        <div class="seg" role="group" aria-labelledby="lblSeason" id="segSeason"></div></div>
-      <div class="vc"><label id="lblPal">Colour palette</label>
-        <div class="seg" role="group" aria-labelledby="lblPal" id="segPal"></div></div>
-      <div class="vc"><label>Overlays</label>
-        <div class="checks">
-          <label class="chk"><input type="checkbox" id="cbZone" checked> Zone outline</label>
-          <label class="chk"><input type="checkbox" id="cbScale" checked> Scale figure</label>
-        </div></div>
-    </div>
-    <div class="cap" id="cap"></div>
-  </div>
-  <div class="drop">
-    <div class="row">
-      <button class="btn" id="btnPhoto" type="button">Load your site photo</button>
-      <input type="file" id="filePhoto" accept="image/*" hidden>
-      <button class="btn ghost" id="btnClear" type="button" hidden>Back to elevation</button>
-      <p id="photoMsg" style="font-size:13.5px;color:var(--ink-soft);flex:1;min-width:220px;line-height:1.55">
-        Load any of the three marked photos and the pansies render straight over it. Your image
-        never leaves this browser.</p>
-    </div>
-    <div class="tuners" id="tuners">
-      <div class="tune"><label>Planter top <span class="mono" id="vGround"></span></label>
-        <input type="range" id="rGround" min="180" max="660" value="470"></div>
-      <div class="tune"><label>Position <span class="mono" id="vBedX"></span></label>
-        <input type="range" id="rBedX" min="40" max="1160" value="600"></div>
-      <div class="tune"><label>Planter width <span class="mono" id="vBedW"></span></label>
-        <input type="range" id="rBedW" min="80" max="900" value="182"></div>
-      <div class="tune"><label>Scale <span class="mono" id="vPpf"></span></label>
-        <input type="range" id="rPpf" min="4" max="46" value="24"></div>
-    </div>
-  </div>
-</section>
-
 <section id="logistics">
-  <div class="shead"><span class="n">03</span><h2>Making the planting work</h2></div>
+  <div class="shead"><span class="n">02</span><h2>Making the planting work</h2></div>
   <p class="sdesc">Twenty minutes, sixty untrained people, and a bed that has to look deliberate
     afterwards. This is the segment that fails if nobody plans it.</p>
   <div class="cards">
@@ -377,8 +273,8 @@ tbody tr:last-child td{border-bottom:0}
   </div>
 </section>
 
-<section>
-  <div class="shead"><span class="n">04</span><h2>Run of show</h2></div>
+<section id="runofshow">
+  <div class="shead"><span class="n">03</span><h2>Run of show</h2></div>
   <p class="sdesc">Everything before noon is crew only.</p>
   <div class="twrap">
     <table>
@@ -401,10 +297,11 @@ tbody tr:last-child td{border-bottom:0}
 </section>
 
 <section id="plants">
-  <div class="shead"><span class="n">05</span><h2>The plant order</h2></div>
+  <div class="shead"><span class="n">04</span><h2>The plant order</h2></div>
   <p class="sdesc">Two colours, not a mix. A restrained white-and-violet planting reads as
     deliberate; a rainbow flat reads as a garden centre — and on a memorial planting that difference
-    is the whole thing. Toggle the palette in the viewer above to see it.</p>
+    is the whole thing. Order the two cultivars separately so the crew can drift them
+    rather than mixing on site.</p>
   <div class="twrap">
     <table>
       <thead><tr><th>Zone</th><th>Area</th><th>Cultivar</th><th>Size</th><th>Qty</th><th>Why</th></tr></thead>
@@ -432,7 +329,7 @@ tbody tr:last-child td{border-bottom:0}
 </section>
 
 <section>
-  <div class="shead"><span class="n">06</span><h2>Open items</h2></div>
+  <div class="shead"><span class="n">05</span><h2>Open items</h2></div>
   <ul class="flags">
     <li><h4>Reading names aloud is a legal question, not a creative one</h4><p>Your deck has a
       question mark on it, and rightly. Posthumous use of ambassador names — spoken and cast in
@@ -457,8 +354,7 @@ tbody tr:last-child td{border-bottom:0}
   </ul>
 </section>
 
-<p class="foot">Rendered elevation, not a photograph — pansies drawn at 6–7 in. centres, 1 ft = 24 px.
-  Zone areas are scaled from site photographs and need a field measure before ordering.
+<p class="foot">Zone areas are scaled from site photographs and need a field measure before ordering.
   Poetry in the public domain; music repertoire selected to avoid performance licensing.</p>
 
 </div>
@@ -638,278 +534,5 @@ window.addEventListener('resize',placeAxis);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(placeAxis);
 document.getElementById('btnPrint').addEventListener('click',function(){window.print();});
 
-/* ================= garden viewer ================= */
-function rng(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);
-  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-var CORAL="#ED6845";
-var SCENE={groundY:470,bedX:600,bedW:182,ppf:24};
-var PLAZA=560, photoURL=null;
-function ft2px(f){return f*SCENE.ppf;}
-var SEASONS=[
- {id:"oct",label:"October",cap:"Planting day, September into October. Deliberately sparse — 4 in. stock at 6–7 in. centres, soil still visible between plants. Say so in the facilitator's instructions so nobody reads it as a disappointing result."},
- {id:"jan",label:"January",cap:"Midwinter. Foliage has knitted together and the plants flower through every mild spell. This is the payoff of a winter pansy: in bloom in the month when nothing else on the campus is."},
- {id:"mar",label:"Late March",cap:"Peak. A closed carpet of flower, roughly six months after the ceremony. Deadheading in late February is what gets you here."}
-];
-var GROWTH={oct:{size:.58,fl:1.0},jan:{size:.82,fl:2.2},mar:{size:1.0,fl:4.4}};
-var PALETTES=[
- {id:"wv",label:"White + violet",cap:"Recommended. Two colours in drifts read as a decision. Roughly two-thirds white to one-third violet.",
-  mix:function(rnd,col){return (Math.sin(col*0.7)+rnd()*.5)>.55?"v":"w";}},
- {id:"w",label:"All white",cap:"The most solemn option and the easiest to get right. Photographs cleanly against the grey stone.",
-  mix:function(){return "w";}},
- {id:"mx",label:"Mixed flat",cap:"What you get if you buy whatever the supplier has. Shown for comparison — it reads as a garden centre, not as a memorial planting.",
-  mix:function(rnd){var r=rnd();return r<.3?"v":r<.5?"y":r<.7?"o":r<.85?"w":"b";}}
-];
-var PETAL={w:{p:"#F4F1E6",e:"#DCD6C4"},v:{p:"#5B3A7E",e:"#3B2456"},y:{p:"#E3B23C",e:"#C08E1E"},
-  o:{p:"#D9702F",e:"#B0521B"},b:{p:"#3E5A96",e:"#2A3F6F"}};
-function pansyFlower(x,y,r,kind){
-  var c=PETAL[kind]||PETAL.w,o='',i,a;
-  for(i=0;i<5;i++){a=-Math.PI/2+i*(Math.PI*2/5);
-    o+='<circle cx="'+(x+Math.cos(a)*r*.52).toFixed(2)+'" cy="'+(y+Math.sin(a)*r*.52).toFixed(2)+
-       '" r="'+(r*.62).toFixed(2)+'" fill="'+c.p+'"/>';}
-  o+='<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+(r*.66).toFixed(2)+'" fill="'+c.p+'"/>';
-  o+='<circle cx="'+x.toFixed(2)+'" cy="'+(y+r*.06).toFixed(2)+'" r="'+(r*.34).toFixed(2)+'" fill="'+c.e+'" opacity=".85"/>';
-  o+='<circle cx="'+x.toFixed(2)+'" cy="'+(y+r*.02).toFixed(2)+'" r="'+(r*.15).toFixed(2)+'" fill="#F0D46A"/>';
-  return o;
-}
-function pansyPlant(x,base,size,nF,kind,rnd,trail){
-  var o='',i,a,d,r;
-  for(i=0;i<9;i++){a=rnd()*Math.PI*2; d=Math.sqrt(rnd());
-    o+='<circle cx="'+(x+Math.cos(a)*size*.48*d).toFixed(1)+'" cy="'+
-       (base-size*.22+Math.sin(a)*size*.20*d).toFixed(1)+'" r="'+(size*.20*(.7+rnd()*.6)).toFixed(1)+
-       '" fill="'+(i%3?"#3E6438":"#2C4A2A")+'"/>';}
-  if(trail)for(i=0;i<3;i++)
-    o+='<circle cx="'+(x+(rnd()-.5)*size*.8).toFixed(1)+'" cy="'+(base+size*(.18+rnd()*.42)).toFixed(1)+
-       '" r="'+(size*.15).toFixed(1)+'" fill="#3E6438"/>';
-  r=Math.max(1.6,size*.32);
-  for(i=0;i<nF;i++)o+=pansyFlower(x+(rnd()-.5)*size*.82,base-size*(.30+rnd()*.42),r*(.85+rnd()*.3),kind);
-  return o;
-}
-function plantedBed(seasonId,palette,rnd){
-  var g=SCENE.groundY,hw=SCENE.bedW/2,G=GROWTH[seasonId];
-  var plantW=ft2px(0.64)*G.size, stepX=Math.max(7,ft2px(0.54));
-  var cols=Math.max(3,Math.floor(SCENE.bedW/stepX));
-  var rows=[{dy:-10,s:.82},{dy:-3,s:.90},{dy:5,s:.98},{dy:13,s:1.06}];
-  var o='',ri,ci,x,size;
-  for(ri=0;ri<rows.length;ri++)for(ci=0;ci<cols;ci++){
-    x=SCENE.bedX-hw+stepX*.5+ci*stepX+(ri%2?stepX*.5:0)+(rnd()-.5)*2.2;
-    if(x<SCENE.bedX-hw+2||x>SCENE.bedX+hw-2)continue;
-    size=plantW*rows[ri].s;
-    o+=pansyPlant(x,g+rows[ri].dy,size,Math.max(1,Math.round(G.fl*(.6+rnd()*.9))),
-      palette.mix(rnd,ci+ri*3),rnd,ri===3&&seasonId==="mar");
-  }
-  return o;
-}
-function stoneCourses(x,y,w,h,seed){
-  var rnd=rng(seed),o='',cy,cx,ch=17,cw;
-  o+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="#C6C3B9"/>';
-  for(cy=y;cy<y+h;cy+=ch){
-    o+='<line x1="'+x+'" y1="'+cy.toFixed(1)+'" x2="'+(x+w)+'" y2="'+cy.toFixed(1)+'" stroke="#AEAA9F" stroke-width="1.2"/>';
-    for(cx=x+(rnd()*40);cx<x+w;cx+=cw){
-      cw=42+rnd()*36;
-      o+='<rect x="'+cx.toFixed(1)+'" y="'+cy.toFixed(1)+'" width="'+Math.min(cw,x+w-cx).toFixed(1)+
-         '" height="'+Math.min(ch,y+h-cy).toFixed(1)+'" fill="'+(rnd()<.4?'#B9B5AA':'#D0CDC3')+
-         '" opacity="'+(.18+rnd()*.3).toFixed(2)+'"/>';
-      o+='<line x1="'+cx.toFixed(1)+'" y1="'+cy.toFixed(1)+'" x2="'+cx.toFixed(1)+'" y2="'+
-         Math.min(y+h,cy+ch).toFixed(1)+'" stroke="#AEAA9F" stroke-width="1.2"/>';
-    }
-  }
-  return o;
-}
-function blobs(cx,cy,rx,ry,n,rad,col,rnd){
-  var o='',i,a,d;
-  for(i=0;i<n;i++){a=rnd()*Math.PI*2; d=Math.sqrt(rnd());
-    o+='<circle cx="'+(cx+Math.cos(a)*rx*d).toFixed(1)+'" cy="'+(cy+Math.sin(a)*ry*d).toFixed(1)+
-       '" r="'+(rad*(.62+rnd()*.55)).toFixed(1)+'" fill="'+col+'"/>';}
-  return o;
-}
-function facade(){
-  var o='',rnd=rng(5),c,r,i;
-  o+='<defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">'+
-     '<stop offset="0" stop-color="#8FA6B4"/><stop offset=".5" stop-color="#63798A"/>'+
-     '<stop offset="1" stop-color="#4E626F"/></linearGradient>'+
-     '<pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'+
-     '<line x1="0" y1="0" x2="0" y2="9" stroke="'+CORAL+'" stroke-width="2.4" opacity=".35"/></pattern></defs>';
-  o+='<rect width="1200" height="'+PLAZA+'" fill="url(#glass)"/>';
-  for(c=0;c<1200;c+=62)for(r=0;r<PLAZA;r+=70){
-    if(rnd()<.30)o+='<rect x="'+c+'" y="'+r+'" width="62" height="70" fill="#A8C0CE" opacity="'+(.10+rnd()*.24).toFixed(2)+'"/>';
-    else if(rnd()<.25)o+='<rect x="'+c+'" y="'+r+'" width="62" height="70" fill="#2E3C46" opacity="'+(.08+rnd()*.18).toFixed(2)+'"/>';
-  }
-  for(c=0;c<=1200;c+=62)o+='<rect x="'+(c-1.5)+'" y="0" width="3" height="'+PLAZA+'" fill="#2A3033"/>';
-  for(r=0;r<=PLAZA;r+=70)o+='<rect x="0" y="'+(r-1.5)+'" width="1200" height="3" fill="#2A3033"/>';
-  o+=stoneCourses(20,236,450,62,11);
-  o+='<rect x="20" y="230" width="450" height="8" fill="#DAD7CD"/>'+
-     '<rect x="20" y="298" width="450" height="7" fill="#00000030"/>'+
-     '<rect x="44" y="305" width="402" height="'+(PLAZA-305)+'" fill="#2B3438"/>'+
-     '<rect x="44" y="305" width="402" height="26" fill="#3A464B"/>'+
-     '<rect x="150" y="352" width="180" height="'+(PLAZA-352)+'" fill="#46545C"/>'+
-     '<rect x="150" y="352" width="180" height="'+(PLAZA-352)+'" fill="none" stroke="#7E8C93" stroke-width="4"/>'+
-     '<rect x="238" y="352" width="5" height="'+(PLAZA-352)+'" fill="#7E8C93"/>'+
-     '<path d="M160 '+(PLAZA-6)+'L322 366" stroke="#93A6AE" stroke-width="12" opacity=".28"/>';
-  o+=stoneCourses(780,472,420,PLAZA-472,23);
-  o+='<rect x="776" y="462" width="424" height="12" fill="#DAD7CD"/>'+
-     '<rect x="780" y="440" width="420" height="24" fill="#5A4436"/>'+
-     '<rect x="780" y="440" width="420" height="24" fill="#2A1E16" opacity=".22"/>';
-  o+='<rect x="0" y="'+PLAZA+'" width="1200" height="'+(675-PLAZA)+'" fill="#B9B6AE"/>'+
-     '<rect x="0" y="'+PLAZA+'" width="1200" height="3" fill="#00000022"/>';
-  for(i=1;i<8;i++)o+='<rect x="'+(i*150)+'" y="'+PLAZA+'" width="2" height="'+(675-PLAZA)+'" fill="#00000010"/>';
-  for(i=1;i<3;i++)o+='<rect x="0" y="'+(PLAZA+i*38)+'" width="1200" height="2" fill="#00000010"/>';
-  o+='<path d="M44 '+PLAZA+'L446 '+PLAZA+'L470 '+(PLAZA+46)+'L20 '+(PLAZA+46)+'Z" fill="#C3C0B7"/>'+
-     '<path d="M36 '+(PLAZA+16)+'L458 '+(PLAZA+16)+'" stroke="#00000018" stroke-width="2"/>'+
-     '<path d="M28 '+(PLAZA+31)+'L464 '+(PLAZA+31)+'" stroke="#00000018" stroke-width="2"/>'+
-     '<path d="M410 '+(PLAZA-2)+'L410 484M452 '+(PLAZA+44)+'L452 500" stroke="#2E3438" stroke-width="6"/>'+
-     '<path d="M404 484L458 500" stroke="#2E3438" stroke-width="6" stroke-linecap="round"/>';
-  o+='<g><rect x="62" y="486" width="126" height="9" rx="2" fill="#2C5FA8"/>'+
-     '<rect x="62" y="498" width="126" height="7" rx="2" fill="#2C5FA8"/>'+
-     '<rect x="62" y="464" width="126" height="8" rx="2" fill="#2C5FA8"/>'+
-     '<rect x="68" y="464" width="5" height="'+(PLAZA-464)+'" fill="#3A4247"/>'+
-     '<rect x="177" y="464" width="5" height="'+(PLAZA-464)+'" fill="#3A4247"/></g>';
-  return o;
-}
-function groundBedShrubs(){
-  var o='',i,rnd=rng(88);
-  for(i=0;i<6;i++)o+=blobs(812+i*66,438,27,13,22,9,'#3F5A38',rnd)+blobs(808+i*66,433,20,10,15,7,'#54713F',rnd);
-  return o;
-}
-function planterBody(){
-  var hw=SCENE.bedW/2,g=SCENE.groundY,L=SCENE.bedX-hw,W=SCENE.bedW,base=Math.max(g+34,PLAZA);
-  return stoneCourses(L,g+8,W,base-(g+8),41)+
-    '<rect x="'+(L-8)+'" y="'+(g-4)+'" width="'+(W+16)+'" height="14" rx="4" fill="#DAD7CD"/>'+
-    '<rect x="'+(L-8)+'" y="'+(g+8)+'" width="'+(W+16)+'" height="4" fill="#00000022"/>';
-}
-function planterSoil(){
-  var hw=SCENE.bedW/2,g=SCENE.groundY;
-  return '<ellipse cx="'+SCENE.bedX+'" cy="'+(g+1)+'" rx="'+hw+'" ry="9" fill="#5A4436"/>'+
-         '<ellipse cx="'+SCENE.bedX+'" cy="'+(g+1)+'" rx="'+hw+'" ry="9" fill="#2A1E16" opacity=".25"/>';
-}
-function existingPlanting(){
-  var o='',i,x,rnd=rng(77),hw=SCENE.bedW/2;
-  for(i=0;i<5;i++){x=SCENE.bedX-hw+16+i*((SCENE.bedW-32)/4);
-    o+=blobs(x,SCENE.groundY-6,13,7,14,5,'#5F7A4A',rnd)+blobs(x-2,SCENE.groundY-9,9,5,9,4,'#7A9459',rnd);}
-  return o;
-}
-function zoneOverlay(){
-  var hw=SCENE.bedW/2,g=SCENE.groundY,lx=SCENE.bedX,ly=g-16;
-  return '<g><ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="url(#hatch)"/>'+
-   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="'+CORAL+'" opacity=".16"/>'+
-   '<ellipse cx="'+lx+'" cy="'+(g+1)+'" rx="'+(hw+4)+'" ry="12" fill="none" stroke="'+CORAL+'" stroke-width="3.5" stroke-dasharray="11 7"/>'+
-   '<line x1="'+lx+'" y1="'+ly+'" x2="'+lx+'" y2="'+(ly-58)+'" stroke="'+CORAL+'" stroke-width="2"/>'+
-   '<circle cx="'+lx+'" cy="'+ly+'" r="4" fill="'+CORAL+'"/>'+
-   '<rect x="'+(lx-236)+'" y="'+(ly-94)+'" width="236" height="36" rx="4" fill="'+CORAL+'"/>'+
-   '<text x="'+(lx-118)+'" y="'+(ly-79)+'" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11.5" letter-spacing="1.5" fill="#fff">ZONE 1 · ENTRY PLANTER</text>'+
-   '<text x="'+(lx-118)+'" y="'+(ly-65)+'" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.1" fill="#ffffffcc">80 PLANTS · 6–7 IN. CENTRES</text></g>';
-}
-function scaleFigure(){
-  var h=ft2px(6),x=744,b=PLAZA+46;
-  return '<g opacity=".92"><ellipse cx="'+x+'" cy="'+(b+2)+'" rx="13" ry="3.5" fill="#1D2A1C" opacity=".22"/>'+
-    '<circle cx="'+x+'" cy="'+(b-h+9)+'" r="9" fill="#2E3B33"/>'+
-    '<path d="M'+x+' '+(b-h+18)+'q-13 4 -13 22l0 24q0 6 5 6l0 '+(h-70).toFixed(0)+
-    'q0 6 5 6q5 0 5-6l0-26l6 0l0 26q0 6 5 6q5 0 5-6l0-'+(h-70).toFixed(0)+
-    'q5 0 5-6l0-24q0-18 -13-22Z" fill="#2E3B33"/>'+
-    '<text x="'+(x-24)+'" y="'+(b-h/2)+'" text-anchor="end" font-family="ui-monospace,monospace" font-size="13" fill="#2E3B33">6\'-0"</text></g>';
-}
-function scaleBar(){
-  var L=ft2px(5);
-  return '<g transform="translate(52,646)"><rect x="0" y="0" width="'+L+'" height="5" fill="#EDE9E0"/>'+
-    '<rect x="0" y="0" width="'+(L/2)+'" height="5" fill="#20241E"/>'+
-    '<rect x="0" y="0" width="'+L+'" height="5" fill="none" stroke="#20241E" stroke-width="1"/>'+
-    '<text x="'+(L+9)+'" y="6" font-family="ui-monospace,monospace" font-size="11" fill="#20241E">5 FT</text></g>';
-}
-function plaqueMark(){
-  var x=SCENE.bedX+SCENE.bedW/2-20,y=SCENE.groundY+22;
-  return '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="#7A6034"/>'+
-         '<rect x="'+(x-17)+'" y="'+y+'" width="34" height="12" rx="1" fill="none" stroke="#5E4A28"/>';
-}
-function backdrop(){
-  if(photoURL)return '<rect width="1200" height="675" fill="#EDECE9"/>'+
-    '<image href="'+photoURL+'" x="0" y="0" width="1200" height="675" preserveAspectRatio="xMidYMid slice"/>';
-  return facade();
-}
-function svgWrap(i){return '<svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid meet" role="img">'+i+'</svg>';}
-function renderBefore(opt){
-  var o=backdrop();
-  if(!photoURL)o+=groundBedShrubs()+planterBody()+planterSoil()+existingPlanting();
-  if(opt.zone)o+=zoneOverlay();
-  if(opt.scale&&!photoURL)o+=scaleFigure();
-  return svgWrap(o+scaleBar());
-}
-function renderAfter(seasonId,palette,opt){
-  var o=backdrop();
-  if(!photoURL)o+=groundBedShrubs()+planterBody();
-  o+=planterSoil()+plantedBed(seasonId,palette,rng(4242));
-  if(!photoURL)o+=plaqueMark();
-  if(opt.scale&&!photoURL)o+=scaleFigure();
-  return svgWrap(o+scaleBar());
-}
-var vstate={season:2,pal:0,zone:true,scale:true,pos:50};
-var beforeLayer=document.getElementById('beforeLayer'),afterLayer=document.getElementById('afterLayer'),
-    stage=document.getElementById('stage'),handle=document.getElementById('handle'),cap=document.getElementById('cap');
-function draw(){
-  var opt={zone:vstate.zone,scale:vstate.scale};
-  beforeLayer.innerHTML=renderBefore(opt);
-  afterLayer.innerHTML=renderAfter(SEASONS[vstate.season].id,PALETTES[vstate.pal],opt);
-  cap.textContent=SEASONS[vstate.season].cap+"  "+PALETTES[vstate.pal].cap;
-}
-function setPos(p){
-  vstate.pos=Math.max(0,Math.min(100,p));
-  stage.style.setProperty('--pos',vstate.pos+'%');
-  handle.style.left=vstate.pos+'%';
-  afterLayer.style.setProperty('--pos',vstate.pos+'%');
-  handle.setAttribute('aria-valuenow',Math.round(vstate.pos));
-}
-function buildSeg(el,items,key){
-  items.forEach(function(it,i){
-    var b=document.createElement('button');
-    b.type='button'; b.textContent=it.label;
-    b.setAttribute('aria-pressed',i===vstate[key]?'true':'false');
-    b.addEventListener('click',function(){
-      vstate[key]=i;
-      [].forEach.call(el.children,function(c,j){c.setAttribute('aria-pressed',j===i?'true':'false');});
-      draw();
-    });
-    el.appendChild(b);
-  });
-}
-buildSeg(document.getElementById('segSeason'),SEASONS,'season');
-buildSeg(document.getElementById('segPal'),PALETTES,'pal');
-[['cbZone','zone'],['cbScale','scale']].forEach(function(p){
-  document.getElementById(p[0]).addEventListener('change',function(e){vstate[p[1]]=e.target.checked;draw();});
-});
-function fromEvent(e){var r=stage.getBoundingClientRect();setPos(((e.clientX-r.left)/r.width)*100);}
-var dragging=false;
-stage.addEventListener('pointerdown',function(e){dragging=true;stage.setPointerCapture(e.pointerId);fromEvent(e);handle.focus();});
-stage.addEventListener('pointermove',function(e){if(dragging)fromEvent(e);});
-stage.addEventListener('pointerup',function(e){dragging=false;try{stage.releasePointerCapture(e.pointerId);}catch(x){}});
-stage.addEventListener('pointercancel',function(){dragging=false;});
-handle.addEventListener('keydown',function(e){
-  var d=e.shiftKey?10:3;
-  if(e.key==='ArrowLeft'){setPos(vstate.pos-d);e.preventDefault();}
-  else if(e.key==='ArrowRight'){setPos(vstate.pos+d);e.preventDefault();}
-  else if(e.key==='Home'){setPos(0);e.preventDefault();}
-  else if(e.key==='End'){setPos(100);e.preventDefault();}
-});
-var fileEl=document.getElementById('filePhoto'),tuners=document.getElementById('tuners'),
-    msg=document.getElementById('photoMsg'),btnClear=document.getElementById('btnClear');
-document.getElementById('btnPhoto').addEventListener('click',function(){fileEl.click();});
-fileEl.addEventListener('change',function(e){
-  var f=e.target.files&&e.target.files[0]; if(!f)return;
-  var fr=new FileReader();
-  fr.onload=function(){
-    photoURL=fr.result; tuners.classList.add('on'); btnClear.hidden=false;
-    msg.textContent='Photo loaded. Set the planter top to the stone cap, then match the scale against something known — the handrail is 34 in. and a step riser is 6 in.';
-    draw();
-  };
-  fr.readAsDataURL(f);
-});
-btnClear.addEventListener('click',function(){
-  photoURL=null; fileEl.value=''; tuners.classList.remove('on'); btnClear.hidden=true;
-  msg.textContent='Back to the drawn elevation. Load a photo again any time.'; draw();
-});
-[['rGround','groundY','vGround',' px'],['rBedX','bedX','vBedX',' px'],
- ['rBedW','bedW','vBedW',' px'],['rPpf','ppf','vPpf',' px/ft']].forEach(function(t){
-  var el=document.getElementById(t[0]),out=document.getElementById(t[2]);
-  el.addEventListener('input',function(){SCENE[t[1]]=+el.value;out.textContent=el.value+t[3];draw();});
-  out.textContent=el.value+t[3];
-});
-setPos(50); draw();
 })();
 </script>
