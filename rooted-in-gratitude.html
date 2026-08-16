@@ -1,30 +1,26 @@
 <title>Rooted in Gratitude</title>
 <style>
 /* Direction A — colour-blocked panels on cream, warm rounded serif display.
-   Colour: the September palette, every panel pair verified to WCAG AA.
+   Colour: four of the September palette, cycled. Every pair verified to WCAG AA.
    Illustration slots are deliberately empty pending art direction.
    Committed single-theme; every colour painted explicitly. */
 :root,
 :root[data-theme="light"],
 :root[data-theme="dark"]{
-  /* September palette, as supplied */
-  --prickly:#BA961A;      /* Prickly Pear    */
-  --harvest:#E89923;      /* Harvest Gold    */
-  --autumn:#B91B32;       /* Autumn Leaf Red */
-  --pumpkin:#DA4039;      /* Pumpkin Orange  */
-  --sage:#C9BE78;         /* Sage Green      */
-  --velvet:#448D97;       /* Velvet Blue     */
-  /* Pumpkin at its true value clears only 4.40:1 against white and 4.25:1
-     against ink — under AA either way. Deepening it fixes contrast but drags it
-     toward Autumn Leaf Red; lightening 16% fixes contrast AND pulls it further
-     from the crimson, so panels use this tint with dark text. True value above. */
-  --pumpkin-tint:#E05F59;
+  /* September palette — Autumn Leaf Red and Pumpkin Orange withdrawn from the UI */
+  --prickly:#BA961A;      /* Prickly Pear */
+  --harvest:#E89923;      /* Harvest Gold */
+  --sage:#C9BE78;         /* Sage Green   */
+  --velvet:#448D97;       /* Velvet Blue  */
+  /* None of the four clears 4.5:1 on cream at 11px, so the accent is Harvest
+     Gold taken down 40% to a deep amber — kept warm so it stays distinct from
+     the teal headings. */
+  --accent:#8B5C15;
   /* Neutrals derived from the palette: grounds tinted up from Sage Green,
      darks pulled down from Velvet Blue. */
   --cream:#F7F6EC; --cream-2:#F2EFDF; --paper:#FFFFFF;
   --deep:#1B383C; --deep-d:#122528;
   --ink:#0C191B; --ink-soft:#2B4A4E; --ink-faint:#36666C;
-  --accent:#B91B32;
   --rule:#E3DFC9; --rule-2:#EFEBDC; --key:#FDF4E7;
   --disp:"Bookman Old Style","Century Schoolbook","Palatino Linotype",Palatino,Georgia,serif;
   --body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -386,7 +382,7 @@ var MOVES=[
    "The planters are waist height, so there's no kneeling unless you want to. Take your time. We're not in a hurry."]}},
 
  {clock:"12:30",dur:"5 min",name:"Poem reading",who:"Employee volunteer",
-  bg:"var(--pumpkin-tint)",fg:"var(--ink)",
+  bg:"var(--velvet)",fg:"var(--ink)",
   blurb:"One poem, read once, by a colleague.",
   dir:'Read slowly, once, without introduction — the welcome has already set it up. A colleague '+
       'reading beats a leader reading; it keeps the day from feeling staged.',
@@ -402,7 +398,7 @@ var MOVES=[
     d:"Both still in copyright. Reading aloud at a company event needs written publisher permission — allow four to six weeks and approve a public-domain backup."}]},
 
  {clock:"12:35",dur:"5 min",name:"Music",who:"Solo cellist",
-  bg:"var(--velvet)",fg:"var(--ink)",
+  bg:"var(--harvest)",fg:"var(--ink)",
   blurb:"One piece, played in stillness.",
   dir:'One formal piece, seated and still. Then — and this is worth insisting on — <strong>the same '+
       'musician keeps playing quietly underneath the planting and again under the silence.</strong> '+
@@ -416,7 +412,7 @@ var MOVES=[
     d:"Live performance at a company event needs a performance licence unless the property carries a blanket one. Public-domain repertoire sidesteps it entirely."}]},
 
  {clock:"12:40",dur:"10 min",name:"Plaque & silence",who:"Patient advocacy lead",
-  bg:"var(--autumn)",fg:"var(--paper)",
+  bg:"var(--sage)",fg:"var(--ink)",
   blurb:"Names read, plaque staked, one minute held.",
   dir:'Three beats. Ambassador names read aloud, slowly. The plaque staked at the front edge of the '+
       'bed. Then one minute of silence, <strong>ended by a single note from the cello</strong> rather '+
@@ -427,7 +423,7 @@ var MOVES=[
    "<em>Silence</em> — sixty seconds. Outdoors with sixty people this feels much longer than anyone expects, which is the point. The cellist ends it."]}},
 
  {clock:"12:50",dur:"10 min",name:"Closing",who:"Patient services lead",
-  bg:"var(--harvest)",fg:"var(--ink)",
+  bg:"var(--prickly)",fg:"var(--ink)",
   blurb:"Releases the hour. No dismissal.",
   dir:'Given standing beside the plaque, not back at the steps. Ideally somebody closer to patients '+
       'than to the org chart. Then no dismissal — people should be allowed to drift back inside.',
