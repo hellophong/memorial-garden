@@ -41,14 +41,14 @@ p{margin:0}
 
 /* band head — always visible */
 .head{width:100%;appearance:none;border:0;cursor:pointer;font-family:inherit;text-align:left;
-  display:grid;grid-template-columns:auto minmax(0,2.05fr) minmax(0,.85fr) auto auto;
+  display:grid;grid-template-columns:auto minmax(0,1.9fr) minmax(0,1fr) auto;
   align-items:center;gap:clamp(14px,2.6vw,38px);
   padding:var(--headpad) clamp(18px,3vw,40px);
   background:var(--bg);color:var(--fg)}
 .head:focus-visible{outline:3px solid var(--focus);outline-offset:-4px}
 /* the home band carries a full date rather than a clock time, so it needs a
    wider title column and a smaller eyebrow to keep the line intact */
-.head.home{grid-template-columns:auto minmax(0,2.4fr) minmax(0,.72fr) auto auto}
+.head.home{grid-template-columns:auto minmax(0,2.4fr) minmax(0,.72fr) auto}
 .head.home .time{font-size:clamp(13px,1.6vw,20px);letter-spacing:.16em;
   text-transform:uppercase;white-space:nowrap}
 .num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
@@ -59,16 +59,16 @@ p{margin:0}
 .name{font-size:clamp(44px,7.7vw,108px);font-weight:700;letter-spacing:-.042em;line-height:.98;
   margin-top:4px}
 .desc{font-size:16.5px;line-height:1.45;opacity:.86;min-width:0}
-/* One flat mark per movement, stroked in the band's own text colour so it
-   inverts with the band. Decorative -- the name carries the meaning. */
-.ico{display:block;flex:none;width:clamp(46px,5.2vw,72px);height:clamp(46px,5.2vw,72px)}
-.ico svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;
-  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.ico .sld{fill:currentColor;stroke:none}
-.mark{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;
-  border:1.5px solid currentColor;font-size:19px;transition:transform .22s ease}
+/* Arrow from assets/arrow.svg on the claude/memorial-garden branch, inlined
+   because the page has to stay a single self-contained file. The asset is a
+   filled disc with the arrow knocked out of it, so it is the whole mark --
+   no border or glyph of ours underneath. */
+.mark{width:clamp(42px,4.2vw,58px);height:clamp(42px,4.2vw,58px);flex:none;display:block;
+  transition:transform .22s ease}
+.mark svg{display:block;width:100%;height:100%;fill:currentColor}
 .item.open .mark{transform:rotate(90deg)}
-.head:hover .mark{background:var(--accentc);color:var(--bg);border-color:var(--accentc)}
+.head:hover .mark{transform:scale(1.09)}
+.item.open .head:hover .mark{transform:rotate(90deg) scale(1.09)}
 
 /* band body — only when open */
 .body{display:none;background:var(--bodybg);color:var(--bodyfg);
@@ -120,22 +120,14 @@ p{margin:0}
 
 @media (max-width:820px){
   :root{--headpad:20px}
-  .head{grid-template-columns:auto minmax(0,1fr) auto auto;gap:14px;
+  .head{grid-template-columns:auto minmax(0,1fr) auto;gap:16px;
     padding:var(--headpad) clamp(16px,4vw,24px)}
   .desc{display:none}
   .homegrid{grid-template-columns:1fr}
   /* the full date is one unbreakable line on desktop; at this width it is
      wider than the viewport, so let it wrap rather than scroll the page */
   .head.home .time{white-space:normal}
-  .head.home{grid-template-columns:auto minmax(0,1fr) auto auto}
-}
-/* On a phone the head cannot carry the index, the name at full size and the
-   icon at once. The index is the least informative of the three -- it only
-   restates the order the bands are already in -- so it goes first. */
-@media (max-width:560px){
-  .num{display:none}
-  .head,.head.home{grid-template-columns:minmax(0,1fr) auto auto;gap:12px}
-  .ico{width:42px;height:42px}
+  .head.home{grid-template-columns:auto minmax(0,1fr) auto}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -263,47 +255,7 @@ function skin(el,i){
 }
 
 
-/* 24x24 grid, stroked in currentColor so each mark inverts with its band. */
-var ICONS={
- /* the emblem: two upper petals, two side, one broad lower lip */
- pansy:'<circle cx="9.2" cy="7.6" r="3.2"/><circle cx="14.8" cy="7.6" r="3.2"/>'+
-       '<circle cx="6.4" cy="13" r="3.1"/><circle cx="17.6" cy="13" r="3.1"/>'+
-       '<circle cx="12" cy="17.2" r="3.8"/>'+
-       '<circle class="sld" cx="12" cy="11.8" r="1.7"/>',
- /* people arriving */
- group:'<circle cx="12" cy="6.6" r="2.5"/>'+
-       '<path d="M7.8 15.4a4.2 4.2 0 0 1 8.4 0"/>'+
-       '<circle cx="5.2" cy="12.4" r="2.2"/>'+
-       '<path d="M1.4 20.4a3.8 3.8 0 0 1 7.6 0"/>'+
-       '<circle cx="18.8" cy="12.4" r="2.2"/>'+
-       '<path d="M15 20.4a3.8 3.8 0 0 1 7.6 0"/>',
- /* the equinox: light and dark in equal measure */
- equinox:'<circle cx="12" cy="12" r="8"/><path class="sld" d="M12 4a8 8 0 0 1 0 16z"/>',
- /* trowel */
- trowel:'<rect x="10.4" y="2.2" width="3.2" height="5.2" rx="1.6"/>'+
-        '<path d="M12 7.4v3"/>'+
-        '<path d="M7.4 13.6c0-1.9 2.1-3.2 4.6-3.2s4.6 1.3 4.6 3.2'+
-        'c0 2.7-2.6 5.3-4.6 7.1c-2-1.8-4.6-4.4-4.6-7.1z"/>',
- /* the poem, read once */
- book:'<path d="M12 7.6C10 6 7.4 5.3 4.5 5.3v12c2.9 0 5.5.7 7.5 2.3"/>'+
-      '<path d="M12 7.6c2-1.6 4.6-2.3 7.5-2.3v12c-2.9 0-5.5.7-7.5 2.3"/>'+
-      '<path d="M12 7.6v12"/>',
- /* the cello, played into the quiet */
- note:'<ellipse class="sld" cx="9" cy="17.4" rx="3.3" ry="2.5" '+
-      'transform="rotate(-20 9 17.4)"/><path d="M12.2 17.2V4.6"/>'+
-      '<path d="M12.2 4.6c2.7 1.1 4.6 2.8 4.6 5.4"/>',
- /* the plaque, staked */
- plaque:'<rect x="4" y="4" width="16" height="10" rx="1.2"/>'+
-        '<path d="M7.4 8h9.2"/><path d="M7.4 11h6"/>'+
-        '<path d="M12 14v6"/><path d="M7.6 20h8.8"/>',
- /* what stays in the ground after everyone goes back inside */
- bloom:'<circle cx="9.7" cy="6.4" r="2.4"/><circle cx="14.3" cy="6.4" r="2.4"/>'+
-       '<circle cx="12" cy="10" r="2.4"/><circle class="sld" cx="12" cy="7.6" r="1"/>'+
-       '<path d="M12 12.2v7.3"/>'+
-       '<path d="M12 16.4c-2.3 0-3.8-1.5-3.8-3.4 2 0 3.8 1.4 3.8 3.4z"/>'+
-       '<path d="M5 19.5h14"/>'
-};
-var ICON_ORDER=['pansy','group','equinox','trowel','book','note','plaque','bloom'];
+var ARROW='<svg viewBox="0 0 232.4 232.4"><path d="M123.1,0l2.1.4c56.7,4.2,102.6,49.4,106.9,106.1l.3,4v11.7s-.3,4-.3,4c-4.4,56.3-49.7,101.5-106,106l-4,.3h-11.7s-4-.3-4-.3C49.9,227.6,4.9,182.1.4,125.6l-.4-2.5v-13.7c0,0,.4-2.5.4-2.5C5,48.9,52.1,3.4,109.7.2l13.4-.2ZM112.4,176.5c.3,7.9,5.6,14.3,13.3,15.7,5.8,1.1,11.9-.7,16.2-5l55.1-55.1c7.1-7.1,7.8-18.1,0-25.9l-54.4-54.4c-3.6-3.6-8.1-5.5-13.1-5.5-6.9,0-12.8,4.1-15.4,10.4-2.4,6.6-.8,13.6,3.9,18.8l26.7,26.8H47.4c-9.7,0-17.3,7.4-17.4,16.9-.1,9.2,7.2,17.3,16.9,17.3h97.3c0,0-25.5,25.7-25.5,25.7-3.9,3.9-6.3,8.5-6.2,14.3Z"/></svg>';
 
 var stack=document.getElementById('stack'), open=0;
 
@@ -338,9 +290,7 @@ ITEMS.forEach(function(m,i){
     '<span class="tn"><span class="time">'+m.time+'</span>'+
       '<span class="name">'+m.name+'</span></span>'+
     '<span class="desc">'+m.desc+'</span>'+
-    '<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24">'+
-      ICONS[ICON_ORDER[i]]+'</svg></span>'+
-    '<span class="mark" aria-hidden="true">&#8250;</span>';
+    '<span class="mark" aria-hidden="true">'+ARROW+'</span>';
   var body=document.createElement('div');
   body.className='body'; body.id='b-'+i;
   body.setAttribute('role','region');
