@@ -35,7 +35,7 @@ p{margin:0}
    silhouette as a flush stack, and only the shadow hints at the overlap. */
 .item{position:relative;margin-top:0;overflow:hidden;
   border-radius:clamp(16px,1.8vw,26px) clamp(16px,1.8vw,26px) 0 0;
-  box-shadow:0 -16px 34px rgba(17,17,17,.20)}
+  box-shadow:0 -16px 34px rgba(17,17,17,.24)}
 .item:first-child{margin-top:0;box-shadow:none}
 .item.open{z-index:6}
 
@@ -49,6 +49,9 @@ p{margin:0}
 /* the home band carries a full date rather than a clock time, so it needs a
    wider title column and a smaller eyebrow to keep the line intact */
 .head.home{grid-template-columns:auto minmax(0,2.4fr) minmax(0,.72fr) auto}
+/* the title runs to two lines, so the descriptor is set to the top of the
+   band rather than floating at the vertical centre beside it */
+.head.home .desc{align-self:start}
 .head.home .time{font-size:clamp(13px,1.6vw,20px);letter-spacing:.16em;
   text-transform:uppercase;white-space:nowrap}
 .num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
@@ -151,14 +154,6 @@ var ITEMS=[
        'our patient ambassadors. The flower is named for the French <em>pensée</em> — a thought. It '+
        'blooms through January, when almost nothing else here does. We plant on the equinox, the day '+
        'the year tips toward its dark half.'},
-
- {time:"11:45",name:"Gathering",desc:"Guests arrive, light nosh served.",who:"Marshals",dur:"15 min",
-  dir:'No announcements and no receiving line. The cellist is already playing as people come out. '+
-      'Nosh stays light and one-handed — nobody should be holding a plate when the welcome starts.',
-  script:{lbl:"What the crew is doing",ps:[
-   "Tools, gloves and watering cans are already staged at all three zones, out of the walking line.",
-   "All two hundred and ninety pots are set out in their final positions and have been since half past ten. Spares stay out of sight.",
-   "One marshal holds the door, one works the nosh table, one counts heads so the facilitator knows what she's opening to."]}},
 
  {time:"12:00",name:"Welcome",desc:"Who we're here for, the pansy as pensée, the equinox.",
   who:"Executive sponsor",dur:"10 min",
